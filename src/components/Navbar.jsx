@@ -6,7 +6,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100">
+      <img src="/Logo.png" alt="LNMIIT Logo" className="h-14 ml-1" />
       <label className="swap swap-rotate">
         <input
           type="checkbox"
@@ -16,7 +17,7 @@ const Navbar = () => {
         />
         {/* sun icon */}
         <svg
-          className="swap-off h-10 w-10 fill-current"
+          className="swap-off h-8 w-8 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -25,7 +26,7 @@ const Navbar = () => {
 
         {/* moon icon */}
         <svg
-          className="swap-on h-10 w-10 fill-current"
+          className="swap-on h-8 w-8 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
