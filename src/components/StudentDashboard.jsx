@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const StudentDashboard = () => {
   return (
-    <div>StudentDashboard</div>
-  )
-}
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">StudentDashboard</main>
+    </div>
+  );
+};
 
-export default StudentDashboard
+export default StudentDashboard;

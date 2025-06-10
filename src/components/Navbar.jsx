@@ -6,9 +6,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100">
+    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100 overflow-x-hidden">
       <img src="/Logo.png" alt="LNMIIT Logo" className="h-14 ml-1" />
-      <label className="swap swap-rotate">
+      <label className="swap swap-rotate mr-1">
         <input
           type="checkbox"
           className="theme-controller"

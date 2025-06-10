@@ -5,6 +5,9 @@ import Login from "./components/Login";
 import StudentDashboard from "./components/StudentDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 import SuperAdminDashboard from "./components/SuperAdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Navigate } from "react-router-dom";
+import AdminComplaints from "./components/AdminComplaints";
 
 function App() {
   const theme = useSelector((state) => state.theme.theme);
@@ -19,14 +22,22 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
 
-          <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+          </Route>
 
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/complaints" element={<AdminComplaints />} />
+          </Route>
 
-          <Route
-            path="/superadmin/dashboard"
-            element={<SuperAdminDashboard />}
-          />
+          <Route element={<ProtectedRoute allowedRoles={["superAdmin"]} />}>
+            <Route
+              path="/superadmin/dashboard"
+              element={<SuperAdminDashboard />}
+            />
+          </Route>
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </div>

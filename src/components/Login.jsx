@@ -28,8 +28,8 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      dispatch(login(res.data));
-
+      await dispatch(login(res?.data?.data));
+      console.log(res?.data?.data);
       switch (role) {
         case "student":
           navigate("/student/dashboard");
