@@ -36,15 +36,43 @@ const App = () => {
 
           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
             <Route path="/student/dashboard" element={<StudentDashboard />} />
-            <Route path="/student/dashboard" element={<StudentDashboard />} />
-            <Route path="/student/dashboard" element={<StudentDashboard />} />
-            <Route path="/student/dashboard" element={<StudentDashboard />} />
-            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route
+              path="/student/register-complaint"
+              element={<StudentDashboard />}
+            />
+            <Route
+              path="/student/view-complaints"
+              element={<StudentDashboard />}
+            />
+            <Route
+              path="/student/change-password"
+              element={<StudentDashboard />}
+            />
+            <Route
+              path="/student/view-profile"
+              element={<StudentDashboard />}
+            />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/complaints" element={<AdminComplaints />} />
+            <Route
+              path="/admin/pending-complaints"
+              element={<AdminComplaints />}
+            />
+            <Route
+              path="/admin/accepted-complaints"
+              element={<AdminComplaints />}
+            />
+            <Route
+              path="/admin/resolved-complaints"
+              element={<AdminComplaints />}
+            />
+            <Route path="/admin/view-profile" element={<AdminComplaints />} />
+            <Route
+              path="/admin/change-password"
+              element={<AdminComplaints />}
+            />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["superAdmin"]} />}>
@@ -78,6 +106,6 @@ const App = () => {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

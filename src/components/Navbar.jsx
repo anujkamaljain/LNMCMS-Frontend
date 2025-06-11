@@ -1,12 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../utils/themeSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { logout } from "../utils/authSlice";
 
 const Navbar = () => {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((store) => store.auth);
+
+  const handleClick = async () => {
+    try {
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
+
   return (
     <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100 overflow-hidden z-10">
       <Link
@@ -80,66 +95,156 @@ const Navbar = () => {
                     Dashboard
                   </Link>
                 </li>
-                <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                  <Link
-                    className="flex items-center gap-3"
-                    to={
-                      user?.role === "superAdmin"
-                        ? "/superAdmin/manage-superAdmins"
-                        : "/login"
-                    }
-                  >
-                    Manage Super Admins
-                  </Link>
-                </li>
-                <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                  <Link
-                    className="flex items-center gap-3"
-                    to={
-                      user?.role === "superAdmin"
-                        ? "/superAdmin/manage-Admins"
-                        : "/login"
-                    }
-                  >
-                    Manage Admins
-                  </Link>
-                </li>
-                <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                  <Link
-                    className="flex items-center gap-3"
-                    to={
-                      user?.role === "superAdmin"
-                        ? "/superAdmin/manage-Students"
-                        : "/login"
-                    }
-                  >
-                    Manage Students
-                  </Link>
-                </li>
-                <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                  <Link
-                    className="flex items-center gap-3"
-                    to={
-                      user?.role === "superAdmin"
-                        ? "/superAdmin/manage-profile"
-                        : "/login"
-                    }
-                  >
-                    Manage Your Profile
-                  </Link>
-                </li>
+                {user?.role === "superAdmin" ? (
+                  <div>
+                    {" "}
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "superAdmin"
+                            ? "/superAdmin/manage-superAdmins"
+                            : "/login"
+                        }
+                      >
+                        Manage Super Admins
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "superAdmin"
+                            ? "/superAdmin/manage-Admins"
+                            : "/login"
+                        }
+                      >
+                        Manage Admins
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "superAdmin"
+                            ? "/superAdmin/manage-Students"
+                            : "/login"
+                        }
+                      >
+                        Manage Students
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "superAdmin"
+                            ? "/superAdmin/manage-profile"
+                            : "/login"
+                        }
+                      >
+                        Manage Your Profile
+                      </Link>
+                    </li>{" "}
+                  </div>
+                ) : user?.role === "admin" ? (
+                  <div>
+                    {" "}
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "admin"
+                            ? "/admin/pending-complaints"
+                            : "/login"
+                        }
+                      >
+                        Pending Complaints
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "admin"
+                            ? "/admin/accepted-complaints"
+                            : "/login"
+                        }
+                      >
+                        Accepted Complaints
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "admin"
+                            ? "/admin/resolved-complaints"
+                            : "/login"
+                        }
+                      >
+                        Resolved Complaints
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "admin"
+                            ? "/admin/view-profile"
+                            : "/login"
+                        }
+                      >
+                        View Your Profile
+                      </Link>
+                    </li>{" "}
+                  </div>
+                ) : user?.role === "student" ? (
+                  <div>
+                    {" "}
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "student"
+                            ? "/student/register-complaint"
+                            : "/login"
+                        }
+                      >
+                        Register Complaint
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "student"
+                            ? "/student/view-complaints"
+                            : "/login"
+                        }
+                      >
+                        View Your Complaints
+                      </Link>
+                    </li>
+                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        to={
+                          user?.role === "student"
+                            ? "/student/view-profile"
+                            : "/login"
+                        }
+                      >
+                        View Your Profile
+                      </Link>
+                    </li>
+                  </div>
+                ) : null}
                 <li className="text-lg font-semibold hover:bg-white/10 transition px-3 py-2 absolute bottom-0 w-75 border-t-1 border-gray-300">
-                  <Link
-                    className="flex items-center justify-between gap-3"
-                    to={
-                      user?.role === "superAdmin"
-                        ? "/superAdmin/manage-superAdmins"
-                        : "/login"
-                    }
-                  >
+                  <button onClick={handleClick}>
                     Logout
                     <IoLogOutOutline />
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </div>

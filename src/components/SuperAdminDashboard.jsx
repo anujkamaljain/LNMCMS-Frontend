@@ -87,7 +87,7 @@ const SuperAdminDashboard = () => {
           animate={{ scale: 1, transition: { duration: 0.5 } }}
           className="py-3 px-5"
         >
-          <h1 className="stat-value underline mb-10 hover:text-gray-400 transition-all duration-10 w-1/10">
+          <h1 className="stat-value underline mb-10">
             Analytics Dashboard
           </h1>
 
@@ -103,7 +103,7 @@ const SuperAdminDashboard = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                className="stats stats-vertical lg:stats-horizontal shadow hover:translate-y-0.5 transition-all duration-10"
+                className="stats stats-vertical lg:stats-horizontal shadow hover:translate-y-0.5 transition-all duration-150 ease-in"
                 key={index}
               >
                 <div className="stat">

@@ -65,7 +65,7 @@ const ManualBarChart = ({ title, labels, dataValues }) => {
 
   return (
     <motion.div
-      className="w-full md:w-[32%] shadow-md rounded p-4 hover:translate-y-0.5 transition-all duration-10 cursor-pointer bg-transparent"
+      className="w-full md:w-[32%] shadow-md rounded p-4 hover:translate-y-0.5 transition-all duration-150 ease-in cursor-pointer bg-transparent"
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
