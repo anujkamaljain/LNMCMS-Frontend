@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="stat text-center">
           <div className="md:stat-value hidden md:block">LNMCMS</div>
           <div className="md:stat-desc hidden md:block">
-            One Stop Solution for all your complaints.
+            One Stop Solution For All Your Complaints
           </div>
         </div>
       </div>

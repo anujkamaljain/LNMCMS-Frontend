@@ -100,13 +100,20 @@ const SuperAdminDashboard = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
             {Object.keys(departmentData).map((department, index) => (
-              <div className="stats stats-vertical lg:stats-horizontal shadow hover:translate-y-0.5 transition-all duration-10" key={index}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                className="stats stats-vertical lg:stats-horizontal shadow hover:translate-y-0.5 transition-all duration-10"
+                key={index}
+              >
                 <div className="stat">
                   <div className="stat-title">Total Complaints for</div>
                   <div className="stat-value">{departmentData[department]}</div>
-                  <div className="stat-desc font-bold">{department + " " + "department"}</div>
+                  <div className="stat-desc font-bold">
+                    {department + " " + "department"}
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
