@@ -74,7 +74,7 @@ const SuperAdminDashboard = () => {
   if (!departmentData || !dataValues) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-lg text-gray-500">Loading...</p>
+        <span className="loading loading-bars loading-xl"></span>
       </div>
     );
   }

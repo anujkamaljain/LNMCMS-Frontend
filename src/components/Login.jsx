@@ -162,6 +162,11 @@ const Login = () => {
                   className="select"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
+                  onKeyDown={(e) => {
+                  if(e.key === "Enter") {
+                    handleSubmit(e);
+                  }
+                }}
                   required
                 >
                   <option value="" disabled>

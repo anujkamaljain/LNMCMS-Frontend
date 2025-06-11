@@ -24,6 +24,10 @@ function App() {
 
           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
             <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
@@ -34,6 +38,26 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={["superAdmin"]} />}>
             <Route
               path="/superAdmin/dashboard"
+              element={<SuperAdminDashboard />}
+            />
+            <Route
+              path="/superAdmin/manage-superAdmins"
+              element={<SuperAdminDashboard />}
+            />
+            <Route
+              path="/superAdmin/manage-Admins"
+              element={<SuperAdminDashboard />}
+            />
+            <Route
+              path="/superAdmin/manage-Students"
+              element={<SuperAdminDashboard />}
+            />
+            <Route
+              path="/superAdmin/manage-profile"
+              element={<SuperAdminDashboard />}
+            />
+            <Route
+              path="/superAdmin/change-password"
               element={<SuperAdminDashboard />}
             />
           </Route>
