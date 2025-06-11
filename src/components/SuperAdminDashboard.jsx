@@ -87,7 +87,7 @@ const SuperAdminDashboard = () => {
           animate={{ scale: 1, transition: { duration: 0.5 } }}
           className="py-3 px-5"
         >
-          <h1 className="stat-value underline mb-10 hover:text-gray-400 transition-all duration-10">
+          <h1 className="stat-value underline mb-10 hover:text-gray-400 transition-all duration-10 w-1/10">
             Analytics Dashboard
           </h1>
 
@@ -98,9 +98,9 @@ const SuperAdminDashboard = () => {
               dataValues={dataValues}
             />
           </div>
-          <div className="flex justify-around mt-15 items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
             {Object.keys(departmentData).map((department, index) => (
-              <div className="stats stats-vertical lg:stats-horizontal shadow" key={index}>
+              <div className="stats stats-vertical lg:stats-horizontal shadow hover:translate-y-0.5 transition-all duration-10" key={index}>
                 <div className="stat">
                   <div className="stat-title">Total Complaints for</div>
                   <div className="stat-value">{departmentData[department]}</div>

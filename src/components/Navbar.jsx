@@ -1,19 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../utils/themeSlice";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
-
+  const { isAuthenticated, user } = useSelector((store) => store.auth);
   return (
-    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100 overflow-hidden">
-      <img src="/Logo.png" alt="LNMIIT Logo" className="h-14 ml-1" />
+    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100 overflow-hidden z-10">
+      <Link to={user?.role && isAuthenticated ? `/${user.role}/dashboard` : "/login"}>
+        <img src="/Logo.png" alt="LNMIIT Logo" className="h-14 ml-1" />
+      </Link>
       <div className="stats">
         <div className="stat text-center">
-          <div className="stat-value">LNMCMS</div>
-          <div className="stat-desc">One Stop Solution for all your complaints.</div>
+          <div className="md:stat-value hidden md:block">LNMCMS</div>
+          <div className="md:stat-desc hidden md:block">
+            One Stop Solution for all your complaints.
+          </div>
         </div>
-
       </div>
       <label className="swap swap-rotate mr-1">
         <input
