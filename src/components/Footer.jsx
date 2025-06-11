@@ -1,8 +1,9 @@
 import React from "react";
+import { motion } from "motion/react";
 
 const Footer = () => {
   return (
-    <div>
+    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
       <footer className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
         <aside>
           <p>
@@ -14,7 +15,7 @@ const Footer = () => {
           </p>
         </aside>
       </footer>
-    </div>
+    </motion.div>
   );
 };
 
