@@ -6,8 +6,15 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100 overflow-x-hidden">
+    <div className="navbar h-14 flex justify-between sticky top-0 p-0 bg-base-100 overflow-hidden">
       <img src="/Logo.png" alt="LNMIIT Logo" className="h-14 ml-1" />
+      <div className="stats">
+        <div className="stat text-center">
+          <div className="stat-value">LNMCMS</div>
+          <div className="stat-desc">One Stop Solution for all your complaints.</div>
+        </div>
+
+      </div>
       <label className="swap swap-rotate mr-1">
         <input
           type="checkbox"

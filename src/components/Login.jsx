@@ -6,13 +6,14 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { motion } from "motion/react";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("anujkjain@lnmiit.ac.in");
+  const [password, setPassword] = useState("Anuj@1234");
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
 
@@ -20,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        BASE_URL  + "/login",
+        BASE_URL + "/login",
         {
           email,
           password,
@@ -29,7 +30,6 @@ const Login = () => {
         { withCredentials: true }
       );
       await dispatch(login(res?.data?.data));
-      console.log(res?.data?.data);
       switch (role) {
         case "student":
           navigate("/student/dashboard");
@@ -51,7 +51,14 @@ const Login = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow p-4 flex items-center justify-center">
+      <motion.main
+        className="flex-grow p-4 flex items-center justify-center"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.2,
+        }}
+      >
         <div className="card w-96 bg-base-100 shadow-sm">
           <div className="card-body">
             <span className="badge badge-xs badge-warning">LNMCMS</span>
@@ -173,7 +180,7 @@ const Login = () => {
             </form>
           </div>
         </div>
-      </main>
+      </motion.main>
       <Footer />
     </div>
   );
