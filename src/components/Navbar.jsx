@@ -266,7 +266,7 @@ const Navbar = () => {
           <div className="md:stat-value hidden md:block text-orange-500">
             LNMCMS
           </div>
-          <div className=" text-sm text-slate-500 opacity-80 italic mb-2">
+          <div className="hidden md:block text-sm text-slate-500 opacity-80 italic mb-2">
             One Stop Solution For All Your Complaints
           </div>
         </div>
