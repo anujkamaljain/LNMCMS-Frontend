@@ -12,6 +12,7 @@ const ManageAdmin = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [deleteEmail, setDeleteEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -438,7 +439,9 @@ const ManageAdmin = () => {
                         />
                       </label>
                     </div>
-                    <button className="btn btn-neutral join-item ml-14">Join</button>
+                    <button className="btn btn-neutral join-item ml-14">
+                      Join
+                    </button>
                   </div>
                   <fieldset className="fieldset mb-3">
                     <select
