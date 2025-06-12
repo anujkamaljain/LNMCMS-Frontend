@@ -23,7 +23,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar h-18 flex justify-between sticky top-0 p-0 bg-base-100 overflow-hidden z-10 border-b-1 border-base-300">
+    <div
+      className={`navbar h-18 flex justify-between sticky top-0 p-0 ${
+        isAuthenticated ? "bg-base-100" : "bg-base-200"
+      } overflow-hidden z-10 border-b-1 border-base-300`}
+    >
       <div className="flex justify-between items-center">
         <label className="swap swap-rotate ml-2 hover:shadow-xs">
           <input
