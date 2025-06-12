@@ -46,7 +46,7 @@ const ManageSuperAdmin = () => {
 
   return (
     <motion.div
-      className="flex flex-col min-h-screen py-3 px-5"
+      className="flex-1 py-3 px-5"
       initial={{ scale: 0.9 }}
       animate={{ scale: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -61,7 +61,7 @@ const ManageSuperAdmin = () => {
         Manage Super Admins
       </motion.h1>
       <main>
-        <section className="bg-base-100 p-10">
+        <section className="p-10">
           <div className="flex items-center justify-center">
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">

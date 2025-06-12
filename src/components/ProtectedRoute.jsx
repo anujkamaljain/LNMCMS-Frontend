@@ -14,7 +14,7 @@ const ProtectedRoute = ({ allowedRoles, redirectPath = "/login" }) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <Outlet />
       <Footer />

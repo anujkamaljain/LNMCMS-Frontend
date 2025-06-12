@@ -82,10 +82,10 @@ const SuperAdminDashboard = () => {
 
   return (
     <motion.div
-      className="flex flex-col min-h-screen py-3 px-5"
+      className="flex-1 py-3 px-5"
       initial={{ scale: 0.9 }}
       animate={{ scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      transition={{ duration: 0.5, ease: "easeIn" }}
     >
       <motion.h1
         className="text-2xl mb-10 mt-5 underline"
@@ -96,7 +96,7 @@ const SuperAdminDashboard = () => {
       >
         Analytics Dashboard
       </motion.h1>
-      <main className="flex-grow">
+      <main>
         <div className="flex flex-wrap gap-4 justify-center">
           <ManualBarChart
             title="Complaints of past 6 months"
