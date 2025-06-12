@@ -8,6 +8,8 @@ import SuperAdminDashboard from "./components/SuperAdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Navigate } from "react-router-dom";
 import AdminComplaints from "./components/AdminComplaints";
+import ManageSuperAdmin from "./components/ManageSuperAdmin";
+import "@fontsource/bowlby-one-sc";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -82,7 +84,7 @@ const App = () => {
             />
             <Route
               path="/superAdmin/manage-superAdmins"
-              element={<SuperAdminDashboard />}
+              element={<ManageSuperAdmin />}
             />
             <Route
               path="/superAdmin/manage-Admins"

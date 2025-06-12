@@ -33,8 +33,8 @@ const Navbar = () => {
       </Link>
       <div className="stats">
         <div className="stat text-center">
-          <div className="md:stat-value hidden md:block">LNMCMS</div>
-          <div className="md:stat-desc hidden md:block">
+          <div className="md:stat-value hidden md:block text-orange-500">LNMCMS</div>
+          <div className=" text-sm text-slate-500 opacity-80 italic">
             One Stop Solution For All Your Complaints
           </div>
         </div>

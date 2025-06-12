@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { Chart } from "chart.js/auto";
-import { motion } from "motion/react";
 
 const ManualBarChart = ({ title, labels, dataValues }) => {
   const canvasRef = useRef(null);
@@ -64,19 +63,12 @@ const ManualBarChart = ({ title, labels, dataValues }) => {
   }, [labels, dataValues]);
 
   return (
-    <motion.div
-      className="w-full md:w-[32%] shadow-md rounded p-4 hover:translate-y-0.5 transition-all duration-150 ease-in cursor-pointer bg-transparent"
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        duration: 0.1,
-      }}
-    >
+    <div className="w-full md:w-[32%] shadow-md rounded p-4 hover:translate-y-0.5 transition-all duration-75 ease-in cursor-pointer bg-transparent">
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
       <div style={{ height: "300px" }}>
         <canvas ref={canvasRef} className="w-full h-full" />
       </div>
-    </motion.div>
+    </div>
   );
 };
 
