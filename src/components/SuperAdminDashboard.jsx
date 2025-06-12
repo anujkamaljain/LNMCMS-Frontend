@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import ManualBarChart from "./Chart";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
-
+import ManualDoughnutChart from "./DoughnutChart";
 
 const SuperAdminDashboard = () => {
   const [labels, setLabels] = useState([]);
@@ -88,7 +88,7 @@ const SuperAdminDashboard = () => {
       transition={{ duration: 0.5, ease: "easeIn" }}
     >
       <motion.h1
-        className="text-2xl mb-10 mt-5 underline"
+        className="text-2xl mb-10 mt-5 text-amber-400 text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -97,8 +97,13 @@ const SuperAdminDashboard = () => {
         Analytics Dashboard
       </motion.h1>
       <main>
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="flex flex-wrap gap-4 justify-around">
           <ManualBarChart
+            title="Complaints of past 6 months"
+            labels={labels}
+            dataValues={dataValues}
+          />
+          <ManualDoughnutChart
             title="Complaints of past 6 months"
             labels={labels}
             dataValues={dataValues}

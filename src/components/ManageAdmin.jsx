@@ -3,11 +3,12 @@ import { motion } from "motion/react";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
 
-const ManageSuperAdmin = () => {
+const ManageAdmin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("Anuj Kamal Jain");
   const [email, setEmail] = useState("anujgjain@lnmiit.ac.in");
   const [password, setPassword] = useState("Ak301277#");
+  const [department, setDepartment] = useState("BH5");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
@@ -16,11 +17,12 @@ const ManageSuperAdmin = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        SUPERADMIN_BASE_URL + "/superadmin",
+        SUPERADMIN_BASE_URL + "/admin",
         {
           name: fullName,
           email: email,
           password: password,
+          department: department,
         },
         { withCredentials: true }
       );
@@ -58,7 +60,7 @@ const ManageSuperAdmin = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Super Admin
+        Manage Admin
       </motion.h1>
       <main>
         <section className="p-10">
@@ -66,7 +68,7 @@ const ManageSuperAdmin = () => {
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Add Super Admin
+                  Add Admin
                 </span>
                 <form onSubmit={handleSubmit}>
                   <label className="input mb-4">
@@ -127,6 +129,21 @@ const ManageSuperAdmin = () => {
                       />
                     </label>
                   </div>
+                  <fieldset className="fieldset mb-3">
+                    <select
+                      className="select cursor-pointer"
+                      value={department}
+                      onChange={(e) => setDepartment(e.target.value)}
+                      required
+                      defaultValue=""
+                    >
+                      <option value="" disabled>
+                       Choose Department
+                      </option>
+                      <option value="admin">Admin</option>
+                      <option value="superAdmin">SuperAdmin</option>
+                    </select>
+                  </fieldset>
                   <label className="input mb-3">
                     <svg
                       className="h-[1em] opacity-50"
@@ -167,6 +184,11 @@ const ManageSuperAdmin = () => {
                       className="checkbox checkbox-primary h-4 w-4 mr-2"
                       checked={showPassword}
                       onChange={() => setShowPassword(!showPassword)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleSubmit(e);
+                        }
+                      }}
                     />
                     Show Password
                   </label>
@@ -209,4 +231,4 @@ const ManageSuperAdmin = () => {
   );
 };
 
-export default ManageSuperAdmin;
+export default ManageAdmin;

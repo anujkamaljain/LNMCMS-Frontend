@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Chart } from "chart.js/auto";
 
-const ManualBarChart = ({ title, labels, dataValues }) => {
+const ManualDoughnutChart = ({ title, labels, dataValues }) => {
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
 
@@ -22,30 +22,17 @@ const ManualBarChart = ({ title, labels, dataValues }) => {
             "rgb(54, 162, 235)",
             "rgb(153, 102, 255)",
           ],
-          borderColor: [
-            "rgb(255, 99, 132)",
-            "rgb(255, 159, 64)",
-            "rgb(255, 205, 86)",
-            "rgb(75, 192, 192)",
-            "rgb(54, 162, 235)",
-            "rgb(153, 102, 255)",
-          ],
-          borderWidth: 1,
+          hoverOffset: 4,
         },
       ],
     };
 
     const config = {
-      type: "bar",
-      data,
+      type: "doughnut",
+      data: data,
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
       },
     };
 
@@ -72,4 +59,4 @@ const ManualBarChart = ({ title, labels, dataValues }) => {
   );
 };
 
-export default ManualBarChart;
+export default ManualDoughnutChart;

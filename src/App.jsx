@@ -10,6 +10,7 @@ import { Navigate } from "react-router-dom";
 import AdminComplaints from "./components/AdminComplaints";
 import ManageSuperAdmin from "./components/ManageSuperAdmin";
 import "@fontsource/bowlby-one-sc";
+import ManageAdmin from "./components/ManageAdmin";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -88,7 +89,7 @@ const App = () => {
             />
             <Route
               path="/superAdmin/manage-Admins"
-              element={<SuperAdminDashboard />}
+              element={<ManageAdmin />}
             />
             <Route
               path="/superAdmin/manage-Students"
