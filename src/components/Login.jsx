@@ -12,6 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("anujkjain@lnmiit.ac.in");
   const [password, setPassword] = useState("Anuj@1234");
   const [role, setRole] = useState("");
@@ -139,7 +140,7 @@ const Login = () => {
                   </g>
                 </svg>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   placeholder="Password"
                   value={password}
@@ -156,17 +157,17 @@ const Login = () => {
                 At least one lowercase letter <br />
                 At least one uppercase letter
               </p>
-              <fieldset className="fieldset">
+              <fieldset className="fieldset -mt-2">
                 <br />
                 <select
                   className="select"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   onKeyDown={(e) => {
-                  if(e.key === "Enter") {
-                    handleSubmit(e);
-                  }
-                }}
+                    if (e.key === "Enter") {
+                      handleSubmit(e);
+                    }
+                  }}
                   required
                 >
                   <option value="" disabled>
@@ -177,6 +178,15 @@ const Login = () => {
                   <option value="superAdmin">SuperAdmin</option>
                 </select>
               </fieldset>
+              <label className="flex items-center mt-2">
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-primary h-4 w-4 mr-2"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                Show Password
+              </label>
               <div className="mt-6">
                 <button type="submit" className="btn btn-primary btn-block">
                   Login
