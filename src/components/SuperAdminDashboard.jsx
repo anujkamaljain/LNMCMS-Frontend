@@ -184,9 +184,8 @@ const SuperAdminDashboard = () => {
               <motion.h1
                 className="text-2xl text-amber-400 text-center"
                 style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
-                initial={{ x: "25vh", y: "0" }}
-                animate={{ x: "0", y: "0" }}
-                transition={{ duration: 0.5, ease: "easeIn" }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
               >
                 Total Complaints in last 6 months
               </motion.h1>
