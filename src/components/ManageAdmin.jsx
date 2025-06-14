@@ -315,7 +315,7 @@ const ManageAdmin = () => {
               whileInView={{ opacity: 1 }}
             >
               <div className="card-body">
-                <span className="badge badge-xs badge-warning mb-3">
+                <span className="badge badge-xs badge-error mb-3">
                   Delete Admin
                 </span>
                 <form onSubmit={handleDelete}>
@@ -368,7 +368,7 @@ const ManageAdmin = () => {
               whileInView={{ opacity: 1 }}
             >
               <div className="card-body">
-                <span className="badge badge-xs badge-warning mb-3">
+                <span className="badge badge-xs badge-success mb-3">
                   Search/Edit Admin
                 </span>
                 <form onSubmit={handleEdit}>

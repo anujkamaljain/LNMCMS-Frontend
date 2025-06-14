@@ -250,7 +250,7 @@ const ManageStudent = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Student
+        Manage Student/Students
       </motion.h1>
       <main>
         <section className="p-10">
