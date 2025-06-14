@@ -12,6 +12,8 @@ import ManageSuperAdmin from "./components/ManageSuperAdmin";
 import "@fontsource/bowlby-one-sc";
 import ManageAdmin from "./components/ManageAdmin";
 import ManageStudent from "./components/ManageStudent";
+import ManageOwnSuperAdmin from "./components/ManageOwnSuperAdmin";
+import ChangeSuperAdmiPassword from "./components/ChangeSuperAdmiPassword";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -88,21 +90,18 @@ const App = () => {
               path="/superAdmin/manage-superAdmins"
               element={<ManageSuperAdmin />}
             />
-            <Route
-              path="/superAdmin/manage-Admins"
-              element={<ManageAdmin />}
-            />
+            <Route path="/superAdmin/manage-Admins" element={<ManageAdmin />} />
             <Route
               path="/superAdmin/manage-Students"
               element={<ManageStudent />}
             />
             <Route
               path="/superAdmin/manage-profile"
-              element={<SuperAdminDashboard />}
+              element={<ManageOwnSuperAdmin />}
             />
             <Route
               path="/superAdmin/change-password"
-              element={<SuperAdminDashboard />}
+              element={<ChangeSuperAdmiPassword />}
             />
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />

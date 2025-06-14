@@ -409,6 +409,7 @@ const ManageStudent = () => {
                   </form>
                 </div>
               </motion.div>
+              <div className="divider"></div>
               <motion.div
                 className="card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
                 initial={{ opacity: 0 }}
@@ -452,7 +453,7 @@ const ManageStudent = () => {
             </div>
             <motion.div
               className={
-                "card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
+                "card w-96 bg-base-100 shadow-sm mb-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
               }
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -631,6 +632,7 @@ const ManageStudent = () => {
                   </div>
                 )}
               </motion.div>
+              <div className="divider"></div>
               <motion.div
                 className="card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
                 initial={{ opacity: 0 }}

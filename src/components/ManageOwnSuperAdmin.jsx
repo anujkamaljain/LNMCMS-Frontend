@@ -1,39 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import axios from "axios";
-import { SUPERADMIN_BASE_URL } from "../utils/constants";
+import { BASE_URL, SUPERADMIN_BASE_URL } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {logout} from "../utils/authSlice";
 
-const ManageSuperAdmin = () => {
-  const [showPassword, setShowPassword] = useState(false);
+const ManageOwnSuperAdmin = () => {
+  const user = useSelector((store) => store?.auth?.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    setEmail(user?.email);
+    setFullName(user?.name);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
+      if (fullName.trim() === user?.name && email.trim() === user?.email) {
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
+        return;
+      }
+      const res = await axios.patch(
         SUPERADMIN_BASE_URL + "/superadmin",
         {
           name: fullName,
           email: email,
-          password: password,
         },
         { withCredentials: true }
       );
-
-      if (res.status === 201) {
-        setToastMessage("Super Admin added successfully!");
-        setToastType("success");
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
+      if (res.status === 200) {
+        alert(
+          "Details updated Successfully. You are being redirected to login page. Kindly login again!"
+        );
+        setTimeout(() => {
+          const res2 = axios.post(BASE_URL + "/logout", {} , {
+            withCredentials: true,
+          });
+          dispatch(logout());
+          navigate("/login");
+        }, 0);
       }
-      setEmail("");
-      setFullName("");
-      setPassword("");
+    } catch (err) {
+      const errorMessage =
+        err?.response?.data?.message || "Something went wrong!";
+      setToastMessage(errorMessage);
+      setToastType("error");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 4000);
+    }
+  };
+
+  const handleDelete = async (e) => {
+    try {
+      const res = await axios.delete(SUPERADMIN_BASE_URL + "/superadmin", {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        alert("Account Deleted Succesfully.");
+        setTimeout(() => {
+          const res2 = axios.post(BASE_URL + "/logout", {} , {
+            withCredentials: true,
+          });
+          dispatch(logout());
+          navigate("/login");
+        }, 0);
+      }
     } catch (err) {
       const errorMessage =
         err?.response?.data?.message || "Something went wrong!";
@@ -51,6 +92,24 @@ const ManageSuperAdmin = () => {
       animate={{ scale: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
+      {showAlert && (
+        <div role="alert" className="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Edit the Details to Update</span>
+        </div>
+      )}
       <motion.h1
         className="text-2xl mb-10 mt-5 text-amber-400 text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
@@ -58,7 +117,7 @@ const ManageSuperAdmin = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Super Admin
+        Manage Your Own Account
       </motion.h1>
       <main>
         <section className="p-10">
@@ -66,7 +125,7 @@ const ManageSuperAdmin = () => {
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Add Super Admin
+                  Your Details
                 </span>
                 <form onSubmit={handleSubmit}>
                   <label className="input mb-4">
@@ -127,49 +186,6 @@ const ManageSuperAdmin = () => {
                       />
                     </label>
                   </div>
-                  <label className="input mb-3">
-                    <svg
-                      className="h-[1em] opacity-50"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                        strokeWidth="2.5"
-                        fill="none"
-                        stroke="currentColor"
-                      >
-                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                        <circle
-                          cx="16.5"
-                          cy="7.5"
-                          r=".5"
-                          fill="currentColor"
-                        ></circle>
-                      </g>
-                    </svg>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      placeholder="Password"
-                      minLength="8"
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </label>
-
-                  <label className="flex items-center ">
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-primary h-4 w-4 mr-2"
-                      checked={showPassword}
-                      onChange={() => setShowPassword(!showPassword)}
-                    />
-                    Show Password
-                  </label>
                   {showToast ? (
                     <p
                       className={`${
@@ -185,15 +201,50 @@ const ManageSuperAdmin = () => {
                   ) : null}
                   <div className="mt-6">
                     <button className="btn btn-primary btn-block" type="submit">
-                      Add Super Admin
+                      Update Details
                     </button>
                   </div>
                 </form>
+                <div
+                  className="mt-3 tooltip"
+                  data-tip="Permanently deletes your account"
+                >
+                  <button
+                    className="btn btn-error btn-block"
+                    onClick={() =>
+                      document.getElementById("my_modal_5").showModal()
+                    }
+                  >
+                    Delete Your Account
+                  </button>
+                </div>
+                <div className="text-center mt-1">
+                  <Link
+                    className="link link-info"
+                    to="/superAdmin/change-password"
+                  >
+                    Change password
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Deleting Your Account</h3>
+          <p className="py-4">Are you sure you want to delete your account?</p>
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn mr-5" onClick={handleDelete}>
+                Yes
+              </button>
+              <button className="btn">No</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
       {showToast && (
         <div className="toast toast-top toast-center fixed z-50">
           <div
@@ -209,4 +260,4 @@ const ManageSuperAdmin = () => {
   );
 };
 
-export default ManageSuperAdmin;
+export default ManageOwnSuperAdmin;
