@@ -621,10 +621,14 @@ const ManageStudent = () => {
                   </form>
                 </div>
                 {searchClick && searchId ? null : (
-                  <p className="text-center text-xs mb-10 text-red-600 font-bold">
-                    * Kindly Search the student using Roll Number before
-                    updating the details{" "}
-                  </p>
+                  <div className="text-center mb-10">
+                    <p className="text-xs text-red-600 font-bold">
+                      *Kindly Search the student
+                    </p>
+                    <p className="text-xs text-red-600 font-bold">
+                      using Roll Number before updating the details.
+                    </p>
+                  </div>
                 )}
               </motion.div>
               <motion.div
