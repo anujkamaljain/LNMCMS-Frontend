@@ -163,10 +163,12 @@ const ManageAdmin = () => {
       <main>
         <section className="p-10">
           <div className="flex flex-col xl:flex-row items-center justify-center gap-4">
-            <div
+            <motion.div
               className={
                 "card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer "
               }
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
             >
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
@@ -304,11 +306,13 @@ const ManageAdmin = () => {
                   </div>
                 </form>
               </div>
-            </div>
-            <div
+            </motion.div>
+            <motion.div
               className={
                 "card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
               }
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
             >
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
@@ -355,11 +359,13 @@ const ManageAdmin = () => {
                   </div>
                 </form>
               </div>
-            </div>
-            <div
+            </motion.div>
+            <motion.div
               className={
                 "card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
               }
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
             >
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
@@ -467,7 +473,7 @@ const ManageAdmin = () => {
                   details{" "}
                 </p>
               )}
-            </div>
+            </motion.div>
           </div>
         </section>
       </main>

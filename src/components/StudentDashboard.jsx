@@ -38,7 +38,6 @@ const StudentDashboard = () => {
 
   return (
     <div className="flex flex-col min-h-screen px-4 py-6 space-y-6">
-      {/* Header */}
       <motion.h1
         className="text-3xl md:text-4xl text-center text-amber-400 font-extrabold border"
         initial={{ opacity: 0 }}
@@ -47,8 +46,6 @@ const StudentDashboard = () => {
       >
         Student Dashboard
       </motion.h1>
-
-      {/* Welcome Message */}
       <motion.div
         className="card bg-base-100 shadow-lg border border-base-300 mx-auto max-w-7xl"
         initial={{ opacity: 0, y: 30 }}
@@ -80,8 +77,6 @@ const StudentDashboard = () => {
           </p>
         </div>
       </motion.div>
-
-      {/* Complaints Chart */}
       <div className="flex justify-center">
         <ReflectionChart
           title="Complaints per Month"
@@ -89,10 +84,7 @@ const StudentDashboard = () => {
           dataValues={dataValues}
         />
       </div>
-
-      {/* Action Cards */}
       <div className="mt-16 flex justify-center gap-x-60 flex-wrap">
-        {/* Register Complaint Card */}
         <Link
           to="/student/register-complaint"
           className="card border border-base-300 bg-base-100 shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300 w-full max-w-xs dark:hover:shadow-amber-500/30"
@@ -105,7 +97,6 @@ const StudentDashboard = () => {
             </p>
           </div>
         </Link>
-        {/* View Complaints Card */}
         <Link
           to="/student/view-complaints"
           className="card border border-base-300 bg-base-100 shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300 w-full max-w-xs dark:hover:shadow-amber-500/30"
@@ -119,10 +110,6 @@ const StudentDashboard = () => {
           </div>
         </Link>
       </div>
-
-
-
-
     </div>
   );
 };

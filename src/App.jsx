@@ -11,6 +11,7 @@ import AdminComplaints from "./components/AdminComplaints";
 import ManageSuperAdmin from "./components/ManageSuperAdmin";
 import "@fontsource/bowlby-one-sc";
 import ManageAdmin from "./components/ManageAdmin";
+import ManageStudent from "./components/ManageStudent";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -93,7 +94,7 @@ const App = () => {
             />
             <Route
               path="/superAdmin/manage-Students"
-              element={<SuperAdminDashboard />}
+              element={<ManageStudent />}
             />
             <Route
               path="/superAdmin/manage-profile"
