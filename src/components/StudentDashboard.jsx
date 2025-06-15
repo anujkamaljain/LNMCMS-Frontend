@@ -57,7 +57,7 @@ const StudentDashboard = () => {
             👋 Welcome to the LNMCMS Complaint Portal!
           </h2>
           <p className="text-base md:text-lg text-gray-700 mt-4 leading-relaxed text-justify">
-            We’re happy to have you onboard! This portal is built to help students report any
+            We’re happy to have you onboard! This portal is built to help you students report any
             day-to-day issues you may face across campus — from hostels
             and mess to washrooms and more. You can log your complaints here easily, and they will
             be addressed by the concerned authorities.
