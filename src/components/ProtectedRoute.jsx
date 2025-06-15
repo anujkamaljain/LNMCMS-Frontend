@@ -25,7 +25,7 @@ const ProtectedRoute = ({ allowedRoles, redirectPath = "/login" }) => {
           console.log("Logout failed:", err);
         } finally {
           dispatch(logout());
-          setShouldRedirect(true); 
+          setShouldRedirect(true);
         }
       };
 
@@ -38,7 +38,11 @@ const ProtectedRoute = ({ allowedRoles, redirectPath = "/login" }) => {
   }
 
   if (!isAllowed) {
-    return <span className="loading loading-bars loading-lg"></span>;
+    return (
+      <div className="flex items-center justify-center">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
   }
 
   return (
