@@ -7,13 +7,15 @@ import AdminDashboard from "./components/AdminDashboard";
 import SuperAdminDashboard from "./components/SuperAdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Navigate } from "react-router-dom";
-import AdminComplaints from "./components/AdminComplaints";
 import ManageSuperAdmin from "./components/ManageSuperAdmin";
 import "@fontsource/bowlby-one-sc";
 import ManageAdmin from "./components/ManageAdmin";
 import ManageStudent from "./components/ManageStudent";
 import ManageOwnSuperAdmin from "./components/ManageOwnSuperAdmin";
 import ChangeSuperAdmiPassword from "./components/ChangeSuperAdmiPassword";
+import PendingComplaints from "./components/PendingComplaints";
+import AcceptedComplaints from "./components/AcceptedComplaints";
+import ResolvedComplaints from "./components/ResolvedComplaints";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -64,20 +66,20 @@ const App = () => {
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route
               path="/admin/pending-complaints"
-              element={<AdminComplaints />}
+              element={<PendingComplaints />}
             />
             <Route
               path="/admin/accepted-complaints"
-              element={<AdminComplaints />}
+              element={<AcceptedComplaints />}
             />
             <Route
               path="/admin/resolved-complaints"
-              element={<AdminComplaints />}
+              element={<ResolvedComplaints />}
             />
-            <Route path="/admin/view-profile" element={<AdminComplaints />} />
+            <Route path="/admin/view-profile" element={<AdminDashboard />} />
             <Route
               path="/admin/change-password"
-              element={<AdminComplaints />}
+              element={<AdminDashboard />}
             />
           </Route>
 
