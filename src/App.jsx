@@ -16,6 +16,8 @@ import ChangeSuperAdmiPassword from "./components/ChangeSuperAdmiPassword";
 import PendingComplaints from "./components/PendingComplaints";
 import AcceptedComplaints from "./components/AcceptedComplaints";
 import ResolvedComplaints from "./components/ResolvedComplaints";
+import ViewAdminProfile from "./components/ViewAdminProfile";
+import ChangeAdminPaasowrd from "./components/ChangeAdminPaasowrd";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -76,10 +78,10 @@ const App = () => {
               path="/admin/resolved-complaints"
               element={<ResolvedComplaints />}
             />
-            <Route path="/admin/view-profile" element={<AdminDashboard />} />
+            <Route path="/admin/view-profile" element={<ViewAdminProfile />} />
             <Route
               path="/admin/change-password"
-              element={<AdminDashboard />}
+              element={<ChangeAdminPaasowrd />}
             />
           </Route>
 

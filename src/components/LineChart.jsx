@@ -71,18 +71,12 @@ const LineChart = ({ title, labels, dataValues }) => {
           x: {
             ticks: {
               color: "#ccc",
-            },
-            grid: {
-              color: "#444",
-            },
+            }
           },
           y: {
             ticks: {
               color: "#ccc",
-            },
-            grid: {
-              color: "#444",
-            },
+            }
           },
         },
       },

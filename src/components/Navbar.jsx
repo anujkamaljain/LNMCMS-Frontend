@@ -7,6 +7,7 @@ import { BASE_URL } from "../utils/constants";
 import { logout } from "../utils/authSlice";
 import { removeaccComplaints } from "../utils/acceptedComplaintsSlice";
 import { removeresComplaint } from "../utils/resolvedComplaintsSlice";
+import { clearComplaints } from "../utils/pendingComplaintsSlice";
 
 const Navbar = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -20,6 +21,7 @@ const Navbar = () => {
       dispatch(logout());
       dispatch(removeaccComplaints());
       dispatch(removeresComplaint());
+      dispatch(clearComplaints());
       navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);

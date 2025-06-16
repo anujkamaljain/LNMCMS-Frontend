@@ -9,10 +9,11 @@ const pendingComplaintsSlice = createSlice({
       const newArry = state.filter((c) => c._id !== action.payload);
       return newArry;
     },
+    clearComplaints: () => null
   },
 });
 
-export const { addComplaints, removeComplaint } =
+export const { addComplaints, removeComplaint, clearComplaints} =
   pendingComplaintsSlice.actions;
 
 export default pendingComplaintsSlice.reducer;
