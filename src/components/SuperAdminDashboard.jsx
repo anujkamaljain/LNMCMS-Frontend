@@ -75,7 +75,7 @@ const SuperAdminDashboard = () => {
           SUPERADMIN_BASE_URL + "/complaints/by-department",
           { withCredentials: true }
         );
-        await setDepartmentData(res?.data);
+        setDepartmentData(res?.data);
       } catch (err) {
         console.error("Failed to fetch complaints data:", err);
       }

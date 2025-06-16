@@ -23,6 +23,10 @@ import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
 import ChangeStudentPassword from "./components/ChangeStudentPassword";
 import RegisterComplaint from "./components/RegisterComplaint"
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
