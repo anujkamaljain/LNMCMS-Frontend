@@ -13,9 +13,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("23UCS540@lnmiit.ac.in");
-  const [password, setPassword] = useState("Anuj@1234");
-  const [role, setRole] = useState("student");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
