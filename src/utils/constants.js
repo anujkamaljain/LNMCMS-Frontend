@@ -4,11 +4,11 @@ export const SUPERADMIN_BASE_URL = "http://localhost:7777/superadmin";
 export const STUDENT_BASE_URL = "http://localhost:7777/student";
 
 export const Department_List = [
-  "BH-1",
-  "BH-2",
-  "BH-3",
-  "BH-4",
-  "BH-5",
+  "BH1",
+  "BH2",
+  "BH3",
+  "BH4",
+  "BH5",
   "GH",
   "MESS-A",
   "MESS-B",
