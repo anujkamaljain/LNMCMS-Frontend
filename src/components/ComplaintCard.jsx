@@ -78,7 +78,7 @@ const ComplaintCard = ({ complaint }) => {
 
   return (
     <div
-      className={`mx-3 h-130 mb-6 ${
+      className={`mx-3 h-135 mb-6 ${
         complaint.status === "pending"
           ? "bg-error"
           : complaint.status === "accepted"
@@ -86,7 +86,7 @@ const ComplaintCard = ({ complaint }) => {
           : "bg-success"
       } hover:translate-y-1 transition-all ease-in duration-100`}
     >
-      <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-130 flex flex-col border border-base-300">
+      <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
         <div className="card-body p-6 flex flex-col flex-grow">
           <div className="flex flex-wrap gap-2 mb-4">
             {complaint.tags.map((tag, index) => (
