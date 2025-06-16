@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   ADMIN_BASE_URL,
   Location_Wise_List,
@@ -13,6 +13,68 @@ const ComplaintCard = ({ complaint }) => {
   const user = useSelector((store) => store.auth.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [showScrollDown, setShowScrollDown] = useState(false);
+  const [showScrollUp, setShowScrollUp] = useState(false);
+  const cardBodyRef = useRef(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (cardBodyRef.current) {
+        const hasOverflow =
+          cardBodyRef.current.scrollHeight > cardBodyRef.current.clientHeight;
+        setShowScrollDown(hasOverflow);
+        setShowScrollUp(false);
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [complaint]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (cardBodyRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = cardBodyRef.current;
+        const isAtBottom = scrollHeight - (scrollTop + clientHeight) < 5;
+        const isAtTop = scrollTop < 5;
+
+        setShowScrollDown(!isAtBottom);
+        setShowScrollUp(!isAtTop && !isAtBottom);
+      }
+    };
+
+    const currentRef = cardBodyRef.current;
+    if (currentRef) {
+      currentRef.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (currentRef) {
+        currentRef.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
+  const handleScrollDown = () => {
+    if (cardBodyRef.current) {
+      cardBodyRef.current.scrollTo({
+        top: cardBodyRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollUp = () => {
+    if (cardBodyRef.current) {
+      cardBodyRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("-");
     return `${day}-${month}-${year}`;
@@ -62,7 +124,7 @@ const ComplaintCard = ({ complaint }) => {
       );
 
       if (res.status == 200) {
-        dispatch(updatingStatus(complaint._id))
+        dispatch(updatingStatus(complaint._id));
       } else {
         console.error("Acceptance failed:", res.data?.message);
       }
@@ -78,7 +140,7 @@ const ComplaintCard = ({ complaint }) => {
 
   return (
     <div
-      className={`mx-3 h-135 mb-6 ${
+      className={`mx-3 h-135 mb-6 relative ${
         complaint.status === "pending"
           ? "bg-error"
           : complaint.status === "accepted"
@@ -87,7 +149,10 @@ const ComplaintCard = ({ complaint }) => {
       } hover:translate-y-1 transition-all ease-in duration-100`}
     >
       <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
-        <div className="card-body p-6 flex flex-col flex-grow">
+        <div
+          className="card-body p-6 flex flex-col flex-grow overflow-y-auto"
+          ref={cardBodyRef}
+        >
           <div className="flex flex-wrap gap-2 mb-4">
             {complaint.tags.map((tag, index) => (
               <span
@@ -208,6 +273,48 @@ const ComplaintCard = ({ complaint }) => {
           )}
         </div>
       </div>
+
+      {showScrollDown && (
+        <button
+          onClick={handleScrollDown}
+          className="absolute bottom-8 right-8 btn btn-circle btn-sm opacity-70 hover:opacity-100 transition-opacity shadow-md border border-base-200"
+          aria-label="Scroll down"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      )}
+
+      {showScrollUp && (
+        <button
+          onClick={handleScrollUp}
+          className="absolute top-8 right-8 btn btn-circle btn-sm opacity-70 hover:opacity-100 transition-opacity shadow-md border border-base-200"
+          aria-label="Scroll up"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      )}
     </div>
   );
 };
