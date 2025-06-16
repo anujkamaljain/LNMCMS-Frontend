@@ -21,6 +21,8 @@ import ViewStudentProfile from "./components/ViewStudentProfile";
 import ChangeAdminPassword from "./components/ChangeAdminPassword";
 import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
 import ChangeStudentPassword from "./components/ChangeStudentPassword";
+import RegisterComplaint from "./components/RegisterComplaint"
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -43,6 +45,7 @@ const App = () => {
 
   return (
     <div>
+      <Toaster position="top-right" />
       <BrowserRouter basename="/">
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -51,7 +54,7 @@ const App = () => {
             <Route path="/student/dashboard" element={<StudentDashboard />} />
             <Route
               path="/student/register-complaint"
-              element={<StudentDashboard />}
+              element={<RegisterComplaint />}
             />
             <Route
               path="/student/view-complaints"
