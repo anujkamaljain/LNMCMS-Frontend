@@ -98,7 +98,7 @@ const RegisterComplaint = () => {
         className="w-full max-w-3xl p-8 bg-base-100 shadow-xl border border-base-300 rounded-xl space-y-5"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-3xl font-bold text-center text-amber-600 mb-4">Register a Complaint</h2>
+        <h2 className="text-3xl font-bold text-center text-amber-600 mb-4 underline">Register a Complaint</h2>
 
         <div>
           <label className="label">Title</label>
@@ -129,7 +129,7 @@ const RegisterComplaint = () => {
             <label className="label">Location Tag</label>
             <select
               name="location"
-              className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
               value={formData.location}
               onChange={handleChange}
             >
@@ -145,7 +145,7 @@ const RegisterComplaint = () => {
             <label className="label">Department Tag</label>
             <select
               name="department"
-              className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
               value={formData.department}
               onChange={handleChange}
             >
