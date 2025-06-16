@@ -12,13 +12,15 @@ import "@fontsource/bowlby-one-sc";
 import ManageAdmin from "./components/ManageAdmin";
 import ManageStudent from "./components/ManageStudent";
 import ManageOwnSuperAdmin from "./components/ManageOwnSuperAdmin";
-import ChangeSuperAdmiPassword from "./components/ChangeSuperAdmiPassword";
 import PendingComplaints from "./components/PendingComplaints";
 import AcceptedComplaints from "./components/AcceptedComplaints";
 import ResolvedComplaints from "./components/ResolvedComplaints";
 import ViewAdminProfile from "./components/ViewAdminProfile";
-import ChangeAdminPaasowrd from "./components/ChangeAdminPaasowrd";
 import ViewYourComplaints from "./components/ViewYourComplaints";
+import ViewStudentProfile from "./components/ViewStudentProfile";
+import ChangeAdminPassword from "./components/ChangeAdminPassword";
+import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
+import ChangeStudentPassword from "./components/ChangeStudentPassword";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -57,11 +59,11 @@ const App = () => {
             />
             <Route
               path="/student/change-password"
-              element={<StudentDashboard />}
+              element={<ChangeStudentPassword />}
             />
             <Route
               path="/student/view-profile"
-              element={<StudentDashboard />}
+              element={<ViewStudentProfile />}
             />
           </Route>
 
@@ -82,7 +84,7 @@ const App = () => {
             <Route path="/admin/view-profile" element={<ViewAdminProfile />} />
             <Route
               path="/admin/change-password"
-              element={<ChangeAdminPaasowrd />}
+              element={<ChangeAdminPassword />}
             />
           </Route>
 
@@ -106,7 +108,7 @@ const App = () => {
             />
             <Route
               path="/superAdmin/change-password"
-              element={<ChangeSuperAdmiPassword />}
+              element={<ChangeSuperAdminPassword />}
             />
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />

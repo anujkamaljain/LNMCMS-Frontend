@@ -8,6 +8,7 @@ import { logout } from "../utils/authSlice";
 import { removeaccComplaints } from "../utils/acceptedComplaintsSlice";
 import { removeresComplaint } from "../utils/resolvedComplaintsSlice";
 import { clearComplaints } from "../utils/pendingComplaintsSlice";
+import { removingComplaint } from "../utils/ViewComplaintsSlice";
 
 const Navbar = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -25,6 +26,7 @@ const Navbar = () => {
       dispatch(removeaccComplaints());
       dispatch(removeresComplaint());
       dispatch(clearComplaints());
+      dispatch(removingComplaint());
       navigate("/login");
     }
   };

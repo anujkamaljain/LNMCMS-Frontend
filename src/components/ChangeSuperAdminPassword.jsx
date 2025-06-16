@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {logout} from "../utils/authSlice";
 
-const ChangeSuperAdmiPassword = () => {
+const ChangeSuperAdminPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -225,4 +225,4 @@ const ChangeSuperAdmiPassword = () => {
   );
 };
 
-export default ChangeSuperAdmiPassword;
+export default ChangeSuperAdminPassword;

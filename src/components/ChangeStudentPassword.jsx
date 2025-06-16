@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   ADMIN_BASE_URL,
   BASE_URL,
+  STUDENT_BASE_URL,
   SUPERADMIN_BASE_URL,
 } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +13,9 @@ import { logout } from "../utils/authSlice";
 import { clearComplaints } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaints } from "../utils/acceptedComplaintsSlice";
 import { removeresComplaint } from "../utils/resolvedComplaintsSlice";
+import { removingComplaint } from "../utils/ViewComplaintsSlice";
 
-const ChangeAdminPaasowrd = () => {
+const ChangeStudentPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -30,7 +32,7 @@ const ChangeAdminPaasowrd = () => {
     e.preventDefault();
     try {
       const res = await axios.patch(
-        ADMIN_BASE_URL + "/changepassword",
+        STUDENT_BASE_URL + "/changepassword",
         {
           oldPassword: oldPassword,
           newPassword: newPassword,
@@ -50,9 +52,7 @@ const ChangeAdminPaasowrd = () => {
             }
           );
           dispatch(logout());
-          dispatch(clearComplaints());
-          dispatch(removeaccComplaints());
-          dispatch(removeresComplaint());
+          dispatch(removingComplaint());
           navigate("/login");
         }, 0);
       }
@@ -80,7 +80,7 @@ const ChangeAdminPaasowrd = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Admin
+        Manage Student
       </motion.h1>
       <main>
         <section className="p-10">
@@ -239,4 +239,4 @@ const ChangeAdminPaasowrd = () => {
   );
 };
 
-export default ChangeAdminPaasowrd;
+export default ChangeStudentPassword;
