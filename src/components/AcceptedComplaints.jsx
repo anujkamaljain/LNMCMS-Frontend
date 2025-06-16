@@ -4,9 +4,7 @@ import { ADMIN_BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import ComplaintCard from "./ComplaintCard";
 import { motion } from "motion/react";
-import {
-  addaccComplaints,
-} from "../utils/acceptedComplaintsSlice";
+import { addaccComplaints } from "../utils/acceptedComplaintsSlice";
 
 const AcceptedComplaints = () => {
   const complaints = useSelector((store) => store.accepted);
@@ -27,15 +25,7 @@ const AcceptedComplaints = () => {
     fetchComplaints();
   }, []);
 
-  if (!complaints) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <span className="loading loading-bars loading-lg"></span>
-      </div>
-    );
-  }
-
-  if (complaints.length === 0) {
+  if (!complaints || complaints.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen">
         <motion.h1

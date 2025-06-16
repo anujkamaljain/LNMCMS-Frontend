@@ -18,13 +18,14 @@ const Navbar = () => {
   const handleClick = async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+    } catch (err) {
+      console.error("Logout failed", err);
+    } finally {
       dispatch(logout());
       dispatch(removeaccComplaints());
       dispatch(removeresComplaint());
       dispatch(clearComplaints());
       navigate("/login");
-    } catch (err) {
-      console.error("Logout failed", err);
     }
   };
 

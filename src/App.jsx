@@ -18,6 +18,7 @@ import AcceptedComplaints from "./components/AcceptedComplaints";
 import ResolvedComplaints from "./components/ResolvedComplaints";
 import ViewAdminProfile from "./components/ViewAdminProfile";
 import ChangeAdminPaasowrd from "./components/ChangeAdminPaasowrd";
+import ViewYourComplaints from "./components/ViewYourComplaints";
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -52,7 +53,7 @@ const App = () => {
             />
             <Route
               path="/student/view-complaints"
-              element={<StudentDashboard />}
+              element={<ViewYourComplaints />}
             />
             <Route
               path="/student/change-password"

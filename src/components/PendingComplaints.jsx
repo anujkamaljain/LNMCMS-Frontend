@@ -25,15 +25,7 @@ const PendingComplaints = () => {
     fetchComplaints();
   }, []);
 
-  if (!complaints) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <span className="loading loading-bars loading-lg"></span>
-      </div>
-    );
-  }
-
-  if (complaints.length === 0) {
+  if (!complaints || complaints.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen">
         <motion.h1
@@ -47,6 +39,7 @@ const PendingComplaints = () => {
       </div>
     );
   }
+
   return (
     <motion.div
       className="flex-1 py-3 px-5"

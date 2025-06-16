@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { ADMIN_BASE_URL, Location_Wise_List } from "../utils/constants";
+import {
+  ADMIN_BASE_URL,
+  Location_Wise_List,
+  STUDENT_BASE_URL,
+} from "../utils/constants";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
-import ExpandableText from "./ExpandableText";
+import { updatingStatus } from "../utils/ViewComplaintsSlice";
 
 const ComplaintCard = ({ complaint }) => {
+  const user = useSelector((store) => store.auth.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const formatDate = (dateString) => {
@@ -22,13 +27,42 @@ const ComplaintCard = ({ complaint }) => {
     setIsLoading(true);
     try {
       const res = await axios.patch(
-        `${ADMIN_BASE_URL}/complaint/accept/${complaint._id}`,
+        ADMIN_BASE_URL + "/complaint/accept/" + complaint._id,
         {},
         { withCredentials: true }
       );
 
       if (res.status == 200) {
         dispatch(removeComplaint(complaint._id));
+      } else {
+        console.error("Acceptance failed:", res.data?.message);
+      }
+    } catch (err) {
+      console.error("Error accepting complaint:", {
+        message: err.message,
+        response: err.response?.data,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResolve = async () => {
+    if (!complaint?._id) {
+      console.error("Complaint ID is missing");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await axios.patch(
+        STUDENT_BASE_URL + "/complaint/resolve/" + complaint._id,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.status == 200) {
+        dispatch(updatingStatus(complaint._id))
       } else {
         console.error("Acceptance failed:", res.data?.message);
       }
@@ -74,14 +108,31 @@ const ComplaintCard = ({ complaint }) => {
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Description:</span>
-              <ExpandableText text={complaint.description}/>
+              <span className="flex-1">{complaint.description}</span>
             </div>
 
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Status:</span>
-              <span className={`flex-1 font-semibold ${complaint.status === "pending" ? "text-error" : complaint.status === "accepted" ? "text-warning" : "text-success"}`}>{complaint.status}</span>
+              <span
+                className={`flex-1 font-semibold ${
+                  complaint.status === "pending"
+                    ? "text-error"
+                    : complaint.status === "accepted"
+                    ? "text-warning"
+                    : "text-success"
+                }`}
+              >
+                {complaint.status}
+              </span>
             </div>
-            {complaint.status === "pending" ? null : (
+            {complaint.status === "pending" ? (
+              <div className="flex">
+                <span className="font-semibold min-w-[100px]">
+                  Accepted By:
+                </span>
+                <span className="flex-1"> - </span>
+              </div>
+            ) : (
               <div className="flex">
                 <span className="font-semibold min-w-[100px]">
                   Accepted By:
@@ -89,11 +140,14 @@ const ComplaintCard = ({ complaint }) => {
                 <span className="flex-1">{complaint.acceptedBy.name}</span>
               </div>
             )}
-            {complaint.status === "pending" ? null : (
+            {complaint.status === "pending" ? (
               <div className="flex">
-                <span className="font-semibold min-w-[100px]">
-                  Email:
-                </span>
+                <span className="font-semibold min-w-[100px]">Email:</span>
+                <span className="flex-1"> - </span>
+              </div>
+            ) : (
+              <div className="flex">
+                <span className="font-semibold min-w-[100px]">Email:</span>
                 <span className="flex-1">{complaint.acceptedBy.email}</span>
               </div>
             )}
@@ -126,7 +180,7 @@ const ComplaintCard = ({ complaint }) => {
               </span>
             </div>
           </div>
-          {complaint.status === "pending" && (
+          {complaint.status === "pending" && user.role === "admin" && (
             <div className="mt-4 pt-4 border-t border-gray-100">
               <button
                 className={`btn btn-warning w-full py-2 rounded-lg font-medium text-base-100 ${
@@ -136,6 +190,19 @@ const ComplaintCard = ({ complaint }) => {
                 disabled={isLoading}
               >
                 {isLoading ? "Processing..." : "Accept"}
+              </button>
+            </div>
+          )}
+          {complaint.status === "accepted" && user.role === "student" && (
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <button
+                className={`btn btn-success w-full py-2 rounded-lg font-medium text-base-100 ${
+                  isLoading ? "loading" : ""
+                }`}
+                onClick={handleResolve}
+                disabled={isLoading}
+              >
+                {isLoading ? "Processing..." : "Resolve"}
               </button>
             </div>
           )}
