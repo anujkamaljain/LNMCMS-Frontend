@@ -1,7 +1,13 @@
-export const BASE_URL = "http://localhost:7777";
-export const ADMIN_BASE_URL = "http://localhost:7777/admin";
-export const SUPERADMIN_BASE_URL = "http://localhost:7777/superadmin";
-export const STUDENT_BASE_URL = "http://localhost:7777/student";
+const isLocalhost = window.location.hostname === "localhost";
+
+const BASE = isLocalhost
+  ? "http://localhost:7777"
+  : "https://lnmcms-backend.onrender.com";
+
+export const BASE_URL = BASE;
+export const ADMIN_BASE_URL = `${BASE}/admin`;
+export const SUPERADMIN_BASE_URL = `${BASE}/superadmin`;
+export const STUDENT_BASE_URL = `${BASE}/student`;
 
 export const Department_List = [
   "BH1",
