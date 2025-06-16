@@ -3,6 +3,7 @@ import { ADMIN_BASE_URL, Location_Wise_List } from "../utils/constants";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
+import ExpandableText from "./ExpandableText";
 
 const ComplaintCard = ({ complaint }) => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const ComplaintCard = ({ complaint }) => {
           : "bg-success"
       } hover:translate-y-1 transition-all ease-in duration-100`}
     >
-      <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-hidden h-full flex flex-col">
+      <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-hidden h-full flex flex-col border border-base-300">
         <div className="card-body p-6 flex flex-col flex-grow">
           <div className="flex flex-wrap gap-2 mb-4">
             {complaint.tags.map((tag, index) => (
@@ -73,7 +74,7 @@ const ComplaintCard = ({ complaint }) => {
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Description:</span>
-              <span className="flex-1">{complaint.description}</span>
+              <ExpandableText text={complaint.description}/>
             </div>
 
             <div className="flex">

@@ -70,12 +70,12 @@ const LineChart = ({ title, labels, dataValues }) => {
         scales: {
           x: {
             ticks: {
-              color: "#ccc",
+              color: "#696969",
             }
           },
           y: {
             ticks: {
-              color: "#ccc",
+              color: "#696969",
             }
           },
         },
