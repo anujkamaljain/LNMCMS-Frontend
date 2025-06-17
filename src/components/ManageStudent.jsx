@@ -244,7 +244,7 @@ const ManageStudent = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <motion.h1
-        className="text-2xl mb-10 mt-5 text-amber-400 text-center border"
+        className="text-2xl mb-4 mt-5 text-amber-400 text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -253,7 +253,7 @@ const ManageStudent = () => {
         Manage Student/Students
       </motion.h1>
       <main>
-        <section className="p-10">
+        <section className="px-10">
           <div className="flex flex-col xl:flex-row items-center justify-center gap-4">
             <div>
               <motion.div
@@ -453,7 +453,7 @@ const ManageStudent = () => {
             </div>
             <motion.div
               className={
-                "card w-96 bg-base-100 shadow-sm mb-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
+                "card w-96 bg-base-100 shadow-sm mb-0 lg:mb-50 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer"
               }
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -501,7 +501,7 @@ const ManageStudent = () => {
             <div>
               <motion.div
                 className={
-                  "card w-96 bg-base-100 shadow-sm my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer  mt-15"
+                  "card w-96 bg-base-100 shadow-sm my-0 xl:my-5 hover:-translate-y-1 transition-all duration-150 ease-in cursor-pointer  mt-15"
                 }
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
