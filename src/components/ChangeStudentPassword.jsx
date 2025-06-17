@@ -214,7 +214,7 @@ const ChangeStudentPassword = () => {
                     </p>
                   ) : null}
                   <div className="mt-6">
-                    <button className="btn btn-primary btn-block" type="submit">
+                    <button className="btn btn-primary btn-block" type="submit" disabled>
                       Change Password
                     </button>
                   </div>
