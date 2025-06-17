@@ -13,6 +13,7 @@
     "@fontsource/bowlby-one-sc": "^5.2.6",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.8",
+    "@vercel/analytics": "^1.5.0",
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "motion": "^12.17.0",

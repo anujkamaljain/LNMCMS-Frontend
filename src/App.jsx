@@ -21,12 +21,12 @@ import ViewStudentProfile from "./components/ViewStudentProfile";
 import ChangeAdminPassword from "./components/ChangeAdminPassword";
 import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
 import ChangeStudentPassword from "./components/ChangeStudentPassword";
-import RegisterComplaint from "./components/RegisterComplaint"
+import RegisterComplaint from "./components/RegisterComplaint";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { Analytics } from "@vercel/analytics/react";
 
 axios.defaults.withCredentials = true;
-
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -51,6 +51,7 @@ const App = () => {
     <div>
       <Toaster position="top-right" />
       <BrowserRouter basename="/">
+        <Analytics />
         <Routes>
           <Route path="/login" element={<Login />} />
 
