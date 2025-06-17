@@ -22,7 +22,7 @@ LNMCMS (**LNM Complaint Management System**) is a full-stack web application bui
 
 ### 🧑‍💼 Admin
 
-* Email: ` 23ucs540@lnmiit.ac.in`
+* Email: `anujkjain@lnmiit.ac.in`
 * Password: `Anuj@1234`
 
 > 🔒 **Note**: Password change is **disabled** for dummy accounts.
