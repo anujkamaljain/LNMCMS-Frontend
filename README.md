@@ -112,8 +112,3 @@ Feel free to fork the repo, raise issues, or submit pull requests.
 * [Anuj Jain](https://github.com/anujkamaljain)
 * [Anmol Sanger](https://github.com/AnmolSanger)
 
----
-
----
-
-Let me know if you want a matching README for the backend repo too!
