@@ -8,14 +8,14 @@ const ManageAdmin = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState("BH1");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [deleteEmail, setDeleteEmail] = useState("");
   const [searchEmail, setSearchEmail] = useState("");
   const [searchFullName, setSearchFullName] = useState("");
-  const [searchDepartment, setSearchDepartment] = useState("");
+  const [searchDepartment, setSearchDepartment] = useState("BH1");
   const [searchId, setSearchId] = useState("");
   const [searchClick, setSearchClick] = useState(false);
 
@@ -266,28 +266,25 @@ const ManageAdmin = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </label>
-                  <fieldset className="fieldset -mt-2">
-                    <br />
-                    <select
-                      className="select"
-                      value={department}
-                      onChange={(e) => setDepartment(e.target.value)}
-                      required
-                    >
-                      <option value="" disabled>
-                        Choose Department
-                      </option>
-                      {Department_List.map((department, index) => {
-                        return (
-                          <option value={department} key={index}>
-                            {department}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </fieldset>
-                  <br />
-                  <label className="flex items-center">
+                  <legend className="text-xs font-semibold m-1">
+                    Department :{" "}
+                  </legend>
+                  <select
+                    className="select cursor-pointer"
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    required
+                  >
+                    {Department_List.map((department, index) => {
+                      return (
+                        <option value={department} key={index}>
+                          {department}
+                        </option>
+                      );
+                    })}
+                  </select>
+
+                  <label className="flex items-center mt-3">
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary h-4 w-4 mr-2"
@@ -441,28 +438,24 @@ const ManageAdmin = () => {
                       Search
                     </button>
                   </div>
-                  <fieldset className="fieldset -mt-2">
-                    <br />
-                    <select
-                      className="select"
-                      value={searchDepartment}
-                      onChange={(e) => setSearchDepartment(e.target.value)}
-                      required
-                    >
-                      <option value="" disabled>
-                        Change Department
-                      </option>
-                      {Department_List.map((department, index) => {
-                        return (
-                          <option value={department} key={index}>
-                            {department}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </fieldset>
-                  <br />
-                  <div>
+                  <legend className="text-xs font-semibold m-1">
+                    Department :{" "}
+                  </legend>
+                  <select
+                    className="select cursor-pointer"
+                    value={searchDepartment}
+                    onChange={(e) => setSearchDepartment(e.target.value)}
+                    required
+                  >
+                    {Department_List.map((department, index) => {
+                      return (
+                        <option value={department} key={index}>
+                          {department}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <div className="mt-6">
                     <button
                       className={`btn btn-block ${
                         searchClick && searchId ? "btn-primary" : "btn-disabled"
