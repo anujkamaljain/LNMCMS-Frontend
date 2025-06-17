@@ -1,12 +1,119 @@
-# React + Vite
+# 🏫 LNMCMS - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LNMCMS (**LNM Complaint Management System**) is a full-stack web application built to streamline complaint management within colleges. This is the **Frontend** repository, built using **React**, **Tailwind CSS**, **DaisyUI**, and **Framer Motion**.
 
-Currently, two official plugins are available:
+> 💡 Built with ❤️ by [Anuj Jain](https://github.com/anujkamaljain) & \[Anmol]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Live Demo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🔗 **Frontend**: [https://lnmcms-frontend.vercel.app](https://lnmcms-frontend.vercel.app)
+🔗 **Backend Repo**: [LNMCMS-Backend](https://github.com/anujkamaljain/LNMCMS-Backend)
+
+---
+
+## 🧪 Test It Yourself (Dummy Credentials)
+
+### 👨‍🎓 Student
+
+* Email: `23ucs540@lnmiit.ac.in`
+* Password: `Anuj@1234`
+
+### 🧑‍💼 Admin
+
+* Email: ` 23ucs540@lnmiit.ac.in`
+* Password: `Anuj@1234`
+
+> 🔒 **Note**: Password change is **disabled** for dummy accounts.
+
+### 🚫 Superadmin
+
+Superadmin credentials are **not provided** for public trials, as this role allows:
+
+* Uploading bulk student data via CSV
+* Sending login credentials via email
+* Global role and complaint management
+
+---
+
+## ✨ Features
+
+* 🎯 Role-based dashboards (Student, Admin, Superadmin)
+* 📝 Complaint submission by category (Hostel, Academic, etc.)
+* 📈 Admin view with filtering and accepting functionality
+* 📊 Superadmin dashboard with analytics, user control & CSV upload
+* 📬 Email integration to send credentials automatically
+* 🔐 JWT-based authentication
+* 💅 Beautiful UI with responsive layout and smooth animations
+
+---
+
+## 🛠️ Tech Stack
+
+### 🌐 Frontend
+
+* **React**
+* **Tailwind CSS**
+* **DaisyUI** – for pre-styled UI components
+* **Framer Motion** – for animations
+* **React Router Dom** – for navigation
+* **Axios** – for API calls
+* **Redux Toolkit** – for state management
+
+### 📦 Backend
+
+* **Node.js**, **Express.js**
+* **MongoDB** with **Mongoose**
+* **JWT** for authentication
+* **Nodemailer** for email services
+  *(See backend repo for more details.)*
+
+### ☁️ Deployment
+
+* Frontend: **Vercel**
+* Backend: **Render**
+
+
+---
+
+## 📦 Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/anujkamaljain/LNMCMS-Frontend.git
+cd LNMCMS-Frontend
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Start the Development Server
+
+```bash
+npm run dev
+```
+
+---
+
+## 🙌 Contributing
+
+We’re open to feedback, ideas, or improvements!
+Feel free to fork the repo, raise issues, or submit pull requests.
+
+---
+
+## 👨‍💻 Authors
+
+* [Anuj Jain](https://github.com/anujkamaljain)
+* [Anmol Sanger](https://github.com/AnmolSanger)
+
+---
+
+---
+
+Let me know if you want a matching README for the backend repo too!
