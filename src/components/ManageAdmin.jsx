@@ -266,25 +266,28 @@ const ManageAdmin = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </label>
-                  <select
-                    className="select cursor-pointer"
-                    value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Choose Department
-                    </option>
-                    {Department_List.map((department, index) => {
-                      return (
-                        <option value={department} key={index}>
-                          {department}
-                        </option>
-                      );
-                    })}
-                  </select>
-
-                  <label className="flex items-center mt-3">
+                  <fieldset className="fieldset -mt-2">
+                    <br />
+                    <select
+                      className="select"
+                      value={department}
+                      onChange={(e) => setDepartment(e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>
+                        Choose Department
+                      </option>
+                      {Department_List.map((department, index) => {
+                        return (
+                          <option value={department} key={index}>
+                            {department}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </fieldset>
+                  <br />
+                  <label className="flex items-center">
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary h-4 w-4 mr-2"
@@ -438,24 +441,28 @@ const ManageAdmin = () => {
                       Search
                     </button>
                   </div>
-                  <select
-                    className="select cursor-pointer"
-                    value={searchDepartment}
-                    onChange={(e) => setSearchDepartment(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Change Department
-                    </option>
-                    {Department_List.map((department, index) => {
-                      return (
-                        <option value={department} key={index}>
-                          {department}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  <div className="mt-6">
+                  <fieldset className="fieldset -mt-2">
+                    <br />
+                    <select
+                      className="select"
+                      value={searchDepartment}
+                      onChange={(e) => setSearchDepartment(e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>
+                        Change Department
+                      </option>
+                      {Department_List.map((department, index) => {
+                        return (
+                          <option value={department} key={index}>
+                            {department}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </fieldset>
+                  <br />
+                  <div>
                     <button
                       className={`btn btn-block ${
                         searchClick && searchId ? "btn-primary" : "btn-disabled"
