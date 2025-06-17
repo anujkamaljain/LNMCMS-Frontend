@@ -438,18 +438,7 @@ const ManageAdmin = () => {
                       Search
                     </button>
                   </div>
-                  <div className="mt-6">
-                    <button
-                      className={`btn btn-block ${
-                        searchClick && searchId ? "btn-primary" : "btn-disabled"
-                      }`}
-                      type="submit"
-                    >
-                      Update Admin Details
-                    </button>
-                  </div>
-                </form>
-                <select
+                  <select
                     className="select cursor-pointer"
                     value={searchDepartment}
                     onChange={(e) => setSearchDepartment(e.target.value)}
@@ -466,6 +455,17 @@ const ManageAdmin = () => {
                       );
                     })}
                   </select>
+                  <div className="mt-6">
+                    <button
+                      className={`btn btn-block ${
+                        searchClick && searchId ? "btn-primary" : "btn-disabled"
+                      }`}
+                      type="submit"
+                    >
+                      Update Admin Details
+                    </button>
+                  </div>
+                </form>
               </div>
               {searchClick && searchId ? null : (
                 <p className="text-center text-xs mb-10 text-red-600 font-bold">
