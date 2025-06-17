@@ -2,7 +2,7 @@
 
 LNMCMS (**LNM Complaint Management System**) is a full-stack web application built to streamline complaint management within colleges. This is the **Frontend** repository, built using **React**, **Tailwind CSS**, **DaisyUI**, and **Framer Motion**.
 
-> 💡 Built with ❤️ by [Anuj Jain](https://github.com/anujkamaljain) & \[Anmol]
+> 💡 Built with ❤️ by [Anuj Jain](https://github.com/anujkamaljain) & [Anmol](https://github.com/AnmolSanger)
 
 ---
 
