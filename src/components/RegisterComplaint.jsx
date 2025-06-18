@@ -119,7 +119,9 @@ const RegisterComplaint = () => {
             className="textarea textarea-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             rows="4"
             value={formData.description}
+            minLength="100"
             onChange={handleChange}
+            placeholder="minimum 100 characters"
           />
           {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
         </div>
