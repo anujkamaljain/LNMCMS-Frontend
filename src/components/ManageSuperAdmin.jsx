@@ -58,7 +58,7 @@ const ManageSuperAdmin = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Super Admin
+        Add Super Admin
       </motion.h1>
       <main>
         <section className="p-10">

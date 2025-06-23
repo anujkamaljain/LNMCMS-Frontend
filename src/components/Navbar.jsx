@@ -31,6 +31,24 @@ const Navbar = () => {
     }
   };
 
+  const closeDrawer = () => {
+    const drawerCheckbox = document.getElementById("my-drawer");
+    if (drawerCheckbox) drawerCheckbox.checked = false;
+    const openDetails = document.querySelectorAll(".drawer-side details[open]");
+    openDetails.forEach((detail) => detail.removeAttribute("open"));
+  };
+
+  const handleSummaryClick = (e) => {
+    const currentDetails = e.target.closest("details");
+    const allDetails = document.querySelectorAll(".drawer-side details");
+    allDetails.forEach((detail) => {
+      if (detail !== currentDetails) {
+        detail.removeAttribute("open");
+      }
+    });
+  };
+
+
   return (
     <div
       className={`navbar h-18 flex justify-between sticky top-0 p-0 ${
@@ -101,6 +119,7 @@ const Navbar = () => {
                         ? `/${user.role}/dashboard`
                         : "/login"
                     }
+                    onClick={closeDrawer}
                     className="flex items-center gap-3"
                   >
                     <svg
@@ -121,45 +140,86 @@ const Navbar = () => {
                 {user?.role === "superAdmin" ? (
                   <div>
                     {" "}
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                    <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "superAdmin"
                             ? "/superAdmin/manage-superAdmins"
                             : "/login"
                         }
                       >
-                        Manage Super Admins
+                        Add Super Admin
                       </Link>
                     </li>
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                      <Link
-                        className="flex items-center gap-3"
-                        to={
-                          user?.role === "superAdmin"
-                            ? "/superAdmin/manage-Admins"
-                            : "/login"
-                        }
-                      >
-                        Manage Admins
-                      </Link>
+                    {/* Manage Admins Dropdown */}
+                    <li className="text-lg font-semibold">
+                      <details className="px-3 py-2 rounded-xl hover:bg-neutral/10 transition duration-200 cursor-pointer mb-5">
+                        <summary className="flex items-center" onClick={handleSummaryClick}>
+                          Manage Admins
+                        </summary>
+                        <ul className="pl-3 pt-2 space-y-1">
+                          <li>
+                            <Link
+                              to="/superAdmin/add-admin"
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              Add Admin
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/superAdmin/view-admin"
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              View Admin
+                            </Link>
+                          </li>
+                        </ul>
+                      </details>
                     </li>
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                      <Link
-                        className="flex items-center gap-3"
-                        to={
-                          user?.role === "superAdmin"
-                            ? "/superAdmin/manage-Students"
-                            : "/login"
-                        }
-                      >
-                        Manage Students
-                      </Link>
+                    {/* Manage Students Dropdown */}
+                    <li className="text-lg font-semibold">
+                      <details className="px-3 py-2 rounded-xl hover:bg-neutral/10 transition duration-200 cursor-pointer mb-5">
+                        <summary className="flex items-center" onClick={handleSummaryClick}>Manage Students</summary>
+                        <ul className="pl-3 pt-2 space-y-1">
+                          <li>
+                            <Link
+                              to="/superAdmin/add-student"
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              Add Student
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/superAdmin/delete-student"
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              Delete Student
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/superAdmin/view-student"
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              View Students
+                            </Link>
+                          </li>
+                        </ul>
+                      </details>
                     </li>
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                    <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "superAdmin"
                             ? "/superAdmin/manage-profile"
@@ -176,6 +236,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "admin"
                             ? "/admin/pending-complaints"
@@ -188,6 +249,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "admin"
                             ? "/admin/accepted-complaints"
@@ -200,6 +262,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "admin"
                             ? "/admin/resolved-complaints"
@@ -212,6 +275,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "admin"
                             ? "/admin/view-profile"
@@ -228,6 +292,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "student"
                             ? "/student/register-complaint"
@@ -240,6 +305,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "student"
                             ? "/student/view-complaints"
@@ -252,6 +318,7 @@ const Navbar = () => {
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
+                        onClick={closeDrawer}
                         to={
                           user?.role === "student"
                             ? "/student/view-profile"

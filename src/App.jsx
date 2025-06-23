@@ -9,8 +9,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { Navigate } from "react-router-dom";
 import ManageSuperAdmin from "./components/ManageSuperAdmin";
 import "@fontsource/bowlby-one-sc";
-import ManageAdmin from "./components/ManageAdmin";
-import ManageStudent from "./components/ManageStudent";
 import ManageOwnSuperAdmin from "./components/ManageOwnSuperAdmin";
 import PendingComplaints from "./components/PendingComplaints";
 import AcceptedComplaints from "./components/AcceptedComplaints";
@@ -22,6 +20,13 @@ import ChangeAdminPassword from "./components/ChangeAdminPassword";
 import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
 import ChangeStudentPassword from "./components/ChangeStudentPassword";
 import RegisterComplaint from "./components/RegisterComplaint";
+import AddAdmin from "./components/AddAdmin";
+import EditAdmin from "./components/EditAdmin";
+import AddStudent from "./components/AddStudent"
+import DeleteStudent from "./components/DeleteStudent"
+import ViewStudent from "./components/ViewStudent"
+import ViewAdmin from "./components/ViewAdmin"
+import EditStudent from "./components/EditStudent"
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Analytics } from "@vercel/analytics/react";
@@ -105,11 +110,22 @@ const App = () => {
               path="/superAdmin/manage-superAdmins"
               element={<ManageSuperAdmin />}
             />
-            <Route path="/superAdmin/manage-Admins" element={<ManageAdmin />} />
-            <Route
-              path="/superAdmin/manage-Students"
-              element={<ManageStudent />}
+            <Route 
+              path="/superAdmin/add-admin" 
+              element={<AddAdmin />} 
             />
+            <Route 
+              path="/superAdmin/view-admin" 
+              element={<ViewAdmin />} 
+            />
+            <Route 
+              path="/superAdmin/edit-admin/:id" 
+              element={<EditAdmin />} 
+            />
+            <Route path="/superAdmin/add-student" element={<AddStudent />} />
+            <Route path="/superAdmin/delete-student" element={<DeleteStudent />} />
+            <Route path="/superAdmin/view-student" element={<ViewStudent />} />
+            <Route path="/superAdmin/edit-student/:id" element={<EditStudent />} />
             <Route
               path="/superAdmin/manage-profile"
               element={<ManageOwnSuperAdmin />}
