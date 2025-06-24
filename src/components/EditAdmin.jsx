@@ -20,15 +20,10 @@ const EditAdmin = () => {
 
   const fetchAdmin = async () => {
     try {
-      const res = await axios.get(`${SUPERADMIN_BASE_URL}/admins?page=1&limit=1000`, {
+      const res = await axios.get(`${SUPERADMIN_BASE_URL}/admin/get/${id}`, {
         withCredentials: true,
       });
-      const match = res.data.admins.find((a) => a._id === id);
-      if (!match) {
-        toast.error("Admin not found");
-        navigate("/superAdmin/view-admins");
-        return;
-      }
+      const match = res?.data?.data;
       setAdmin(match);
       setForm({
         name: match.name || "",
@@ -65,7 +60,7 @@ const EditAdmin = () => {
         { withCredentials: true }
       );
       toast.success("Admin updated successfully");
-      navigate("/superAdmin/view-admins");
+      navigate("/superAdmin/view-admin");
     } catch (err) {
       if (err?.response?.status === 401) {
         toast.error("Session expired. Please log in again.");

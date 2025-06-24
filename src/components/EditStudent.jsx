@@ -18,15 +18,10 @@ const EditStudent = () => {
 
   const fetchStudent = async () => {
     try {
-      const res = await axios.get(`${SUPERADMIN_BASE_URL}/students?page=1&limit=1000`, {
+      const res = await axios.get(`${SUPERADMIN_BASE_URL}/student/get/${id}`, {
         withCredentials: true,
       });
-      const match = res.data.students.find((s) => s._id === id);
-      if (!match) {
-        toast.error("Student not found.");
-        navigate("/superAdmin/view-student");
-        return;
-      }
+      const match = res?.data?.data;
       setStudent(match);
       setForm({
         name: match.name || "",
