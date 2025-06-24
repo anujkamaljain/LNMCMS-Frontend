@@ -49,7 +49,6 @@ const AddStudent = () => {
     }
   };
 
-
   const handleBulkAdd = async (e) => {
     e.preventDefault();
     if (!file) return;
@@ -62,23 +61,32 @@ const AddStudent = () => {
       setFailedList([]);
       setAlreadyCreatedList([]);
 
-      const res = await axios.post(SUPERADMIN_BASE_URL + "/students", formData, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        SUPERADMIN_BASE_URL + "/students",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
 
-      const failed = Array.isArray(res?.data?.failedToCreate) ? res.data.failedToCreate : [];
-      const existing = Array.isArray(res?.data?.alreadyCreated) ? res.data.alreadyCreated : [];
+      const failed = Array.isArray(res?.data?.failedToCreate)
+        ? res.data.failedToCreate
+        : [];
+      const existing = Array.isArray(res?.data?.alreadyCreated)
+        ? res.data.alreadyCreated
+        : [];
 
       setFailedList(failed);
       setAlreadyCreatedList(existing);
 
       if (failed.length === 0 && existing.length === 0) {
         setToastMessage("All students added successfully!");
-      }  else {
+      } else {
         const existingCount = existing.length;
         const failedCount = failed.length;
         const msgParts = [];
-        if (existingCount > 0) msgParts.push(`${existingCount} already existed`);
+        if (existingCount > 0)
+          msgParts.push(`${existingCount} already existed`);
         if (failedCount > 0) msgParts.push(`${failedCount} failed to add`);
         setToastMessage(`Bulk upload done. ${msgParts.join(", ")}.`);
       }
@@ -86,7 +94,6 @@ const AddStudent = () => {
       setToastType("success");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
-      setFile(null);
     } catch (err) {
       const msg = err?.response?.data?.message || "Something went wrong!";
       setToastMessage(msg);
@@ -97,7 +104,6 @@ const AddStudent = () => {
       setUploading(false);
     }
   };
-
 
   return (
     <div className="flex justify-center items-center flex-grow px-4">
@@ -201,10 +207,13 @@ const AddStudent = () => {
                   />
                   <span className="label-text text-sm">Show Password</span>
                 </label>
-                <button type="submit" className="btn btn-primary btn-block mt-2" disabled={uploading}>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block mt-2"
+                  disabled={uploading}
+                >
                   {uploading ? "Adding..." : "Add Student"}
                 </button>
-
               </motion.form>
             ) : (
               <motion.form
@@ -223,12 +232,22 @@ const AddStudent = () => {
                   className="file-input file-input-bordered w-full"
                   required
                 />
-                <p
-                  onClick={() => setShowSampleImage(true)}
-                  className="text-sm text-blue-500 underline cursor-pointer text-center"
-                >
-                  View Sample CSV Format
-                </p>
+                <div className="flex justify-around items-center gap-4 text-sm">
+                  <p
+                    onClick={() => setShowSampleImage(true)}
+                    className="text-blue-500 underline cursor-pointer"
+                  >
+                    View Sample CSV Format
+                  </p>
+                  <a
+                    href="/sample_students.csv"
+                    download
+                    className="text-blue-500 underline"
+                  >
+                    Download Sample CSV
+                  </a>
+                </div>
+
                 <button
                   type="submit"
                   className="btn btn-primary btn-block"
@@ -258,7 +277,9 @@ const AddStudent = () => {
               </h3>
               <ul className="list-disc list-inside text-sm text-yellow-700">
                 {alreadyCreatedList.map((stu, idx) => (
-                  <li key={idx}>{stu.rollNumber} - {stu.email}</li>
+                  <li key={idx}>
+                    {stu.rollNumber} - {stu.email}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -272,7 +293,7 @@ const AddStudent = () => {
               <ul className="list-disc list-inside text-sm text-red-700">
                 {failedList.map((stu, idx) => (
                   <li key={idx}>
-                    {stu.rollNumber || "Unknown"} - {stu.email || "Unknown"} 
+                    {stu.rollNumber || "Unknown"} - {stu.email || "Unknown"}
                     {stu.reason ? ` (${stu.reason})` : ""}
                   </li>
                 ))}
@@ -289,15 +310,13 @@ const AddStudent = () => {
                 className="bg-white p-4 rounded-lg shadow-lg max-w-1/3 mx-4"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
               >
-                <img
-                  src="/addStudents_csv.png" 
-                  alt="Sample CSV Format"
-                />
-                <p className="text-center text-sm text-gray-500 mt-2">Sample CSV Format</p>
+                <img src="/addStudents_csv.png" alt="Sample CSV Format" />
+                <p className="text-center text-sm text-gray-500 mt-2">
+                  Sample CSV Format
+                </p>
               </div>
             </div>
           )}
-          
         </div>
       </motion.div>
     </div>

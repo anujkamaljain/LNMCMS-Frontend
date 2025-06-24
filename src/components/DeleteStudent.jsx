@@ -61,7 +61,6 @@ const DeleteStudent = () => {
       setToastMessage(res?.data?.message || "Bulk deletion completed.");
       setToastType("success");
       setShowToast(true);
-      setFile(null);
       setNotFoundList(res?.data?.notFound || []);
       setFailedList(res?.data?.failedDeletions || []);
 
@@ -172,12 +171,21 @@ const DeleteStudent = () => {
                   className="file-input file-input-bordered w-full"
                   required
                 />
-                <p
-                  onClick={() => setShowSampleImage(true)}
-                  className="text-sm text-blue-500 underline cursor-pointer text-center"
-                >
-                  View Sample CSV Format
-                </p>
+                <div className="flex justify-around items-center gap-4 text-sm">
+                  <p
+                    onClick={() => setShowSampleImage(true)}
+                    className="text-sm text-blue-500 underline cursor-pointer text-center"
+                  >
+                    View Sample CSV Format
+                  </p>
+                  <a
+                    href="/sample_students_delete.csv"
+                    download
+                    className="text-blue-500 underline"
+                  >
+                    Download Sample CSV
+                  </a>
+                </div>
                 <button
                   type="submit"
                   className="btn btn-error btn-block"
