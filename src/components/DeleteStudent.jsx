@@ -20,8 +20,12 @@ const DeleteStudent = () => {
     e.preventDefault();
 
     try {
+      const result = await axios.get(
+        `${SUPERADMIN_BASE_URL}/student/${rollNumber}`,
+        { withCredentials: true }
+      );
       const confirmed = window.confirm(
-        `Are you sure you want to delete student with Roll Number ${rollNumber} ?`
+        `Are you sure you want to delete student: \n Name: ${result?.data?.data?.name} \n Roll Number: ${rollNumber} \n Email: ${result?.data?.data?.email}?`
       );
       if (!confirmed) return;
       setDeleting(true);
