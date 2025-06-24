@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fontsource/bowlby-one-sc": "^5.2.6",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.8",
     "@vercel/analytics": "^1.5.0",
@@ -25,7 +26,8 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
     "react-time-picker": "^7.0.0",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
+import { useDialogStore } from "../stores/DialogStore";
 
 const AddStudent = () => {
   const [view, setView] = useState("single"); // 'single' or 'bulk'
@@ -75,6 +76,12 @@ const AddStudent = () => {
       const existing = Array.isArray(res?.data?.alreadyCreated)
         ? res.data.alreadyCreated
         : [];
+
+      useDialogStore.getState().setDialogData({
+        alreadyCreatedList: existing,
+        failedList: failed,
+        type: "add",
+      });
 
       setFailedList(failed);
       setAlreadyCreatedList(existing);

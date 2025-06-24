@@ -30,6 +30,7 @@ import EditStudent from "./components/EditStudent"
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Analytics } from "@vercel/analytics/react";
+import UndeletedStudentsDialog from "./components/UndeletedStudentsDialog";
 
 axios.defaults.withCredentials = true;
 
@@ -57,6 +58,7 @@ const App = () => {
       <Toaster position="top-right" />
       <BrowserRouter basename="/">
         <Analytics />
+        <UndeletedStudentsDialog />
         <Routes>
           <Route path="/login" element={<Login />} />
 

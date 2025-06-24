@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
+import { useDialogStore } from "../stores/DialogStore";
 
 const DeleteStudent = () => {
   const [view, setView] = useState("single");
@@ -61,6 +62,13 @@ const DeleteStudent = () => {
       setToastMessage(res?.data?.message || "Bulk deletion completed.");
       setToastType("success");
       setShowToast(true);
+      useDialogStore
+        .getState()
+        .setDialogData({
+          notFoundList: res?.data?.notFound || [],
+          failedList: res?.data?.failedDeletions || [],
+          type: "delete",
+        });
       setNotFoundList(res?.data?.notFound || []);
       setFailedList(res?.data?.failedDeletions || []);
 
