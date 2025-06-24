@@ -17,7 +17,13 @@ const DeleteStudent = () => {
 
   const handleDeleteSingle = async (e) => {
     e.preventDefault();
+
     try {
+      const confirmed = window.confirm(
+        `Are you sure you want to delete student with Roll Number ${rollNumber} ?`
+      );
+      if (!confirmed) return;
+      setDeleting(true);
       const res = await axios.delete(
         `${SUPERADMIN_BASE_URL}/student/${rollNumber}`,
         { withCredentials: true }
@@ -89,37 +95,36 @@ const DeleteStudent = () => {
           {/* Radio Switch */}
           <div className="flex justify-around mb-6">
             <label className="cursor-pointer label gap-2">
-            <input
-              type="radio"
-              name="deleteMode"
-              value="single"
-              checked={view === "single"}
-              onChange={() => {
-                setView("single");
-                setShowToast(false);
-                setNotFoundList([]);   
-                setFailedList([]);
-              }}
-              className="radio radio-error"
-            />
-            <span className="label-text font-semibold">Single</span>
-          </label>
+              <input
+                type="radio"
+                name="deleteMode"
+                value="single"
+                checked={view === "single"}
+                onChange={() => {
+                  setView("single");
+                  setShowToast(false);
+                  setNotFoundList([]);
+                  setFailedList([]);
+                }}
+                className="radio radio-error"
+              />
+              <span className="label-text font-semibold">Single</span>
+            </label>
 
-          <label className="cursor-pointer label gap-2">
-            <input
-              type="radio"
-              name="deleteMode"
-              value="bulk"
-              checked={view === "bulk"}
-              onChange={() => {
-                setView("bulk");
-                setShowToast(false);
-              }}
-              className="radio radio-error"
-            />
-            <span className="label-text font-semibold">Bulk (CSV)</span>
-          </label>
-
+            <label className="cursor-pointer label gap-2">
+              <input
+                type="radio"
+                name="deleteMode"
+                value="bulk"
+                checked={view === "bulk"}
+                onChange={() => {
+                  setView("bulk");
+                  setShowToast(false);
+                }}
+                className="radio radio-error"
+              />
+              <span className="label-text font-semibold">Bulk (CSV)</span>
+            </label>
           </div>
 
           {/* Delete Form Transition */}
@@ -172,7 +177,7 @@ const DeleteStudent = () => {
                   className="text-sm text-blue-500 underline cursor-pointer text-center"
                 >
                   View Sample CSV Format
-                </p>                
+                </p>
                 <button
                   type="submit"
                   className="btn btn-error btn-block"
@@ -184,14 +189,18 @@ const DeleteStudent = () => {
             )}
           </AnimatePresence>
 
-            {(notFoundList.length > 0 || failedList.length > 0) && (
+          {(notFoundList.length > 0 || failedList.length > 0) && (
             <div className="mt-6 space-y-4">
               {notFoundList.length > 0 && (
                 <div className="border border-warning rounded-lg p-4 bg-yellow-50">
-                  <h3 className="font-bold text-yellow-700 mb-2">Students Not Found:</h3>
+                  <h3 className="font-bold text-yellow-700 mb-2">
+                    Students Not Found:
+                  </h3>
                   <ul className="list-disc list-inside text-sm text-yellow-800 space-y-1">
                     {notFoundList.map((s, idx) => (
-                      <li key={idx}>{s.rollNumber} – {s.reason}</li>
+                      <li key={idx}>
+                        {s.rollNumber} – {s.reason}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -199,10 +208,14 @@ const DeleteStudent = () => {
 
               {failedList.length > 0 && (
                 <div className="border border-error rounded-lg p-4 bg-red-50">
-                  <h3 className="font-bold text-red-700 mb-2">Failed Deletions:</h3>
+                  <h3 className="font-bold text-red-700 mb-2">
+                    Failed Deletions:
+                  </h3>
                   <ul className="list-disc list-inside text-sm text-red-800 space-y-1">
                     {failedList.map((s, idx) => (
-                      <li key={idx}>{s.rollNumber} – {s.reason}</li>
+                      <li key={idx}>
+                        {s.rollNumber} – {s.reason}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -234,15 +247,13 @@ const DeleteStudent = () => {
                 className="bg-white p-4 rounded-lg shadow-lg max-w-1/3 mx-4"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
               >
-                <img
-                  src="/deleteStudents_csv.png" 
-                  alt="Sample CSV Format"
-                />
-                <p className="text-center text-sm text-gray-500 mt-2">Sample CSV Format</p>
+                <img src="/deleteStudents_csv.png" alt="Sample CSV Format" />
+                <p className="text-center text-sm text-gray-500 mt-2">
+                  Sample CSV Format
+                </p>
               </div>
             </div>
           )}
-
         </div>
       </motion.div>
     </div>
