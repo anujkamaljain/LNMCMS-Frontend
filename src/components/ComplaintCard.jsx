@@ -7,7 +7,6 @@ import {
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
-import { updatingStatus } from "../utils/ViewComplaintsSlice";
 
 const ComplaintCard = ({ complaint }) => {
   const user = useSelector((store) => store.auth.user);
@@ -123,11 +122,6 @@ const ComplaintCard = ({ complaint }) => {
         { withCredentials: true }
       );
 
-      if (res.status == 200) {
-        dispatch(updatingStatus(complaint._id));
-      } else {
-        console.error("Acceptance failed:", res.data?.message);
-      }
     } catch (err) {
       console.error("Error accepting complaint:", {
         message: err.message,
@@ -173,7 +167,7 @@ const ComplaintCard = ({ complaint }) => {
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Description:</span>
-              <span className="flex-1">{complaint.description}</span>
+              <span className="flex-1 break-words overflow-hidden">{complaint.description}</span>
             </div>
 
             <div className="flex">
@@ -218,7 +212,7 @@ const ComplaintCard = ({ complaint }) => {
             )}
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Location:</span>
-              <span className="flex-1">{complaint.location}</span>
+              <span className="flex-1 break-words overflow-hidden">{complaint.location}</span>
             </div>
 
             <div className="flex">

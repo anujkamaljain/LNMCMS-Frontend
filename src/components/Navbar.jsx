@@ -8,7 +8,6 @@ import { logout } from "../utils/authSlice";
 import { removeaccComplaints } from "../utils/acceptedComplaintsSlice";
 import { removeresComplaint } from "../utils/resolvedComplaintsSlice";
 import { clearComplaints } from "../utils/pendingComplaintsSlice";
-import { removingComplaint } from "../utils/ViewComplaintsSlice";
 
 const Navbar = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -26,7 +25,6 @@ const Navbar = () => {
       dispatch(removeaccComplaints());
       dispatch(removeresComplaint());
       dispatch(clearComplaints());
-      dispatch(removingComplaint());
       navigate("/login");
     }
   };
@@ -289,7 +287,7 @@ const Navbar = () => {
                 ) : user?.role === "student" ? (
                   <div>
                     {" "}
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                    <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
                         onClick={closeDrawer}
@@ -302,20 +300,47 @@ const Navbar = () => {
                         Register Complaint
                       </Link>
                     </li>
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
-                      <Link
-                        className="flex items-center gap-3"
-                        onClick={closeDrawer}
-                        to={
-                          user?.role === "student"
-                            ? "/student/view-complaints"
-                            : "/login"
-                        }
-                      >
-                        View Your Complaints
-                      </Link>
+                    {/* Complaints Dropdown */}
+                    <li className="text-lg font-semibold">
+                      <details className="px-3 py-2 rounded-xl hover:bg-neutral/10 transition duration-200 cursor-pointer mb-5 ">
+                        <summary
+                          className="flex items-center"
+                          onClick={handleSummaryClick}
+                        >
+                          Complaints
+                        </summary>
+                        <ul className="pl-3 pt-2 space-y-1">
+                          <li>
+                            <Link
+                              to={user?.role === "student" ? "/student/pending-complaints" : "/login"}
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              Pending Complaints
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to={user?.role === "student" ? "/student/accepted-complaints" : "/login"}
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              Accepted Complaints
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to={user?.role === "student" ? "/student/resolved-complaints" : "/login"}
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              Resolved Complaints
+                            </Link>
+                          </li>
+                        </ul>
+                      </details>
                     </li>
-                    <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
+                    <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
                         onClick={closeDrawer}

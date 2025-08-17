@@ -13,7 +13,6 @@ import { logout } from "../utils/authSlice";
 import { clearComplaints } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaints } from "../utils/acceptedComplaintsSlice";
 import { removeresComplaint } from "../utils/resolvedComplaintsSlice";
-import { removingComplaint } from "../utils/ViewComplaintsSlice";
 
 const ChangeStudentPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +51,6 @@ const ChangeStudentPassword = () => {
             }
           );
           dispatch(logout());
-          dispatch(removingComplaint());
           navigate("/login");
         }, 0);
       }

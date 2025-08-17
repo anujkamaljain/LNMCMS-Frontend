@@ -4,7 +4,6 @@ import authReducer from "./authSlice";
 import pendingReducer from "./pendingComplaintsSlice";
 import acceptedReducer from "./acceptedComplaintsSlice";
 import resolvedReducer from "./resolvedComplaintsSlice";
-import viewComplaintsReducer from "./ViewComplaintsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +12,5 @@ export const store = configureStore({
     pending: pendingReducer,
     accepted: acceptedReducer,
     resolved: resolvedReducer,
-    view: viewComplaintsReducer,
   },
 });

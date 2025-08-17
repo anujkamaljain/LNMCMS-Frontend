@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Location_Wise_List, Department_Wise_List, STUDENT_BASE_URL} from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { appendComplaint } from "../utils/pendingComplaintsSlice";
 
 const RegisterComplaint = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +16,7 @@ const RegisterComplaint = () => {
     availableFrom: "",
     availableTo: "",
   });
-
+  const dispatch=useDispatch();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -70,7 +72,8 @@ const RegisterComplaint = () => {
   };
 
   try {
-    await axios.post(`${STUDENT_BASE_URL}/complaint`, payload, { withCredentials: true });
+    const res = await axios.post(`${STUDENT_BASE_URL}/complaint`, payload, { withCredentials: true });
+    dispatch(appendComplaint(res.data.data));
     toast.success("Complaint registered successfully");
 
     // Reset form after submission
@@ -114,16 +117,24 @@ const RegisterComplaint = () => {
 
         <div>
           <label className="label">Description</label>
-          <textarea
-            name="description"
-            className="textarea textarea-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            rows="4"
-            value={formData.description}
-            minLength="100"
-            onChange={handleChange}
-            placeholder="minimum 100 characters"
-          />
-          {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+          <div className="relative">
+            <textarea
+              name="description"
+              className="textarea textarea-bordered w-full pr-14 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              rows="4"
+              value={formData.description}
+              minLength="30"
+              maxLength={150}
+              onChange={handleChange}
+              placeholder="Minimum 30 Characters required"
+            />
+            <span className="absolute bottom-2 right-3 text-xs text-gray-500">
+              {formData.description.length}/150
+            </span>
+          </div>
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -168,6 +179,7 @@ const RegisterComplaint = () => {
             className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             value={formData.freeLocation}
             onChange={handleChange}
+            maxLength={50}
           />
           {errors.freeLocation && <p className="text-red-500 text-sm mt-1">{errors.freeLocation}</p>}
         </div>
@@ -180,6 +192,15 @@ const RegisterComplaint = () => {
             value={formData.contact}
             onChange={handleChange}
             onBlur={handleBlur}
+            onInput={(e) => {
+              // Remove any non-digit characters
+              e.target.value = e.target.value.replace(/\D/g, "");
+              // Limit to 10 digits
+              if (e.target.value.length > 10) {
+                e.target.value = e.target.value.slice(0, 10);
+              }
+            }}
+            maxLength="10"
             className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             placeholder="Enter 10-digit contact number"
           />

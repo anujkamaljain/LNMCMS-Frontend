@@ -14,7 +14,9 @@ import PendingComplaints from "./components/PendingComplaints";
 import AcceptedComplaints from "./components/AcceptedComplaints";
 import ResolvedComplaints from "./components/ResolvedComplaints";
 import ViewAdminProfile from "./components/ViewAdminProfile";
-import ViewYourComplaints from "./components/ViewYourComplaints";
+import ViewAcceptedComplaints from "./components/ViewAcceptedComplaints";
+import ViewPendingComplaints from "./components/ViewPendingComplaints";
+import ViewResolvedComplaints from "./components/ViewResolvedComplaints";
 import ViewStudentProfile from "./components/ViewStudentProfile";
 import ChangeAdminPassword from "./components/ChangeAdminPassword";
 import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
@@ -69,8 +71,16 @@ const App = () => {
               element={<RegisterComplaint />}
             />
             <Route
-              path="/student/view-complaints"
-              element={<ViewYourComplaints />}
+              path="/student/pending-complaints"
+              element={<ViewPendingComplaints />}
+            />
+            <Route
+              path="/student/accepted-complaints"
+              element={<ViewAcceptedComplaints />}
+            />
+            <Route
+              path="/student/resolved-complaints"
+              element={<ViewResolvedComplaints />}
             />
             <Route
               path="/student/change-password"
