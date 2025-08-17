@@ -1,7 +1,5 @@
 {
   "rewrites": [
-    { "source": "/_vercel/insights/(.*)", "destination": "/_vercel/insights/$1" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
-
