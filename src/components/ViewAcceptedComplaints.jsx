@@ -22,9 +22,7 @@ const ViewAcceptedComplaints = () => {
   };
 
   useEffect(() => {
-    if (!complaints || complaints.length === 0) {
       fetchComplaints();
-    }
   }, []);
 
   if (!complaints) {

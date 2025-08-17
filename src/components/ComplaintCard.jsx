@@ -7,6 +7,7 @@ import {
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
+import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
 
 const ComplaintCard = ({ complaint }) => {
   const user = useSelector((store) => store.auth.user);
@@ -121,9 +122,14 @@ const ComplaintCard = ({ complaint }) => {
         {},
         { withCredentials: true }
       );
+      if (res.status == 200) {
+        dispatch(removeaccComplaint(complaint._id));
+      } else {
+        console.error("Resolving failed:", res.data?.message);
+      }
 
     } catch (err) {
-      console.error("Error accepting complaint:", {
+      console.error("Error resolving complaint:", {
         message: err.message,
         response: err.response?.data,
       });

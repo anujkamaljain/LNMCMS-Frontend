@@ -1,11 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { Location_Wise_List, Department_Wise_List, STUDENT_BASE_URL} from "../utils/constants";
+import {
+  Location_Wise_List,
+  Department_Wise_List,
+  STUDENT_BASE_URL,
+} from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { appendComplaint } from "../utils/pendingComplaintsSlice";
 
 const RegisterComplaint = () => {
+  const [sbtBtnTxt, setsbtBtnTxt] = useState("Submit");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -16,7 +21,7 @@ const RegisterComplaint = () => {
     availableFrom: "",
     availableTo: "",
   });
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -43,57 +48,66 @@ const RegisterComplaint = () => {
   const validate = () => {
     const newErrors = {};
     if (!formData.title) newErrors.title = "Title is required";
-    if (!formData.description) newErrors.description = "Description is required";
+    if (!formData.description)
+      newErrors.description = "Description is required";
     if (!formData.location) newErrors.location = "Location tag is required";
-    if (!formData.department) newErrors.department = "Department tag is required";
-    if (!formData.freeLocation) newErrors.freeLocation = "Specific location is required";
+    if (!formData.department)
+      newErrors.department = "Department tag is required";
+    if (!formData.freeLocation)
+      newErrors.freeLocation = "Specific location is required";
     if (!formData.contact) newErrors.contact = "Contact number is required";
-    else if (!/^\d{10}$/.test(formData.contact)) newErrors.contact = "Enter a valid 10-digit number";
-    if (!formData.availableFrom) newErrors.availableFrom = "Available from time is required";
-    if (!formData.availableTo) newErrors.availableTo = "Available to time is required";
+    else if (!/^\d{10}$/.test(formData.contact))
+      newErrors.contact = "Enter a valid 10-digit number";
+    if (!formData.availableFrom)
+      newErrors.availableFrom = "Available from time is required";
+    if (!formData.availableTo)
+      newErrors.availableTo = "Available to time is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validate()) return;
+    e.preventDefault();
+    if (!validate()) return;
+    setsbtBtnTxt("Submitting...");
+    const tags = [formData.location, formData.department];
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      tags,
+      location: formData.freeLocation,
+      availableTimeFrom: formData.availableFrom,
+      availableTimeTo: formData.availableTo,
+      contactNumber: formData.contact,
+    };
 
-  const tags = [formData.location, formData.department];
-  const payload = {
-    title: formData.title,
-    description: formData.description,
-    tags,
-    location: formData.freeLocation,
-    availableTimeFrom: formData.availableFrom,
-    availableTimeTo: formData.availableTo,
-    contactNumber: formData.contact,
+    try {
+      const res = await axios.post(`${STUDENT_BASE_URL}/complaint`, payload, {
+        withCredentials: true,
+      });
+      dispatch(appendComplaint(res.data.data));
+      toast.success("Complaint registered successfully");
+      // Reset form after submission
+      setFormData({
+        title: "",
+        description: "",
+        location: "",
+        department: "",
+        freeLocation: "",
+        contact: "",
+        availableFrom: "",
+        availableTo: "",
+      });
+      setsbtBtnTxt("Submit");
+    } catch (err) {
+      const message =
+        err?.response?.data?.message ||
+        "Something went wrong while submitting.";
+      toast.error(message);
+      console.error("Submission error:", err.response?.data || err.message);
+    }
   };
-
-  try {
-    const res = await axios.post(`${STUDENT_BASE_URL}/complaint`, payload, { withCredentials: true });
-    dispatch(appendComplaint(res.data.data));
-    toast.success("Complaint registered successfully");
-
-    // Reset form after submission
-    setFormData({
-      title: "",
-      description: "",
-      location: "",
-      department: "",
-      freeLocation: "",
-      contact: "",
-      availableFrom: "",
-      availableTo: "",
-    });
-  } catch (err) {
-    const message = err?.response?.data?.message || "Something went wrong while submitting.";
-    toast.error(message);
-    console.error("Submission error:", err.response?.data || err.message);
-  }
-};
-
 
   return (
     <div className="min-h-[calc(100vh-6rem)] flex items-center justify-center px-4 py-10 bg-base-200">
@@ -101,7 +115,9 @@ const RegisterComplaint = () => {
         className="w-full max-w-3xl p-8 bg-base-100 shadow-xl border border-base-300 rounded-xl space-y-5"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-3xl font-bold text-center text-amber-600 mb-4 underline">Register a Complaint</h2>
+        <h2 className="text-3xl font-bold text-center text-amber-600 mb-4 underline">
+          Register a Complaint
+        </h2>
 
         <div>
           <label className="label">Title</label>
@@ -112,7 +128,9 @@ const RegisterComplaint = () => {
             value={formData.title}
             onChange={handleChange}
           />
-          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         <div>
@@ -148,10 +166,14 @@ const RegisterComplaint = () => {
             >
               <option value="">Select Location</option>
               {Location_Wise_List.map((loc, idx) => (
-                <option key={idx} value={loc}>{loc}</option>
+                <option key={idx} value={loc}>
+                  {loc}
+                </option>
               ))}
             </select>
-            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+            {errors.location && (
+              <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+            )}
           </div>
 
           <div>
@@ -164,10 +186,14 @@ const RegisterComplaint = () => {
             >
               <option value="">Select Department</option>
               {Department_Wise_List.map((dep, idx) => (
-                <option key={idx} value={dep}>{dep}</option>
+                <option key={idx} value={dep}>
+                  {dep}
+                </option>
               ))}
             </select>
-            {errors.department && <p className="text-red-500 text-sm mt-1">{errors.department}</p>}
+            {errors.department && (
+              <p className="text-red-500 text-sm mt-1">{errors.department}</p>
+            )}
           </div>
         </div>
 
@@ -181,7 +207,9 @@ const RegisterComplaint = () => {
             onChange={handleChange}
             maxLength={50}
           />
-          {errors.freeLocation && <p className="text-red-500 text-sm mt-1">{errors.freeLocation}</p>}
+          {errors.freeLocation && (
+            <p className="text-red-500 text-sm mt-1">{errors.freeLocation}</p>
+          )}
         </div>
 
         <div>
@@ -219,7 +247,11 @@ const RegisterComplaint = () => {
               value={formData.availableFrom}
               onChange={handleChange}
             />
-            {errors.availableFrom && <p className="text-red-500 text-sm mt-1">{errors.availableFrom}</p>}
+            {errors.availableFrom && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.availableFrom}
+              </p>
+            )}
           </div>
 
           <div>
@@ -231,12 +263,20 @@ const RegisterComplaint = () => {
               value={formData.availableTo}
               onChange={handleChange}
             />
-            {errors.availableTo && <p className="text-red-500 text-sm mt-1">{errors.availableTo}</p>}
+            {errors.availableTo && (
+              <p className="text-red-500 text-sm mt-1">{errors.availableTo}</p>
+            )}
           </div>
         </div>
 
         <div className="text-center">
-          <button type="submit" className="btn btn-primary px-10">Submit</button>
+          <button
+            type="submit"
+            className="btn btn-primary px-10"
+            disabled={sbtBtnTxt === "Submitting..."}
+          >
+            {sbtBtnTxt}
+          </button>
         </div>
       </form>
     </div>
