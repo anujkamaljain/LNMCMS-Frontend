@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { appendComplaint } from "../utils/pendingComplaintsSlice";
 
 const RegisterComplaint = () => {
+  const [selected, setSelected] = useState("private");
   const [sbtBtnTxt, setsbtBtnTxt] = useState("Submit");
   const [formData, setFormData] = useState({
     title: "",
@@ -80,6 +81,7 @@ const RegisterComplaint = () => {
       availableTimeFrom: formData.availableFrom,
       availableTimeTo: formData.availableTo,
       contactNumber: formData.contact,
+      visibility: selected
     };
 
     try {
@@ -118,6 +120,34 @@ const RegisterComplaint = () => {
         <h2 className="text-3xl font-bold text-center text-amber-600 mb-4 underline">
           Register a Complaint
         </h2>
+
+        <div className="flex justify-around mb-6 mt-10">
+            <label className="cursor-pointer label gap-2">
+              <input
+              type="radio"
+              value="private"
+              checked={selected === "private"}
+              onChange={(e) => setSelected(e.target.value)}
+              className="radio radio-secondary text-amber-600"
+            />
+            <div className="tooltip" data-tip="Complaint won't visible in Discover section!">
+            <span className="label-text font-semibold">Private</span>
+            </div>
+          </label>
+
+          <label className="cursor-pointer label gap-2">
+              <input
+              type="radio"
+              value="public"
+              checked={selected === "public"}
+              onChange={(e) => setSelected(e.target.value)}
+              className="radio radio-secondary text-amber-600"
+            />
+            <div className="tooltip" data-tip="Complaint will be visible in Discover section!">
+            <span className="label-text font-semibold">Public</span>
+            </div>
+          </label>
+        </div>
 
         <div>
           <label className="label">Title</label>

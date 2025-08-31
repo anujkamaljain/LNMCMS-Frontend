@@ -33,6 +33,7 @@ import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Analytics } from "@vercel/analytics/react";
 import UndeletedStudentsDialog from "./components/UndeletedStudentsDialog";
+import Discover from "./components/Discover";
 
 axios.defaults.withCredentials = true;
 
@@ -69,6 +70,10 @@ const App = () => {
             <Route
               path="/student/register-complaint"
               element={<RegisterComplaint />}
+            />
+            <Route
+              path="/student/complaints/discover"
+              element={<Discover />}
             />
             <Route
               path="/student/pending-complaints"

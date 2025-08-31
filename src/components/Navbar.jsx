@@ -46,7 +46,6 @@ const Navbar = () => {
     });
   };
 
-
   return (
     <div
       className={`navbar h-18 flex justify-between sticky top-0 p-0 ${
@@ -154,7 +153,10 @@ const Navbar = () => {
                     {/* Manage Admins Dropdown */}
                     <li className="text-lg font-semibold">
                       <details className="px-3 py-2 rounded-xl hover:bg-neutral/10 transition duration-200 cursor-pointer mb-5">
-                        <summary className="flex items-center" onClick={handleSummaryClick}>
+                        <summary
+                          className="flex items-center"
+                          onClick={handleSummaryClick}
+                        >
                           Manage Admins
                         </summary>
                         <ul className="pl-3 pt-2 space-y-1">
@@ -182,7 +184,12 @@ const Navbar = () => {
                     {/* Manage Students Dropdown */}
                     <li className="text-lg font-semibold">
                       <details className="px-3 py-2 rounded-xl hover:bg-neutral/10 transition duration-200 cursor-pointer mb-5">
-                        <summary className="flex items-center" onClick={handleSummaryClick}>Manage Students</summary>
+                        <summary
+                          className="flex items-center"
+                          onClick={handleSummaryClick}
+                        >
+                          Manage Students
+                        </summary>
                         <ul className="pl-3 pt-2 space-y-1">
                           <li>
                             <Link
@@ -286,7 +293,19 @@ const Navbar = () => {
                   </div>
                 ) : user?.role === "student" ? (
                   <div>
-                    {" "}
+                    <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
+                      <Link
+                        className="flex items-center gap-3"
+                        onClick={closeDrawer}
+                        to={
+                          user?.role === "student"
+                            ? "/student/complaints/discover"
+                            : "/login"
+                        }
+                      >
+                        Discover Complaints
+                      </Link>
+                    </li>{" "}
                     <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
                       <Link
                         className="flex items-center gap-3"
@@ -312,7 +331,11 @@ const Navbar = () => {
                         <ul className="pl-3 pt-2 space-y-1">
                           <li>
                             <Link
-                              to={user?.role === "student" ? "/student/pending-complaints" : "/login"}
+                              to={
+                                user?.role === "student"
+                                  ? "/student/pending-complaints"
+                                  : "/login"
+                              }
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
@@ -321,7 +344,11 @@ const Navbar = () => {
                           </li>
                           <li>
                             <Link
-                              to={user?.role === "student" ? "/student/accepted-complaints" : "/login"}
+                              to={
+                                user?.role === "student"
+                                  ? "/student/accepted-complaints"
+                                  : "/login"
+                              }
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
@@ -330,7 +357,11 @@ const Navbar = () => {
                           </li>
                           <li>
                             <Link
-                              to={user?.role === "student" ? "/student/resolved-complaints" : "/login"}
+                              to={
+                                user?.role === "student"
+                                  ? "/student/resolved-complaints"
+                                  : "/login"
+                              }
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
