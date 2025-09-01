@@ -56,8 +56,11 @@ const ViewAcceptedComplaints = () => {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-2xl mb-10 mt-5 text-warning text-center"
+        className="text-2xl mb-10 mt-5 text-warning text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeIn" }}
       >
         Accepted Complaints
       </motion.h1>

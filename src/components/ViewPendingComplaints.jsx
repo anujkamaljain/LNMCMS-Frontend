@@ -2,12 +2,12 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { STUDENT_BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addComplaints } from "../utils/pendingComplaintsSlice"; 
+import { addComplaints } from "../utils/pendingComplaintsSlice";
 import ComplaintCard from "./ComplaintCard";
 import { motion } from "motion/react";
 
 const ViewPendingComplaints = () => {
-  const complaints = useSelector((store) => store.pending); 
+  const complaints = useSelector((store) => store.pending);
   const dispatch = useDispatch();
 
   const fetchComplaints = async () => {
@@ -32,6 +32,7 @@ const ViewPendingComplaints = () => {
       </div>
     );
   }
+  
 
   if (complaints.length === 0) {
     return (
@@ -56,8 +57,11 @@ const ViewPendingComplaints = () => {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-2xl mb-10 mt-5 text-error text-center"
+        className="text-2xl mb-10 mt-5 text-error text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeIn" }}
       >
         Pending Complaints
       </motion.h1>

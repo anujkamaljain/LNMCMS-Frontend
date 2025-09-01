@@ -25,14 +25,14 @@ const ViewResolvedComplaints = () => {
     fetchComplaints();
   }, []);
 
-  if (!complaints) {
+  if(!complaints) {
     return (
       <div className="flex items-center justify-center h-screen">
         <span className="loading loading-bars loading-lg"></span>
       </div>
     );
   }
-
+  
   if (complaints.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -56,8 +56,11 @@ const ViewResolvedComplaints = () => {
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-2xl mb-10 mt-5 text-success text-center"
+        className="text-2xl mb-10 mt-5 text-success text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeIn" }}
       >
         Resolved Complaints
       </motion.h1>
