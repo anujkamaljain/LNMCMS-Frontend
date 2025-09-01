@@ -171,10 +171,10 @@ const RegisterComplaint = () => {
               className="textarea textarea-bordered w-full pr-14 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               rows="4"
               value={formData.description}
-              minLength="30"
+              minLength="50"
               maxLength={150}
               onChange={handleChange}
-              placeholder="Minimum 30 Characters required"
+              placeholder="Minimum 50 Characters required"
             />
             <span className="absolute bottom-2 right-3 text-xs text-gray-500">
               {formData.description.length}/150
