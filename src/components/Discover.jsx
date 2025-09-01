@@ -1,18 +1,79 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { STUDENT_BASE_URL } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { addComplaints } from "../utils/pendingComplaintsSlice";
+import ComplaintCard from "./ComplaintCard";
 import { motion } from "motion/react";
 
 const Discover = () => {
+  const complaints = useSelector((store) => store.pending);
+  const dispatch = useDispatch();
+
+  const fetchComplaints = async () => {
+    try {
+      const res = await axios.get(STUDENT_BASE_URL + "/complaints/pending", {
+        withCredentials: true,
+      });
+      dispatch(addComplaints(res?.data?.data || []));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchComplaints();
+  }, []);
+
+  if (!complaints) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (complaints.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <motion.h1
+          className="text-4xl text-error text-center"
+          style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          No Pending Complaints!
+        </motion.h1>
+      </div>
+    );
+  }
+
+  const visibleComplaints = complaints?.filter(
+    (complaint) => complaint.visibility === "public"
+  );
+
   return (
-    <div className="min-h-[calc(100vh-6rem)] flex items-center justify-center px-4 py-10 bg-base-200">
+    <motion.div
+      className="flex-1 py-3 px-5"
+      initial={{ scale: 0.9 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <motion.h1
-        className="text-4xl text-amber-400 text-center"
+        className="text-2xl mb-10 mt-5 text-cyan-500 text-center border"
         style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Discover section coming soon!
+        Public Complaints
       </motion.h1>
-    </div>
+      <div className="mt-5 flex flex-wrap justify-around">
+        {visibleComplaints.map((complaint) => (
+          <ComplaintCard complaint={complaint} key={complaint._id} />
+        ))}
+      </div>
+    </motion.div>
   );
 };
 
