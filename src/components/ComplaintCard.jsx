@@ -8,6 +8,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
+import { updateComplaintUpvote } from "../utils/discoverSlice";
 
 const ComplaintCard = ({ complaint }) => {
   const user = useSelector((store) => store.auth.user);
@@ -16,6 +17,16 @@ const ComplaintCard = ({ complaint }) => {
   const [showScrollDown, setShowScrollDown] = useState(false);
   const [showScrollUp, setShowScrollUp] = useState(false);
   const cardBodyRef = useRef(null);
+  const [isUpvoted, setIsUpvoted] = useState(false);
+
+  useEffect(() => {
+    if (complaint.upvotes && user) {
+      const hasUpvoted = complaint.upvotes.some(
+        (upvote) => upvote._id === user._id || upvote === user._id
+      );
+      setIsUpvoted(hasUpvoted);
+    }
+  }, [complaint.upvotes, user]);
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -127,9 +138,45 @@ const ComplaintCard = ({ complaint }) => {
       } else {
         console.error("Resolving failed:", res.data?.message);
       }
-
     } catch (err) {
       console.error("Error resolving complaint:", {
+        message: err.message,
+        response: err.response?.data,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpvote = async () => {
+    if (!complaint?._id) {
+      console.error("Complaint ID is missing");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await axios.patch(
+        STUDENT_BASE_URL + "/complaint/upvote/" + complaint._id,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        const { upvoted, upvoteCount } = res.data.data;
+        setIsUpvoted(upvoted);
+        dispatch(
+          updateComplaintUpvote({
+            complaintId: complaint._id,
+            upvoted,
+            upvoteCount,
+          })
+        );
+      } else {
+        console.error("Upvote failed:", res.data?.message);
+      }
+    } catch (err) {
+      console.error("Error upvoting complaint:", {
         message: err.message,
         response: err.response?.data,
       });
@@ -173,7 +220,9 @@ const ComplaintCard = ({ complaint }) => {
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Description:</span>
-              <span className="flex-1 break-words overflow-hidden">{complaint.description}</span>
+              <span className="flex-1 break-words overflow-hidden">
+                {complaint.description}
+              </span>
             </div>
 
             <div className="flex">
@@ -218,7 +267,9 @@ const ComplaintCard = ({ complaint }) => {
             )}
             <div className="flex">
               <span className="font-semibold min-w-[100px]">Location:</span>
-              <span className="flex-1 break-words overflow-hidden">{complaint.location}</span>
+              <span className="flex-1 break-words overflow-hidden">
+                {complaint.location}
+              </span>
             </div>
 
             <div className="flex">
@@ -271,6 +322,63 @@ const ComplaintCard = ({ complaint }) => {
               </button>
             </div>
           )}
+          {complaint.visibility === "public" &&
+            complaint.status === "pending" &&
+            user.role === "student" && (
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">Upvotes:</span>
+                    <span className="badge badge-primary">
+                      {complaint.upvoteCount || 0}
+                    </span>
+                  </div>
+                  <button
+                    className={`btn btn-sm ${
+                      isUpvoted ? "btn-primary" : "btn-outline btn-primary"
+                    } ${isLoading ? "loading" : ""}`}
+                    onClick={handleUpvote}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      "Processing..."
+                    ) : isUpvoted ? (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 mr-1"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Upvoted
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 mr-1"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Upvote
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
         </div>
       </div>
 
