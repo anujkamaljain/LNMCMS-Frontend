@@ -37,6 +37,37 @@ import Discover from "./components/Discover";
 
 axios.defaults.withCredentials = true;
 
+// Safari compatibility: Add token to Authorization header if cookies fail
+axios.interceptors.request.use((config) => {
+  // Only use localStorage token for Safari/iOS browsers or if explicitly needed
+  const userAgent = navigator.userAgent;
+  const isSafariOrIOS = (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) || /iPad|iPhone|iPod/.test(userAgent);
+  
+  const token = localStorage.getItem('authToken');
+  if (token && (isSafariOrIOS || !document.cookie.includes('token='))) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Handle token storage for Safari compatibility
+axios.interceptors.response.use(
+  (response) => {
+    // If response contains a token, store it for Safari fallback
+    if (response.data?.token) {
+      localStorage.setItem('authToken', response.data.token);
+    }
+    return response;
+  },
+  (error) => {
+    // Clear token on auth errors
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+    }
+    return Promise.reject(error);
+  }
+);
+
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
   useEffect(() => {

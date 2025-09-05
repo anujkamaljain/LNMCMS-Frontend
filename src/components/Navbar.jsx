@@ -22,6 +22,8 @@ const Navbar = () => {
     } catch (err) {
       console.error("Logout failed", err);
     } finally {
+      // Clear localStorage token for Safari compatibility
+      localStorage.removeItem('authToken');
       dispatch(logout());
       dispatch(removeaccComplaints());
       dispatch(removeresComplaint());
