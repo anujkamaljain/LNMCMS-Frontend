@@ -107,6 +107,7 @@ const RegisterComplaint = () => {
         err?.response?.data?.message ||
         "Something went wrong while submitting.";
       toast.error(message);
+      setsbtBtnTxt("Submit");
       console.error("Submission error:", err.response?.data || err.message);
     }
   };
