@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
+import { useTranslation } from "../utils/useTranslation";
 
 const ManageSuperAdmin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +12,7 @@ const ManageSuperAdmin = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +60,7 @@ const ManageSuperAdmin = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Add Super Admin
+        {t("addSuperAdmin")}
       </motion.h1>
       <main>
         <section className="p-10">
@@ -66,7 +68,7 @@ const ManageSuperAdmin = () => {
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Add Super Admin
+                  {t("addSuperAdmin")}
                 </span>
                 <form onSubmit={handleSubmit}>
                   <label className="input mb-4">
@@ -89,7 +91,7 @@ const ManageSuperAdmin = () => {
                     <input
                       type="text"
                       required
-                      placeholder="First Name"
+                      placeholder={t("firstName")}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                     />
@@ -152,7 +154,7 @@ const ManageSuperAdmin = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="Password"
+                      placeholder={t("password")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -168,7 +170,7 @@ const ManageSuperAdmin = () => {
                       checked={showPassword}
                       onChange={() => setShowPassword(!showPassword)}
                     />
-                    Show Password
+                    {t("showPassword")}
                   </label>
                   {showToast ? (
                     <p
@@ -185,7 +187,7 @@ const ManageSuperAdmin = () => {
                   ) : null}
                   <div className="mt-6">
                     <button className="btn btn-primary btn-block" type="submit">
-                      Add Super Admin
+                      {t("addSuperAdmin")}
                     </button>
                   </div>
                 </form>

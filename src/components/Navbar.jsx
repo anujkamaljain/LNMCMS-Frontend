@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../utils/themeSlice";
+import { toggleLanguage } from "../utils/languageSlice";
+import { useTranslation } from "../utils/useTranslation";
 import { Link, useNavigate } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import axios from "axios";
@@ -15,6 +17,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((store) => store.auth);
+  const { t, language } = useTranslation();
 
   const handleClick = async () => {
     try {
@@ -57,31 +60,57 @@ const Navbar = () => {
       } overflow-hidden z-10 border-b-1 border-base-300`}
     >
       <div className="flex justify-between items-center">
-        <label className="swap swap-rotate ml-2 hover:shadow-xs">
-          <input
-            type="checkbox"
-            className="theme-controller"
-            onChange={() => dispatch(toggleTheme())}
-            checked={theme === "black"}
-          />
-          {/* sun icon */}
-          <svg
-            className="swap-off h-8 w-8 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
-          </svg>
+        <div className="flex items-center gap-2">
+          {/* Theme Toggle */}
+          <label className="swap swap-rotate ml-2 hover:shadow-xs">
+            <input
+              type="checkbox"
+              className="theme-controller"
+              onChange={() => dispatch(toggleTheme())}
+              checked={theme === "black"}
+            />
+            {/* sun icon */}
+            <svg
+              className="swap-off h-8 w-8 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
+            </svg>
 
-          {/* moon icon */}
-          <svg
-            className="swap-on h-8 w-8 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+            {/* moon icon */}
+            <svg
+              className="swap-on h-8 w-8 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
+            </svg>
+          </label>
+
+          {/* Language Toggle */}
+          <button
+            onClick={() => dispatch(toggleLanguage())}
+            className="btn btn-ghost btn-sm hover:bg-base-200 transition-colors"
+            title={t("switchLanguage")}
           >
-            <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
-          </svg>
-        </label>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+              />
+            </svg>
+            <span className="ml-1 text-sm font-medium">{language === "en" ? "EN" : "HI"}</span>
+          </button>
+        </div>
         {isAuthenticated && (
           <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -135,7 +164,7 @@ const Navbar = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Dashboard
+                    {t("dashboard")}
                   </Link>
                 </li>
                 {user?.role === "superAdmin" ? (
@@ -151,7 +180,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Add Super Admin
+                        {t("addSuperAdmin")}
                       </Link>
                     </li>
                     {/* Manage Admins Dropdown */}
@@ -161,7 +190,7 @@ const Navbar = () => {
                           className="flex items-center"
                           onClick={handleSummaryClick}
                         >
-                          Manage Admins
+                          {t("manageAdmins")}
                         </summary>
                         <ul className="pl-3 pt-2 space-y-1">
                           <li>
@@ -170,7 +199,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              Add Admin
+                              {t("addAdmin")}
                             </Link>
                           </li>
                           <li>
@@ -179,7 +208,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              View Admin
+                              {t("viewAdmin")}
                             </Link>
                           </li>
                         </ul>
@@ -192,7 +221,7 @@ const Navbar = () => {
                           className="flex items-center"
                           onClick={handleSummaryClick}
                         >
-                          Manage Students
+                          {t("manageStudents")}
                         </summary>
                         <ul className="pl-3 pt-2 space-y-1">
                           <li>
@@ -201,7 +230,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              Add Student
+                              {t("addStudent")}
                             </Link>
                           </li>
                           <li>
@@ -210,7 +239,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              Delete Student
+                              {t("deleteStudent")}
                             </Link>
                           </li>
                           <li>
@@ -219,7 +248,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              View Students
+                              {t("viewStudents")}
                             </Link>
                           </li>
                         </ul>
@@ -235,7 +264,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Manage Your Profile
+                        {t("manageYourProfile")}
                       </Link>
                     </li>{" "}
                   </div>
@@ -252,7 +281,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Pending Complaints
+                        {t("pendingComplaints")}
                       </Link>
                     </li>
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
@@ -265,7 +294,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Accepted Complaints
+                        {t("acceptedComplaints")}
                       </Link>
                     </li>
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
@@ -278,7 +307,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Resolved Complaints
+                        {t("resolvedComplaints")}
                       </Link>
                     </li>
                     <li className="text-lg font-semibold hover:bg-white/10 rounded-xl transition px-3 py-2 mb-5">
@@ -291,7 +320,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        View Your Profile
+                        {t("viewYourProfile")}
                       </Link>
                     </li>{" "}
                   </div>
@@ -307,7 +336,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Discover Complaints
+                        {t("discoverComplaints")}
                       </Link>
                     </li>{" "}
                     <li className="text-lg font-semibold hover:bg-neutral/10 rounded-xl transition px-3 py-2 mb-5">
@@ -320,7 +349,7 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        Register Complaint
+                        {t("registerComplaint")}
                       </Link>
                     </li>
                     {/* Complaints Dropdown */}
@@ -330,7 +359,7 @@ const Navbar = () => {
                           className="flex items-center"
                           onClick={handleSummaryClick}
                         >
-                          Complaints
+                          {t("complaints")}
                         </summary>
                         <ul className="pl-3 pt-2 space-y-1">
                           <li>
@@ -343,7 +372,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              Pending Complaints
+                              {t("pendingComplaints")}
                             </Link>
                           </li>
                           <li>
@@ -356,7 +385,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              Accepted Complaints
+                              {t("acceptedComplaints")}
                             </Link>
                           </li>
                           <li>
@@ -369,7 +398,7 @@ const Navbar = () => {
                               onClick={closeDrawer}
                               className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
                             >
-                              Resolved Complaints
+                              {t("resolvedComplaints")}
                             </Link>
                           </li>
                         </ul>
@@ -385,14 +414,14 @@ const Navbar = () => {
                             : "/login"
                         }
                       >
-                        View Your Profile
+                        {t("viewYourProfile")}
                       </Link>
                     </li>
                   </div>
                 ) : null}
                 <li className="text-lg font-semibold hover:bg-white/10 transition px-3 py-2 absolute bottom-0 w-75 border-t-1 border-gray-300">
                   <button onClick={handleClick}>
-                    Logout
+                    {t("logout")}
                     <IoLogOutOutline />
                   </button>
                 </li>
@@ -407,7 +436,7 @@ const Navbar = () => {
             LNMCMS
           </div>
           <div className="hidden md:block text-sm text-slate-500 opacity-80 italic mb-2">
-            One Stop Solution For All Your Complaints
+            {t("oneStopSolution")}
           </div>
         </div>
       </div>

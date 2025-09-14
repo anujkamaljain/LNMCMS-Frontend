@@ -5,10 +5,12 @@ import { setLoading, setError, setComplaints } from "../utils/discoverSlice";
 import { STUDENT_BASE_URL } from "../utils/constants";
 import axios from "axios";
 import ComplaintCard from "./ComplaintCard";
+import { useTranslation } from "../utils/useTranslation";
 
 const Discover = () => {
   const dispatch = useDispatch();
   const { complaints, loading, error } = useSelector((store) => store.discover);
+  const { t } = useTranslation();
 
   const fetchPublicComplaints = async () => {
     dispatch(setLoading(true));
@@ -48,7 +50,7 @@ const Discover = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Public Complaints
+        {t("discoverComplaints")}
       </motion.h1>
 
       <div className="mt-5">
@@ -76,13 +78,13 @@ const Discover = () => {
               className="btn btn-sm btn-outline"
               onClick={fetchPublicComplaints}
             >
-              Retry
+              {t("retry")}
             </button>
           </div>
         ) : complaints.length === 0 ? (
           <div className="text-center py-10">
             <div className="text-gray-500 text-lg">
-              No public complaints available at the moment.
+              {t("noComplaintsFound")}
             </div>
             <div className="text-gray-400 text-sm mt-2">
               Check back later for new complaints from other students.

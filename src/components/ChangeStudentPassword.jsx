@@ -13,6 +13,7 @@ import { logout } from "../utils/authSlice";
 import { clearComplaints } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaints } from "../utils/acceptedComplaintsSlice";
 import { removeresComplaint } from "../utils/resolvedComplaintsSlice";
+import { useTranslation } from "../utils/useTranslation";
 
 const ChangeStudentPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +27,7 @@ const ChangeStudentPassword = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +80,7 @@ const ChangeStudentPassword = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Student
+        {t("manageStudent")}
       </motion.h1>
       <main>
         <section className="p-10">
@@ -86,7 +88,7 @@ const ChangeStudentPassword = () => {
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Change Password
+                  {t("changePassword")}
                 </span>
                 <form onSubmit={handleSubmit}>
                   <label className="input mb-3">
@@ -114,7 +116,7 @@ const ChangeStudentPassword = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="Old Password"
+                      placeholder={t("currentPassword")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -148,7 +150,7 @@ const ChangeStudentPassword = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="New Password"
+                      placeholder={t("newPassword")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -181,7 +183,7 @@ const ChangeStudentPassword = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="Confirm Password"
+                      placeholder={t("confirmPassword")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -196,7 +198,7 @@ const ChangeStudentPassword = () => {
                       checked={showPassword}
                       onChange={() => setShowPassword(!showPassword)}
                     />
-                    Show Password
+                    {t("showPassword")}
                   </label>
                   {showToast ? (
                     <p
@@ -213,7 +215,7 @@ const ChangeStudentPassword = () => {
                   ) : null}
                   <div className="mt-6">
                     <button className="btn btn-primary btn-block" type="submit" disabled>
-                      Change Password
+                      {t("changePassword")}
                     </button>
                   </div>
                 </form>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
 import { useDialogStore } from "../stores/DialogStore";
+import { useTranslation } from "../utils/useTranslation";
 
 const DeleteStudent = () => {
   const [view, setView] = useState("single");
@@ -15,6 +16,7 @@ const DeleteStudent = () => {
   const [notFoundList, setNotFoundList] = useState([]);
   const [failedList, setFailedList] = useState([]);
   const [showSampleImage, setShowSampleImage] = useState(false);
+  const { t } = useTranslation();
 
   const handleDeleteSingle = async (e) => {
     e.preventDefault();
@@ -100,7 +102,7 @@ const DeleteStudent = () => {
       >
         <div className="card w-full max-w-lg bg-base-100 shadow-md p-6 border border-base-300">
           <h2 className="text-xl font-bold text-red-400 mb-7 text-center">
-            Delete Student
+            {t("deleteStudent")}
           </h2>
 
           {/* Radio Switch */}
@@ -119,7 +121,7 @@ const DeleteStudent = () => {
                 }}
                 className="radio radio-error"
               />
-              <span className="label-text font-semibold">Single</span>
+              <span className="label-text font-semibold">{t("single")}</span>
             </label>
 
             <label className="cursor-pointer label gap-2">
@@ -134,7 +136,7 @@ const DeleteStudent = () => {
                 }}
                 className="radio radio-error"
               />
-              <span className="label-text font-semibold">Bulk (CSV)</span>
+              <span className="label-text font-semibold">{t("bulk")} (CSV)</span>
             </label>
           </div>
 
@@ -153,7 +155,7 @@ const DeleteStudent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full"
-                  placeholder="Roll Number"
+                  placeholder={t("rollNumber")}
                   value={rollNumber}
                   onChange={(e) => setRollNumber(e.target.value)}
                   required
@@ -163,7 +165,7 @@ const DeleteStudent = () => {
                   className="btn btn-error btn-block mt-2"
                   disabled={deleting}
                 >
-                  {deleting ? "Deleting..." : "Delete Student"}
+                  {deleting ? t("deleting") : t("deleteStudent")}
                 </button>
               </motion.form>
             ) : (
@@ -188,14 +190,14 @@ const DeleteStudent = () => {
                     onClick={() => setShowSampleImage(true)}
                     className="text-sm text-blue-500 underline cursor-pointer text-center"
                   >
-                    View Sample CSV Format
+                    {t("viewSampleCSV")}
                   </p>
                   <a
                     href="/sample_students_delete.csv"
                     download
                     className="text-blue-500 underline"
                   >
-                    Download Sample CSV
+                    {t("downloadSampleCSV")}
                   </a>
                 </div>
                 <button
@@ -203,7 +205,7 @@ const DeleteStudent = () => {
                   className="btn btn-error btn-block"
                   disabled={deleting}
                 >
-                  {deleting ? "Deleting..." : "Delete Students"}
+                  {deleting ? t("deleting") : t("deleteStudents")}
                 </button>
               </motion.form>
             )}
@@ -214,7 +216,7 @@ const DeleteStudent = () => {
               {notFoundList.length > 0 && (
                 <div className="border border-warning rounded-lg p-4 bg-yellow-50">
                   <h3 className="font-bold text-yellow-700 mb-2">
-                    Students Not Found:
+                    {t("studentsNotFound")}:
                   </h3>
                   <ul className="list-disc list-inside text-sm text-yellow-800 space-y-1">
                     {notFoundList.map((s, idx) => (
@@ -229,7 +231,7 @@ const DeleteStudent = () => {
               {failedList.length > 0 && (
                 <div className="border border-error rounded-lg p-4 bg-red-50">
                   <h3 className="font-bold text-red-700 mb-2">
-                    Failed Deletions:
+                    {t("failedDeletions")}:
                   </h3>
                   <ul className="list-disc list-inside text-sm text-red-800 space-y-1">
                     {failedList.map((s, idx) => (
@@ -269,7 +271,7 @@ const DeleteStudent = () => {
               >
                 <img src="/deleteStudents_csv.png" alt="Sample CSV Format" />
                 <p className="text-center text-sm text-gray-500 mt-2">
-                  Sample CSV Format
+                  {t("sampleCSVFormat")}
                 </p>
               </div>
             </div>

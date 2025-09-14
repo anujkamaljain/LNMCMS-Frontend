@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addComplaints } from "../utils/pendingComplaintsSlice";
 import ComplaintCard from "./ComplaintCard";
 import { motion } from "motion/react";
+import { useTranslation } from "../utils/useTranslation";
 
 const ViewPendingComplaints = () => {
   const complaints = useSelector((store) => store.pending);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const fetchComplaints = async () => {
     try {
@@ -43,7 +45,7 @@ const ViewPendingComplaints = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          No Pending Complaints!
+          {t("noComplaintsFound")}
         </motion.h1>
       </div>
     );
@@ -63,7 +65,7 @@ const ViewPendingComplaints = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Pending Complaints
+        {t("pendingComplaints")}
       </motion.h1>
       <div className="mt-5 flex flex-wrap justify-around">
         {complaints.map((complaint) => (

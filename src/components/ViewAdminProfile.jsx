@@ -2,9 +2,11 @@ import React from "react";
 import { motion } from "motion/react";
 import { useSelector } from "react-redux";
 import {Link} from "react-router-dom";
+import { useTranslation } from "../utils/useTranslation";
 
 const ViewAdminProfile = () => {
   const user = useSelector((store) => store?.auth?.user);
+  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -20,7 +22,7 @@ const ViewAdminProfile = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Your Profile
+        {t("yourProfile")}
       </motion.h1>
       <main>
         <section className="p-10">
@@ -28,11 +30,11 @@ const ViewAdminProfile = () => {
             <div className="card w-96 bg-base-100 border border-base hover:shadow-md shadow-orange-500">
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Your Details
+                  {t("yourDetails")}
                 </span>
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">
-                    Name :
+                    {t("name")} :
                   </legend>
                   <input
                     type="text"
@@ -43,7 +45,7 @@ const ViewAdminProfile = () => {
                 </fieldset>
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">
-                    Email :
+                    {t("email")} :
                   </legend>
                   <input
                     type="email"
@@ -54,7 +56,7 @@ const ViewAdminProfile = () => {
                 </fieldset>
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">
-                    Department :
+                    {t("department")} :
                   </legend>
                   <input
                     type="text"
@@ -65,7 +67,7 @@ const ViewAdminProfile = () => {
                 </fieldset>
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">
-                    Role :
+                    {t("role")} :
                   </legend>
                   <input
                     type="text"
@@ -74,7 +76,7 @@ const ViewAdminProfile = () => {
                     disabled
                   />
                 </fieldset>
-                <Link to="/admin/change-password" className="link link-warning text-center">Change Password</Link>
+                <Link to="/admin/change-password" className="link link-warning text-center">{t("changePassword")}</Link>
               </div>
             </div>
           </div>

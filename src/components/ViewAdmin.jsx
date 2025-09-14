@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
+import { useTranslation } from "../utils/useTranslation";
 
 const ViewAdmin = () => {
   const [admins, setAdmins] = useState([]);
@@ -13,6 +14,7 @@ const ViewAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [limit] = useState(16);
+  const { t } = useTranslation();
 
   const fetchAdmins = async () => {
     try {
@@ -79,21 +81,21 @@ const ViewAdmin = () => {
       <div className="w-full max-w-xl flex gap-2 mb-6">
         <input
           type="text"
-          placeholder="Enter Admin Email"
+          placeholder={t("enterAdminEmail")}
           className="input focus:outline-none focus:ring-1 focus:ring-primary flex-grow"
           value={searchEmail}
           onChange={(e) => setSearchEmail(e.target.value)}
           onKeyDown={handleKeyDown}
         />
         <button className="btn btn-primary" onClick={handleSearch} disabled={searchLoading}>
-          {searchLoading ? "Searching..." : "Search"}
+          {searchLoading ? t("searching") : t("search")}
         </button>
         {searchResult && (
           <button className="btn btn-secondary" onClick={() => {
             setSearchResult(null);
             setSearchEmail("");
           }}>
-            Clear
+            {t("clear")}
           </button>
         )}
       </div>
@@ -116,13 +118,13 @@ const ViewAdmin = () => {
                   to={`/superAdmin/edit-admin/${admin._id}`}
                   className="btn btn-sm btn-primary"
                 >
-                  Edit
+                  {t("edit")}
                 </Link>
                 <button
                   className="btn btn-sm btn-error"
                   onClick={() => handleDelete(admin.email)}
                 >
-                  Delete
+                  {t("delete")}
                 </button>
               </div>
             </div>
@@ -138,15 +140,15 @@ const ViewAdmin = () => {
             disabled={page === 1}
             onClick={() => setPage((prev) => prev - 1)}
           >
-            « Prev
+            « {t("prev")}
           </button>
-          <button className="join-item btn">Page {page}</button>
+          <button className="join-item btn">{t("page")} {page}</button>
           <button
             className="join-item btn"
             disabled={page === totalPages}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            Next »
+            {t("next")} »
           </button>
         </div>
       )}

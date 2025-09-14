@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useDialogStore } from "../stores/DialogStore";
+import { useTranslation } from "../utils/useTranslation";
 
 export default function StudentOperationResultDialog() {
   const {
@@ -10,6 +11,7 @@ export default function StudentOperationResultDialog() {
     alreadyCreatedList,
     type,
   } = useDialogStore();
+  const { t } = useTranslation();
 
   if (!isOpen) return null;
 
@@ -25,20 +27,20 @@ export default function StudentOperationResultDialog() {
           aria-describedby="dialog-description"
         >
           <Dialog.Title className="text-xl font-bold text-black">
-            {isDelete ? "Deletion Result" : "Addition Result"}
+            {isDelete ? t("deletionResult") : t("additionResult")}
           </Dialog.Title>
 
           <Dialog.Description
             id="dialog-description"
             className="text-sm text-gray-500 mb-4"
           >
-            See details below :
+            {t("seeDetailsBelow")} :
           </Dialog.Description>
 
           {isDelete && notFoundList.length > 0 && (
             <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-300">
               <h3 className="font-semibold text-yellow-800 mb-2">
-                Students Not Found:
+                {t("studentsNotFound")}:
               </h3>
               <ul className="list-disc list-inside text-sm text-yellow-700">
                 {notFoundList.map((s, idx) => (
@@ -53,7 +55,7 @@ export default function StudentOperationResultDialog() {
           {isDelete && failedList.length > 0 && (
             <div className="bg-red-50 p-4 rounded-lg border border-red-300">
               <h3 className="font-semibold text-red-800 mb-2">
-                Failed Deletions:
+                {t("failedDeletions")}:
               </h3>
               <ul className="list-disc list-inside text-sm text-red-700">
                 {failedList.map((s, idx) => (
@@ -68,7 +70,7 @@ export default function StudentOperationResultDialog() {
           {isDelete && notFoundList.length == 0 && failedList.length == 0 && (
             <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-300">
               <h3 className="font-semibold text-yellow-800 mb-2">
-                All Students deleted successfully!
+                {t("allStudentsDeletedSuccessfully")}!
               </h3>
             </div>
           )}
@@ -76,7 +78,7 @@ export default function StudentOperationResultDialog() {
           {isAdd && alreadyCreatedList.length > 0 && (
             <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-300">
               <h3 className="font-semibold text-yellow-800 mb-2">
-                Already Created Students:
+                {t("alreadyCreatedStudents")}:
               </h3>
               <ul className="list-disc list-inside text-sm text-yellow-700">
                 {alreadyCreatedList.map((s, idx) => (
@@ -91,7 +93,7 @@ export default function StudentOperationResultDialog() {
           {isAdd && failedList.length > 0 && (
             <div className="bg-red-50 p-4 rounded-lg border border-red-300">
               <h3 className="font-semibold text-red-800 mb-2">
-                Failed to Add:
+                {t("failedToAdd")}:
               </h3>
               <ul className="list-disc list-inside text-sm text-red-700">
                 {failedList.map((s, idx) => (
@@ -109,14 +111,14 @@ export default function StudentOperationResultDialog() {
             failedList.length == 0 && (
               <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-300">
                 <h3 className="font-semibold text-yellow-800 mb-2">
-                  All Students created successfully and emails are sent!
+                  {t("allStudentsCreatedSuccessfully")}!
                 </h3>
               </div>
             )}
 
           <Dialog.Close asChild>
             <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4 ml-auto block">
-              Close
+              {t("close")}
             </button>
           </Dialog.Close>
         </Dialog.Content>

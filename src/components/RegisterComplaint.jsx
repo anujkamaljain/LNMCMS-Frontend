@@ -8,6 +8,7 @@ import {
 } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { appendComplaint } from "../utils/pendingComplaintsSlice";
+import { useTranslation } from "../utils/useTranslation";
 
 const RegisterComplaint = () => {
   const [selected, setSelected] = useState("private");
@@ -24,6 +25,7 @@ const RegisterComplaint = () => {
   });
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
+  const { t } = useTranslation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,7 +121,7 @@ const RegisterComplaint = () => {
         onSubmit={handleSubmit}
       >
         <h2 className="text-3xl font-bold text-center text-amber-600 mb-4 underline">
-          Register a Complaint
+          {t("registerNewComplaint")}
         </h2>
 
         <div className="flex justify-around mb-6 mt-10">
@@ -132,7 +134,7 @@ const RegisterComplaint = () => {
               className="radio radio-secondary text-amber-600"
             />
             <div className="tooltip" data-tip="Complaint won't visible in Discover section!">
-            <span className="label-text font-semibold">Private</span>
+            <span className="label-text font-semibold">{t("private")}</span>
             </div>
           </label>
 
@@ -145,13 +147,13 @@ const RegisterComplaint = () => {
               className="radio radio-secondary text-amber-600"
             />
             <div className="tooltip" data-tip="Complaint will be visible in Discover section!">
-            <span className="label-text font-semibold">Public</span>
+            <span className="label-text font-semibold">{t("public")}</span>
             </div>
           </label>
         </div>
 
         <div>
-          <label className="label">Title</label>
+          <label className="label">{t("complaintTitle")}</label>
           <input
             type="text"
             name="title"
@@ -165,7 +167,7 @@ const RegisterComplaint = () => {
         </div>
 
         <div>
-          <label className="label">Description</label>
+          <label className="label">{t("complaintDescription")}</label>
           <div className="relative">
             <textarea
               name="description"
@@ -188,7 +190,7 @@ const RegisterComplaint = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="label">Location Tag</label>
+            <label className="label">{t("location")}</label>
             <select
               name="location"
               className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
@@ -208,7 +210,7 @@ const RegisterComplaint = () => {
           </div>
 
           <div>
-            <label className="label">Department Tag</label>
+            <label className="label">{t("department")}</label>
             <select
               name="department"
               className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
@@ -229,7 +231,7 @@ const RegisterComplaint = () => {
         </div>
 
         <div>
-          <label className="label">Specific Location</label>
+          <label className="label">{t("specificLocation")}</label>
           <input
             type="text"
             name="freeLocation"
@@ -244,7 +246,7 @@ const RegisterComplaint = () => {
         </div>
 
         <div>
-          <label className="label">Contact Number</label>
+          <label className="label">{t("contactNumber")}</label>
           <input
             type="text"
             name="contact"
@@ -270,7 +272,7 @@ const RegisterComplaint = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="label">Available From</label>
+            <label className="label">{t("availableFrom")}</label>
             <input
               type="time"
               name="availableFrom"
@@ -286,7 +288,7 @@ const RegisterComplaint = () => {
           </div>
 
           <div>
-            <label className="label">Available To</label>
+            <label className="label">{t("availableTo")}</label>
             <input
               type="time"
               name="availableTo"
@@ -306,7 +308,7 @@ const RegisterComplaint = () => {
             className="btn btn-primary px-10"
             disabled={sbtBtnTxt === "Submitting..."}
           >
-            {sbtBtnTxt}
+            {sbtBtnTxt === "Submit" ? t("submit") : sbtBtnTxt}
           </button>
         </div>
       </form>

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
+import { useTranslation } from "../utils/useTranslation";
 
 const EditAdmin = () => {
   const { id } = useParams(); // adminId
@@ -11,6 +12,7 @@ const EditAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [admin, setAdmin] = useState(null);
+  const { t } = useTranslation();
 
   const [form, setForm] = useState({
     name: "",
@@ -85,7 +87,7 @@ const EditAdmin = () => {
     <div className="flex justify-center items-center flex-grow px-4">
       <div className="card w-full max-w-xl bg-base-100 shadow-lg border border-base-300 p-6">
         <h2 className="text-2xl font-bold text-center text-amber-600 mb-6">
-          Edit Admin Details
+          {t("editAdminDetails")}
         </h2>
         <form onSubmit={handleUpdate} className="space-y-4">
           <input
@@ -94,7 +96,7 @@ const EditAdmin = () => {
             value={form.name}
             onChange={handleChange}
             className="input input-bordered w-full"
-            placeholder="Full Name"
+            placeholder={t("fullName")}
             required
           />
           <input
@@ -103,7 +105,7 @@ const EditAdmin = () => {
             value={form.email}
             onChange={handleChange}
             className="input input-bordered w-full"
-            placeholder="Email"
+            placeholder={t("email")}
             required
           />
           <input
@@ -112,7 +114,7 @@ const EditAdmin = () => {
             value={form.department}
             onChange={handleChange}
             className="input input-bordered w-full"
-            placeholder="Department"
+            placeholder={t("department")}
             required
           />
           <button
@@ -120,7 +122,7 @@ const EditAdmin = () => {
             className="btn btn-primary w-full"
             disabled={!isChanged || updating}
           >
-            {updating ? "Updating..." : "Update"}
+            {updating ? t("updating") : t("update")}
           </button>
         </form>
       </div>

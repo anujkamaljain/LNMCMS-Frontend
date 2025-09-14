@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Chart } from "chart.js/auto";
+import { useTranslation } from "../utils/useTranslation";
 
 const LineChart = ({ title, labels, dataValues }) => {
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
@@ -17,7 +19,7 @@ const LineChart = ({ title, labels, dataValues }) => {
       labels: labels,
       datasets: [
         {
-          label: "Complaints",
+          label: t("complaints"),
           data: dataValues,
           fill: true,
           backgroundColor: gradient,

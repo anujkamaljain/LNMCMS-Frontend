@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
 import { useDialogStore } from "../stores/DialogStore";
+import { useTranslation } from "../utils/useTranslation";
 
 const AddStudent = () => {
   const [view, setView] = useState("single"); // 'single' or 'bulk'
@@ -19,6 +20,7 @@ const AddStudent = () => {
   const [alreadyCreatedList, setAlreadyCreatedList] = useState([]);
   const [failedList, setFailedList] = useState([]);
   const [showSampleImage, setShowSampleImage] = useState(false);
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,7 +124,7 @@ const AddStudent = () => {
       >
         <div className="card w-full max-w-lg bg-base-100 shadow-md p-6 border border-base-300">
           <h2 className="text-xl font-bold text-amber-500 mb-7 text-center">
-            Add Student
+            {t("addStudent")}
           </h2>
 
           {/* Radio Switch */}
@@ -141,7 +143,7 @@ const AddStudent = () => {
                 }}
                 className="radio radio-primary"
               />
-              <span className="label-text font-semibold">Single</span>
+              <span className="label-text font-semibold">{t("single")}</span>
             </label>
             <label className="cursor-pointer label gap-2">
               <input
@@ -157,7 +159,7 @@ const AddStudent = () => {
                 }}
                 className="radio radio-primary"
               />
-              <span className="label-text font-semibold">Bulk (CSV)</span>
+              <span className="label-text font-semibold">{t("bulk")} (CSV)</span>
             </label>
           </div>
 
@@ -176,7 +178,7 @@ const AddStudent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full"
-                  placeholder="Full Name"
+                  placeholder={t("fullName")}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
@@ -184,7 +186,7 @@ const AddStudent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full"
-                  placeholder="Roll Number"
+                  placeholder={t("rollNumber")}
                   value={rollNumber}
                   onChange={(e) => setRollNumber(e.target.value)}
                   required
@@ -192,7 +194,7 @@ const AddStudent = () => {
                 <input
                   type="email"
                   className="input input-bordered w-full"
-                  placeholder="Email (abc@lnmiit.ac.in)"
+                  placeholder={t("email")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -200,7 +202,7 @@ const AddStudent = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   className="input input-bordered w-full"
-                  placeholder="Password"
+                  placeholder={t("password")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -212,14 +214,14 @@ const AddStudent = () => {
                     checked={showPassword}
                     onChange={() => setShowPassword(!showPassword)}
                   />
-                  <span className="label-text text-sm">Show Password</span>
+                  <span className="label-text text-sm">{t("showPassword")}</span>
                 </label>
                 <button
                   type="submit"
                   className="btn btn-primary btn-block mt-2"
                   disabled={uploading}
                 >
-                  {uploading ? "Adding..." : "Add Student"}
+                  {uploading ? t("adding") : t("addStudent")}
                 </button>
               </motion.form>
             ) : (
@@ -244,14 +246,14 @@ const AddStudent = () => {
                     onClick={() => setShowSampleImage(true)}
                     className="text-blue-500 underline cursor-pointer"
                   >
-                    View Sample CSV Format
+                    {t("viewSampleCSV")}
                   </p>
                   <a
                     href="/sample_students.csv"
                     download
                     className="text-blue-500 underline"
                   >
-                    Download Sample CSV
+                    {t("downloadSampleCSV")}
                   </a>
                 </div>
 
@@ -260,7 +262,7 @@ const AddStudent = () => {
                   className="btn btn-primary btn-block"
                   disabled={uploading}
                 >
-                  {uploading ? "Adding..." : "Add Students"}
+                  {uploading ? t("adding") : t("addStudents")}
                 </button>
               </motion.form>
             )}
@@ -280,7 +282,7 @@ const AddStudent = () => {
           {alreadyCreatedList.length > 0 && (
             <div className="mt-4">
               <h3 className="text-yellow-600 font-semibold mb-1">
-                Already Created Students:
+                {t("alreadyCreatedStudents")}:
               </h3>
               <ul className="list-disc list-inside text-sm text-yellow-700">
                 {alreadyCreatedList.map((stu, idx) => (
@@ -295,7 +297,7 @@ const AddStudent = () => {
           {failedList.length > 0 && (
             <div className="mt-4">
               <h3 className="text-red-600 font-semibold mb-1">
-                Failed to Add:
+                {t("failedToAdd")}:
               </h3>
               <ul className="list-disc list-inside text-sm text-red-700">
                 {failedList.map((stu, idx) => (
@@ -319,7 +321,7 @@ const AddStudent = () => {
               >
                 <img src="/addStudents_csv.png" alt="Sample CSV Format" />
                 <p className="text-center text-sm text-gray-500 mt-2">
-                  Sample CSV Format
+                  {t("sampleCSVFormat")}
                 </p>
               </div>
             </div>

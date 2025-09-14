@@ -9,12 +9,14 @@ import {
   SUPERADMIN_BASE_URL,
 } from "../utils/constants";
 import ManualDoughnutChart from "./DoughnutChart";
+import { useTranslation } from "../utils/useTranslation";
 
 const SuperAdminDashboard = () => {
   const [labels, setLabels] = useState([]);
   const [dataValues, setDataValues] = useState([]);
   const [departmentData, setDepartmentData] = useState({});
   const [sumofValues, setSumOfValues] = useState(null);
+  const { t } = useTranslation();
 
   const getLast6Months = () => {
     const monthNames = [
@@ -105,17 +107,17 @@ const SuperAdminDashboard = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Analytics Dashboard
+        {t("dashboard")}
       </motion.h1>
       <main>
         <div className="flex flex-wrap gap-4 justify-around">
           <ManualBarChart
-            title="Complaints of past 6 months"
+            title={t("complaintsPerMonth")}
             labels={labels}
             dataValues={dataValues}
           />
           <ManualDoughnutChart
-            title="Complaints of past 6 months"
+            title={t("complaintsPerMonth")}
             labels={labels}
             dataValues={dataValues}
           />
@@ -127,7 +129,7 @@ const SuperAdminDashboard = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeIn" }}
         >
-          Location Wise Complaints
+          {t("complaintsPerMonth")}
         </motion.h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {Object.keys(departmentData).map((department, index) =>
@@ -156,7 +158,7 @@ const SuperAdminDashboard = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeIn" }}
         >
-          Department Wise Complaints
+          {t("complaintsPerMonth")}
         </motion.h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-3">
           {Object.keys(departmentData).map((department, index) =>
@@ -187,7 +189,7 @@ const SuperAdminDashboard = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
               >
-                Total Complaints in last 6 months
+                {t("totalComplaints")}
               </motion.h1>
               <motion.h1
                 className="text-6xl mt-3 text-red-500 text-center"

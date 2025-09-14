@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Department_List, SUPERADMIN_BASE_URL } from "../utils/constants";
 import { motion } from "framer-motion";
+import { useTranslation } from "../utils/useTranslation";
 
 const AddAdmin = () => {
   const [fullName, setFullName] = useState("");
@@ -10,6 +11,7 @@ const AddAdmin = () => {
   const [department, setDepartment] = useState("BH1");
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "" });
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,14 +50,14 @@ const AddAdmin = () => {
     >
       <div className="card w-full max-w-md bg-base-100 shadow-md p-6 border border-base-300 self-start">
         <h2 className="text-xl font-bold text-center mb-4 text-warning">
-          Add Admin
+          {t("addAdmin")}
         </h2>
         <form onSubmit={handleSubmit}>
           <label className="input mb-4 w-full">
             <input
               type="text"
               required
-              placeholder="Full Name"
+              placeholder={t("fullName")}
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
             />
@@ -64,7 +66,7 @@ const AddAdmin = () => {
           <label className="input mb-4 w-full">
             <input
               type="email"
-              placeholder="abc@lnmiit.ac.in"
+              placeholder={t("email")}
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -75,13 +77,13 @@ const AddAdmin = () => {
             <input
               type={showPassword ? "text" : "password"}
               required
-              placeholder="Password"
+              placeholder={t("password")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
 
-          <legend className="text-xs font-semibold m-1">Department</legend>
+          <legend className="text-xs font-semibold m-1">{t("department")}</legend>
           <select
             className="select select-bordered w-full mb-3"
             value={department}
@@ -101,11 +103,11 @@ const AddAdmin = () => {
               checked={showPassword}
               onChange={() => setShowPassword(!showPassword)}
             />
-            Show Password
+            {t("showPassword")}
           </label>
 
           <button type="submit" className="btn btn-primary btn-block">
-            Add Admin
+            {t("addAdmin")}
           </button>
         </form>
 

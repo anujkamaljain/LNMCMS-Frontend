@@ -5,6 +5,7 @@ import { BASE_URL, SUPERADMIN_BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {logout} from "../utils/authSlice";
+import { useTranslation } from "../utils/useTranslation";
 
 const ChangeSuperAdminPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +19,7 @@ const ChangeSuperAdminPassword = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +68,7 @@ const ChangeSuperAdminPassword = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Super Admin
+        {t("manageSuperAdmin")}
       </motion.h1>
       <main>
         <section className="p-10">
@@ -74,7 +76,7 @@ const ChangeSuperAdminPassword = () => {
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Change Password
+                  {t("changePassword")}
                 </span>
                 <form onSubmit={handleSubmit}>
                   <label className="input mb-3">
@@ -102,7 +104,7 @@ const ChangeSuperAdminPassword = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="Old Password"
+                      placeholder={t("currentPassword")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -136,7 +138,7 @@ const ChangeSuperAdminPassword = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="New Password"
+                      placeholder={t("newPassword")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -169,7 +171,7 @@ const ChangeSuperAdminPassword = () => {
                     <input
                       type={showPassword ? "text" : "password"}
                       required
-                      placeholder="Confirm Password"
+                      placeholder={t("confirmPassword")}
                       minLength="8"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
@@ -184,7 +186,7 @@ const ChangeSuperAdminPassword = () => {
                       checked={showPassword}
                       onChange={() => setShowPassword(!showPassword)}
                     />
-                    Show Password
+                    {t("showPassword")}
                   </label>
                   {showToast ? (
                     <p
@@ -201,7 +203,7 @@ const ChangeSuperAdminPassword = () => {
                   ) : null}
                   <div className="mt-6">
                     <button className="btn btn-primary btn-block" type="submit">
-                      Change Password
+                      {t("changePassword")}
                     </button>
                   </div>
                 </form>

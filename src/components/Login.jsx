@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { useTranslation } from "../utils/useTranslation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { motion } from "motion/react";
@@ -11,6 +12,7 @@ import { motion } from "motion/react";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -67,7 +69,7 @@ const Login = () => {
             <div className="card-body">
               <span className="badge badge-xs badge-warning">LNMCMS</span>
               <div className="flex justify-between">
-                <h2 className="text-3xl font-bold">Login</h2>
+                <h2 className="text-3xl font-bold">{t("login")}</h2>
               </div>
               {error && (
                 <div className="alert alert-error">
@@ -116,7 +118,7 @@ const Login = () => {
                     />
                   </label>
                   <div className="validator-hint hidden">
-                    Enter valid email address
+                    {t("enterValidEmail")}
                   </div>
                 </div>
                 <fieldset className="fieldset -mt-2">
@@ -133,11 +135,11 @@ const Login = () => {
                     required
                   >
                     <option value="" disabled>
-                      Pick your Role
+                      {t("pickYourRole")}
                     </option>
-                    <option value="student">Student</option>
-                    <option value="admin">Admin</option>
-                    <option value="superAdmin">SuperAdmin</option>
+                    <option value="student">{t("student")}</option>
+                    <option value="admin">{t("admin")}</option>
+                    <option value="superAdmin">{t("superAdmin")}</option>
                   </select>
                 </fieldset>
                 <br />
@@ -166,7 +168,7 @@ const Login = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     required
-                    placeholder="Password"
+                    placeholder={t("password")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     minLength="8"
@@ -175,11 +177,11 @@ const Login = () => {
                   />
                 </label>
                 <p className="validator-hint hidden">
-                  Must be more than 8 characters, including
+                  {t("passwordRequirements")}
                   <br />
-                  At least one number <br />
-                  At least one lowercase letter <br />
-                  At least one uppercase letter
+                  {t("atLeastOneNumber")} <br />
+                  {t("atLeastOneLowercase")} <br />
+                  {t("atLeastOneUppercase")}
                 </p>
                 <label className="flex items-center mt-2">
                   <input
@@ -188,11 +190,11 @@ const Login = () => {
                     checked={showPassword}
                     onChange={() => setShowPassword(!showPassword)}
                   />
-                  Show Password
+                  {t("showPassword")}
                 </label>
                 <div className="mt-6">
                   <button type="submit" className="btn btn-primary btn-block">
-                    Login
+                    {t("login")}
                   </button>
                 </div>
               </form>

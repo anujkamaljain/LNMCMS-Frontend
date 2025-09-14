@@ -5,6 +5,7 @@ import { ADMIN_BASE_URL } from "../utils/constants";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
 import { Link } from "react-router-dom";
+import { useTranslation } from "../utils/useTranslation";
 
 const AdminDashboard = () => {
   const [labels, setLabels] = useState([]);
@@ -14,6 +15,7 @@ const AdminDashboard = () => {
     accepted: 0,
     resolved: 0,
   });
+  const { t } = useTranslation();
 
   const fetchStatusData = async () => {
     try {
@@ -49,7 +51,7 @@ const AdminDashboard = () => {
     fetchStatusData();
   }, []);
 
-  const pieLabels = ["Pending", "Accepted", "Resolved"];
+  const pieLabels = [t("pending"), t("accepted"), t("resolved")];
   const pieData = [
     statusData.pending,
     statusData.accepted,
@@ -70,19 +72,19 @@ const AdminDashboard = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Analytics Dashboard
+        {t("dashboard")}
       </motion.h1>
       <main>
         <div className="flex flex-wrap gap-4 justify-around">
           <LineChart
-            title="Complaints in Last 30 Days"
+            title={t("complaintsPerMonth")}
             labels={labels}
             dataValues={dataValues}
           />
         </div>
         <div className="flex flex-wrap gap-4 justify-around my-7">
           <PieChart
-            title="Complaints Status (Last 30 Days)"
+            title={t("complaintStatus")}
             labels={pieLabels}
             dataValues={pieData}
           />
@@ -94,7 +96,7 @@ const AdminDashboard = () => {
               <div className="card-body items-center text-center">
                 <div className="text-4xl mb-2">📝</div>
                 <h2 className="card-title text-base-content">
-                  View/Accept Pending Complaints
+                  {t("pendingComplaints")}
                 </h2>
                 <p className="text-sm text-base-content/70">
                   Accept the pending complaints and start taking action
@@ -108,7 +110,7 @@ const AdminDashboard = () => {
               <div className="card-body items-center text-center">
                 <div className="text-4xl mb-2">📋</div>
                 <h2 className="card-title text-base-content">
-                  View Accepted Complaints
+                  {t("acceptedComplaints")}
                 </h2>
                 <p className="text-sm text-base-content/70">
                   View the complaints which you have accepted

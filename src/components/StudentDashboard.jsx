@@ -4,11 +4,13 @@ import axios from "axios";
 import ReflectionChart from "./ReflectionChart";
 import { STUDENT_BASE_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
+import { useTranslation } from "../utils/useTranslation";
 
 
 const StudentDashboard = () => {
   const [labels, setLabels] = useState([]);
   const [dataValues, setDataValues] = useState([]);
+  const { t } = useTranslation();
 
   const getAllMonths = () => [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -44,7 +46,7 @@ const StudentDashboard = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        Student Dashboard
+        {t("dashboard")}
       </motion.h1>
       <motion.div
         className="card bg-base-100 shadow-lg border border-base-300 mx-auto max-w-7xl"
@@ -54,32 +56,25 @@ const StudentDashboard = () => {
       >
         <div className="card-body">
           <h2 className="card-title text-amber-600 text-center text-2xl md:text-3xl font-bold">
-            👋 Welcome to the LNMCMS Complaint Portal!
+            👋 {t("welcomeMessage")}
           </h2>
           <p className="text-base md:text-lg text-gray-700 mt-4 leading-relaxed text-justify">
-            We’re happy to have you onboard! This portal is built to help you students report any
-            day-to-day issues you may face across campus — from hostels
-            and mess to washrooms and more. You can log your complaints here easily, and they will
-            be addressed by the concerned authorities.
+            {t("welcomeDescription")}
           </p>
           <p className="text-base md:text-lg text-gray-700 mt-3 leading-relaxed text-justify">
-            🛠️ Please use this platform responsibly. Avoid submitting fake or mischievous entries.
-            Misuse of this system can result in disciplinary action. Your honest complaints help us
-            improve our campus for everyone.
+            🛠️ {t("responsibleUse")}
           </p>
           <p className="text-base md:text-lg text-gray-700 mt-3 leading-relaxed text-justify">
-            💡 Be clear and concise in your complaint descriptions. The more accurate your report,
-            the faster the resolution. Transparency and student participation are at the heart of
-            this system.
+            💡 {t("clearDescription")}
           </p>
           <p className="text-lg font-semibold text-emerald-700 text-center mt-4">
-            Let’s work together to make LNMIIT a better place for all! 💬
+            {t("workTogether")} 💬
           </p>
         </div>
       </motion.div>
       <div className="flex justify-center">
         <ReflectionChart
-          title="Complaints per Month"
+          title={t("complaintsPerMonth")}
           labels={labels}
           dataValues={dataValues}
         />
@@ -91,7 +86,7 @@ const StudentDashboard = () => {
         >
           <div className="card-body items-center text-center">
             <div className="text-4xl mb-2">📝</div>
-            <h2 className="card-title text-base-content">Register Complaint</h2>
+            <h2 className="card-title text-base-content">{t("registerComplaint")}</h2>
             <p className="text-sm text-base-content/70">
               Share your day-to-day issues so we can resolve them quickly.
             </p>
@@ -103,7 +98,7 @@ const StudentDashboard = () => {
         >
           <div className="card-body items-center text-center">
             <div className="text-4xl mb-2">📋</div>
-            <h2 className="card-title text-base-content">View Complaints</h2>
+            <h2 className="card-title text-base-content">{t("myComplaints")}</h2>
             <p className="text-sm text-base-content/70">
               Check your complaint status anytime and stay updated.
             </p>

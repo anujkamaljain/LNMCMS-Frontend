@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Chart } from "chart.js/auto";
+import { useTranslation } from "../utils/useTranslation";
 
 const ManualBarChart = ({ title, labels, dataValues }) => {
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
@@ -12,7 +14,7 @@ const ManualBarChart = ({ title, labels, dataValues }) => {
       labels: labels,
       datasets: [
         {
-          label: "Complaints",
+          label: t("complaints"),
           data: dataValues,
           backgroundColor: [
             "rgb(255, 99, 132)",

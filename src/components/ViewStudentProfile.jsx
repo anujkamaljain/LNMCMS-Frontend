@@ -2,9 +2,11 @@ import React from "react";
 import { motion } from "motion/react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useTranslation } from "../utils/useTranslation";
 
 const ViewStudentProfile = () => {
   const user = useSelector((store) => store?.auth?.user);
+  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -20,7 +22,7 @@ const ViewStudentProfile = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Your Profile
+        {t("yourProfile")}
       </motion.h1>
       <main>
         <section className="p-10">
@@ -28,10 +30,10 @@ const ViewStudentProfile = () => {
             <div className="card w-96 bg-base-100 border border-base hover:shadow-md shadow-orange-500">
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Your Details
+                  {t("yourDetails")}
                 </span>
                 <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Name :</legend>
+                  <legend className="fieldset-legend">{t("name")} :</legend>
                   <input
                     type="text"
                     className="input hover:-translate-y-0.5 transition-all duration-100 ease-in"
@@ -40,7 +42,7 @@ const ViewStudentProfile = () => {
                   />
                 </fieldset>
                 <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Email :</legend>
+                  <legend className="fieldset-legend">{t("email")} :</legend>
                   <input
                     type="email"
                     className="input hover:-translate-y-0.5 transition-all duration-100 ease-in"
@@ -49,7 +51,7 @@ const ViewStudentProfile = () => {
                   />
                 </fieldset>
                 <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Roll Number :</legend>
+                  <legend className="fieldset-legend">{t("rollNumber")} :</legend>
                   <input
                     type="text"
                     className="input hover:-translate-y-0.5 transition-all duration-100 ease-in"
@@ -58,7 +60,7 @@ const ViewStudentProfile = () => {
                   />
                 </fieldset>
                 <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Role :</legend>
+                  <legend className="fieldset-legend">{t("role")} :</legend>
                   <input
                     type="text"
                     className="input hover:-translate-y-0.5 transition-all duration-100 ease-in"
@@ -70,7 +72,7 @@ const ViewStudentProfile = () => {
                   to="/student/change-password"
                   className="link link-warning text-center"
                 >
-                  Change Password
+                  {t("changePassword")}
                 </Link>
               </div>
             </div>

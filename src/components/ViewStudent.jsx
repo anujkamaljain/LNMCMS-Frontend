@@ -3,6 +3,7 @@ import axios from "axios";
 import { SUPERADMIN_BASE_URL } from "../utils/constants";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useTranslation } from "../utils/useTranslation";
 
 const ViewStudents = () => {
   const [students, setStudents] = useState([]);
@@ -14,6 +15,7 @@ const ViewStudents = () => {
   const [loading, setLoading] = useState(false);
   const [limit] = useState(20); // 4 columns x 5 rows
   const [pageInput, setPageInput] = useState(1); // for editable input
+  const { t } = useTranslation();
 
   const fetchStudents = async () => {
     try {
@@ -75,7 +77,7 @@ const ViewStudents = () => {
       <div className="w-full max-w-xl flex gap-2 mb-6">
         <input
           type="text"
-          placeholder="Enter Roll Number"
+          placeholder={t("enterRollNumber")}
           className="input input-bordered flex-grow focus:outline-none"
           value={searchRoll}
           onChange={(e) => setSearchRoll(e.target.value)}
@@ -87,7 +89,7 @@ const ViewStudents = () => {
           }}
         />
         <button className="btn btn-primary" onClick={handleSearch} disabled={searchLoading}>
-          {searchLoading ? "Searching..." : "Search"}
+          {searchLoading ? t("searching") : t("search")}
         </button>
 
         {searchResult && (
@@ -98,7 +100,7 @@ const ViewStudents = () => {
               setSearchRoll("");
             }}
           >
-            Clear
+            {t("clear")}
           </button>
         )}
       </div>
@@ -130,7 +132,7 @@ const ViewStudents = () => {
                 to={`/superAdmin/edit-student/${student._id}`}
                 className="btn btn-sm btn-outline btn-primary mt-4"
               >
-                Edit
+                {t("edit")}
               </Link>
             </div>
           ))}
@@ -148,7 +150,7 @@ const ViewStudents = () => {
               setPageInput(page - 1);
             }}
           >
-            « Prev
+            « {t("previous")}
           </button>
 
           <input
@@ -174,7 +176,7 @@ const ViewStudents = () => {
               setPageInput(page + 1);
             }}
           >
-            Next »
+            {t("next")} »
           </button>
         </div>
       )}

@@ -5,6 +5,7 @@ import { BASE_URL, SUPERADMIN_BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {logout} from "../utils/authSlice";
+import { useTranslation } from "../utils/useTranslation";
 
 const ManageOwnSuperAdmin = () => {
   const user = useSelector((store) => store?.auth?.user);
@@ -16,6 +17,7 @@ const ManageOwnSuperAdmin = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [showAlert, setShowAlert] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setEmail(user?.email);
@@ -107,7 +109,7 @@ const ManageOwnSuperAdmin = () => {
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>Edit the Details to Update</span>
+          <span>{t("editDetailsToUpdate")}</span>
         </div>
       )}
       <motion.h1
@@ -117,7 +119,7 @@ const ManageOwnSuperAdmin = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Manage Your Own Account
+        {t("manageYourOwnAccount")}
       </motion.h1>
       <main>
         <section className="p-10">
@@ -125,7 +127,7 @@ const ManageOwnSuperAdmin = () => {
             <div className={"card w-96 bg-base-100 shadow-sm "}>
               <div className="card-body">
                 <span className="badge badge-xs badge-warning mb-3">
-                  Your Details
+                  {t("yourDetails")}
                 </span>
                 <form onSubmit={handleSubmit}>
                   <label className="input mb-4">
@@ -148,7 +150,7 @@ const ManageOwnSuperAdmin = () => {
                     <input
                       type="text"
                       required
-                      placeholder="First Name"
+                      placeholder={t("firstName")}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                     />
@@ -201,7 +203,7 @@ const ManageOwnSuperAdmin = () => {
                   ) : null}
                   <div className="mt-6">
                     <button className="btn btn-primary btn-block" type="submit">
-                      Update Details
+                      {t("updateDetails")}
                     </button>
                   </div>
                 </form>
@@ -215,7 +217,7 @@ const ManageOwnSuperAdmin = () => {
                       document.getElementById("my_modal_5").showModal()
                     }
                   >
-                    Delete Your Account
+                    {t("deleteYourAccount")}
                   </button>
                 </div>
                 <div className="text-center mt-1">
@@ -223,7 +225,7 @@ const ManageOwnSuperAdmin = () => {
                     className="link link-info"
                     to="/superAdmin/change-password"
                   >
-                    Change password
+                    {t("changePassword")}
                   </Link>
                 </div>
               </div>
@@ -233,14 +235,14 @@ const ManageOwnSuperAdmin = () => {
       </main>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Deleting Your Account</h3>
-          <p className="py-4">Are you sure you want to delete your account?</p>
+          <h3 className="font-bold text-lg">{t("deletingYourAccount")}</h3>
+          <p className="py-4">{t("areYouSureDeleteAccount")}</p>
           <div className="modal-action">
             <form method="dialog">
               <button className="btn mr-5" onClick={handleDelete}>
-                Yes
+                {t("yes")}
               </button>
-              <button className="btn">No</button>
+              <button className="btn">{t("no")}</button>
             </form>
           </div>
         </div>

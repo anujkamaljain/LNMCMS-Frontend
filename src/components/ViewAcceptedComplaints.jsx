@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addaccComplaints } from "../utils/acceptedComplaintsSlice";
 import ComplaintCard from "./ComplaintCard";
 import { motion } from "motion/react";
+import { useTranslation } from "../utils/useTranslation";
 
 const ViewAcceptedComplaints = () => {
   const complaints = useSelector((store) => store.accepted); 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const fetchComplaints = async () => {
     try {
@@ -42,7 +44,7 @@ const ViewAcceptedComplaints = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          No Accepted Complaints!
+          {t("noComplaintsFound")}
         </motion.h1>
       </div>
     );
@@ -62,7 +64,7 @@ const ViewAcceptedComplaints = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Accepted Complaints
+        {t("acceptedComplaints")}
       </motion.h1>
       <div className="mt-5 flex flex-wrap justify-around">
         {complaints.map((complaint) => (

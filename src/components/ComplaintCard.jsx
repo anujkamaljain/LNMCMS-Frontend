@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
 import { updateComplaintUpvote } from "../utils/discoverSlice";
+import { useTranslation } from "../utils/useTranslation";
 
 const ComplaintCard = ({ complaint }) => {
   const user = useSelector((store) => store.auth.user);
@@ -18,6 +19,7 @@ const ComplaintCard = ({ complaint }) => {
   const [showScrollUp, setShowScrollUp] = useState(false);
   const cardBodyRef = useRef(null);
   const [isUpvoted, setIsUpvoted] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (complaint.upvotes && user) {
@@ -219,14 +221,14 @@ const ComplaintCard = ({ complaint }) => {
           </h2>
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Description:</span>
+              <span className="font-semibold min-w-[100px]">{t("complaintDescription")}:</span>
               <span className="flex-1 break-words overflow-hidden">
                 {complaint.description}
               </span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Status:</span>
+              <span className="font-semibold min-w-[100px]">{t("complaintStatus")}:</span>
               <span
                 className={`flex-1 font-semibold ${
                   complaint.status === "pending"
@@ -236,61 +238,61 @@ const ComplaintCard = ({ complaint }) => {
                     : "text-success"
                 }`}
               >
-                {complaint.status}
+                {t(complaint.status)}
               </span>
             </div>
             {complaint.status === "pending" ? (
               <div className="flex">
                 <span className="font-semibold min-w-[100px]">
-                  Accepted By:
+                  {t("acceptedBy")}:
                 </span>
                 <span className="flex-1"> - </span>
               </div>
             ) : (
               <div className="flex">
                 <span className="font-semibold min-w-[100px]">
-                  Accepted By:
+                  {t("acceptedBy")}:
                 </span>
                 <span className="flex-1">{complaint.acceptedBy.name}</span>
               </div>
             )}
             {complaint.status === "pending" ? (
               <div className="flex">
-                <span className="font-semibold min-w-[100px]">Email:</span>
+                <span className="font-semibold min-w-[100px]">{t("email")}:</span>
                 <span className="flex-1"> - </span>
               </div>
             ) : (
               <div className="flex">
-                <span className="font-semibold min-w-[100px]">Email:</span>
+                <span className="font-semibold min-w-[100px]">{t("email")}:</span>
                 <span className="flex-1">{complaint.acceptedBy.email}</span>
               </div>
             )}
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Location:</span>
+              <span className="font-semibold min-w-[100px]">{t("location")}:</span>
               <span className="flex-1 break-words overflow-hidden">
                 {complaint.location}
               </span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Roll Number:</span>
+              <span className="font-semibold min-w-[100px]">{t("rollNumber")}:</span>
               <span className="flex-1">{complaint.studentId.rollNumber}</span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Availability:</span>
+              <span className="font-semibold min-w-[100px]">{t("availability")}:</span>
               <span className="flex-1">
                 {`${complaint.availableTimeFrom}-${complaint.availableTimeTo}`}
               </span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Contact:</span>
+              <span className="font-semibold min-w-[100px]">{t("contact")}:</span>
               <span className="flex-1">{complaint.contactNumber}</span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">Created On:</span>
+              <span className="font-semibold min-w-[100px]">{t("createdOn")}:</span>
               <span className="flex-1">
                 {formatDate(complaint.createdAt.split("T")[0])}
               </span>
@@ -305,7 +307,7 @@ const ComplaintCard = ({ complaint }) => {
                 onClick={handleClick}
                 disabled={isLoading}
               >
-                {isLoading ? "Processing..." : "Accept"}
+                {isLoading ? t("processing") : t("accept")}
               </button>
             </div>
           )}
@@ -318,7 +320,7 @@ const ComplaintCard = ({ complaint }) => {
                 onClick={handleResolve}
                 disabled={isLoading}
               >
-                {isLoading ? "Processing..." : "Resolve"}
+                {isLoading ? t("processing") : t("resolve")}
               </button>
             </div>
           )}
@@ -328,7 +330,7 @@ const ComplaintCard = ({ complaint }) => {
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">Upvotes:</span>
+                    <span className="text-sm font-medium">{t("upvotes")}:</span>
                     <span className="badge badge-primary">
                       {complaint.upvoteCount || 0}
                     </span>
@@ -341,7 +343,7 @@ const ComplaintCard = ({ complaint }) => {
                     disabled={isLoading}
                   >
                     {isLoading ? (
-                      "Processing..."
+                      t("processing")
                     ) : isUpvoted ? (
                       <>
                         <svg
@@ -356,7 +358,7 @@ const ComplaintCard = ({ complaint }) => {
                             clipRule="evenodd"
                           />
                         </svg>
-                        Upvoted
+                        {t("upvoted")}
                       </>
                     ) : (
                       <>
@@ -372,7 +374,7 @@ const ComplaintCard = ({ complaint }) => {
                             clipRule="evenodd"
                           />
                         </svg>
-                        Upvote
+                        {t("upvote")}
                       </>
                     )}
                   </button>

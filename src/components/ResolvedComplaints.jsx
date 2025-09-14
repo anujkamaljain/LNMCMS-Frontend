@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import ComplaintCard from "./ComplaintCard";
 import { motion } from "motion/react";
 import { addresComplaints } from "../utils/resolvedComplaintsSlice";
+import { useTranslation } from "../utils/useTranslation";
 
 const ResolvedComplaints = () => {
   const complaints = useSelector((store) => store.resolved);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const fetchComplaints = async () => {
     try {
@@ -34,7 +36,7 @@ const ResolvedComplaints = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
         >
-          No History found of resolved Complaints of your department!
+          {t("noComplaintsFound")}
         </motion.h1>
       </div>
     );
@@ -53,7 +55,7 @@ const ResolvedComplaints = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
       >
-        Resolved Complaints
+        {t("resolvedComplaints")}
       </motion.h1>
       <main>
         <div className="mt-5 flex flex-wrap justify-around flex-1 overflow-x-hidden">
