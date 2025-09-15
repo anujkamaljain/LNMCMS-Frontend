@@ -39,9 +39,12 @@ export const translations = {
     // Dashboard translations
     welcome: "Welcome",
     welcomeMessage: "Welcome to the LNMCMS Complaint Portal.",
-    welcomeDescription: "We're happy to have you onboard! This portal is built to help you students report any day-to-day issues you may face across campus — from hostels and mess to washrooms and more. You can log your complaints here easily, and they will be addressed by the concerned authorities.",
-    responsibleUse: "Please use this platform responsibly. Avoid submitting fake or mischievous entries. Misuse of this system can result in disciplinary action. Your honest complaints help us improve our campus for everyone.",
-    clearDescription: "Be clear and concise in your complaint descriptions. The more accurate your report, the faster the resolution. Transparency and student participation are at the heart of this system.",
+    welcomeDescription:
+      "We're happy to have you onboard! This portal is built to help you students report any day-to-day issues you may face across campus — from hostels and mess to washrooms and more. You can log your complaints here easily, and they will be addressed by the concerned authorities.",
+    responsibleUse:
+      "Please use this platform responsibly. Avoid submitting fake or mischievous entries. Misuse of this system can result in disciplinary action. Your honest complaints help us improve our campus for everyone.",
+    clearDescription:
+      "Be clear and concise in your complaint descriptions. The more accurate your report, the faster the resolution. Transparency and student participation are at the heart of this system.",
     workTogether: "Let's work together to make LNMIIT a better place for all!",
     complaintsPerMonth: "Complaints per Month",
     // Common UI elements
@@ -69,7 +72,7 @@ export const translations = {
     registerNewComplaint: "Register New Complaint",
     myComplaints: "My Complaints",
     complaintTitle: "Complaint Title",
-    complaintDescription: "Complaint Description",
+    complaintDescription: "Description",
     complaintCategory: "Complaint Category",
     complaintPriority: "Priority",
     high: "High",
@@ -179,7 +182,6 @@ export const translations = {
     editAdminDetails: "Edit Admin Details",
     updating: "Updating...",
     update: "Update",
-    deleteStudent: "Delete Student",
     deleteStudents: "Delete Students",
     deleting: "Deleting...",
     studentsNotFound: "Students Not Found",
@@ -189,16 +191,6 @@ export const translations = {
     manageSuperAdmin: "Manage Super Admin",
     // Additional UI elements
     enterAdminEmail: "Enter Admin Email",
-    enterRollNumber: "Enter Roll Number",
-    searching: "Searching...",
-    search: "Search",
-    clear: "Clear",
-    edit: "Edit",
-    delete: "Delete",
-    prev: "Prev",
-    next: "Next",
-    page: "Page",
-    previous: "Previous",
     editStudentDetails: "Edit Student Details",
     // Additional management keys
     firstName: "First Name",
@@ -208,23 +200,19 @@ export const translations = {
     deleteYourAccount: "Delete Your Account",
     deletingYourAccount: "Deleting Your Account",
     areYouSureDeleteAccount: "Are you sure you want to delete your account?",
-    yes: "Yes",
-    no: "No",
     // Dialog keys
     deletionResult: "Deletion Result",
     additionResult: "Addition Result",
     seeDetailsBelow: "See details below",
     allStudentsDeletedSuccessfully: "All Students deleted successfully",
-    alreadyCreatedStudents: "Already Created Students",
-    failedToAdd: "Failed to Add",
-    allStudentsCreatedSuccessfully: "All Students created successfully and emails are sent",
-    close: "Close",
+
+    allStudentsCreatedSuccessfully:
+      "All Students created successfully and emails are sent",
     // Footer keys
     copyright: "Copyright",
     allRightsReserved: "All right reserved",
     forWebSupport: "For web support, reach us at",
     // Chart labels
-    complaints: "Complaints",
   },
   hi: {
     // Navbar translations in Hindi
@@ -266,9 +254,12 @@ export const translations = {
     // Dashboard translations in Hindi
     welcome: "स्वागत",
     welcomeMessage: "LNMCMS शिकायत पोर्टल में आपका स्वागत है।",
-    welcomeDescription: "हमें आपके साथ होकर खुशी है! यह पोर्टल आप छात्रों की मदद के लिए बनाया गया है ताकि आप कैंपस में आने वाली दैनिक समस्याओं की रिपोर्ट कर सकें — हॉस्टल और मेस से लेकर वॉशरूम और अन्य जगहों तक। आप यहाँ आसानी से अपनी शिकायतें दर्ज कर सकते हैं, और संबंधित अधिकारियों द्वारा उनका समाधान किया जाएगा।",
-    responsibleUse: "कृपया इस प्लेटफॉर्म का जिम्मेदारी से उपयोग करें। नकली या शरारती प्रविष्टियां न करें। इस सिस्टम का दुरुपयोग अनुशासनात्मक कार्रवाई का कारण बन सकता है। आपकी ईमानदार शिकायतें हमें सभी के लिए अपने कैंपस को बेहतर बनाने में मदद करती हैं।",
-    clearDescription: "अपने शिकायत विवरण में स्पष्ट और संक्षिप्त रहें। आपकी रिपोर्ट जितनी सटीक होगी, समाधान उतना ही तेज होगा। पारदर्शिता और छात्र भागीदारी इस सिस्टम का केंद्र हैं।",
+    welcomeDescription:
+      "हमें आपके साथ होकर खुशी है! यह पोर्टल आप छात्रों की मदद के लिए बनाया गया है ताकि आप कैंपस में आने वाली दैनिक समस्याओं की रिपोर्ट कर सकें — हॉस्टल और मेस से लेकर वॉशरूम और अन्य जगहों तक। आप यहाँ आसानी से अपनी शिकायतें दर्ज कर सकते हैं, और संबंधित अधिकारियों द्वारा उनका समाधान किया जाएगा।",
+    responsibleUse:
+      "कृपया इस प्लेटफॉर्म का जिम्मेदारी से उपयोग करें। नकली या शरारती प्रविष्टियां न करें। इस सिस्टम का दुरुपयोग अनुशासनात्मक कार्रवाई का कारण बन सकता है। आपकी ईमानदार शिकायतें हमें सभी के लिए अपने कैंपस को बेहतर बनाने में मदद करती हैं।",
+    clearDescription:
+      "अपने शिकायत विवरण में स्पष्ट और संक्षिप्त रहें। आपकी रिपोर्ट जितनी सटीक होगी, समाधान उतना ही तेज होगा। पारदर्शिता और छात्र भागीदारी इस सिस्टम का केंद्र हैं।",
     workTogether: "आइए मिलकर LNMIIT को सभी के लिए बेहतर जगह बनाएं!",
     complaintsPerMonth: "महीने के अनुसार शिकायतें",
     // Common UI elements in Hindi
@@ -296,7 +287,7 @@ export const translations = {
     registerNewComplaint: "नई शिकायत दर्ज करें",
     myComplaints: "मेरी शिकायतें",
     complaintTitle: "शिकायत का शीर्षक",
-    complaintDescription: "शिकायत का विवरण",
+    complaintDescription: "विवरण",
     complaintCategory: "शिकायत की श्रेणी",
     complaintPriority: "प्राथमिकता",
     high: "उच्च",
@@ -406,7 +397,6 @@ export const translations = {
     editAdminDetails: "एडमिन विवरण संपादित करें",
     updating: "अपडेट कर रहे हैं...",
     update: "अपडेट करें",
-    deleteStudent: "छात्र हटाएं",
     deleteStudents: "छात्र हटाएं",
     deleting: "हटा रहे हैं...",
     studentsNotFound: "छात्र नहीं मिले",
@@ -416,16 +406,11 @@ export const translations = {
     manageSuperAdmin: "सुपर एडमिन प्रबंधन",
     // Additional UI elements in Hindi
     enterAdminEmail: "एडमिन ईमेल दर्ज करें",
-    enterRollNumber: "रोल नंबर दर्ज करें",
-    searching: "खोज रहे हैं...",
-    search: "खोजें",
-    clear: "साफ़ करें",
-    edit: "संपादित करें",
-    delete: "हटाएं",
+
     prev: "पिछला",
-    next: "अगला",
+
     page: "पृष्ठ",
-    previous: "पिछला",
+
     editStudentDetails: "छात्र विवरण संपादित करें",
     // Additional management keys in Hindi
     firstName: "पहला नाम",
@@ -435,22 +420,20 @@ export const translations = {
     deleteYourAccount: "अपना खाता हटाएं",
     deletingYourAccount: "आपका खाता हटा रहे हैं",
     areYouSureDeleteAccount: "क्या आप वाकई अपना खाता हटाना चाहते हैं?",
-    yes: "हाँ",
-    no: "नहीं",
+
     // Dialog keys in Hindi
     deletionResult: "हटाने का परिणाम",
     additionResult: "जोड़ने का परिणाम",
     seeDetailsBelow: "नीचे विवरण देखें",
     allStudentsDeletedSuccessfully: "सभी छात्र सफलतापूर्वक हटाए गए",
-    alreadyCreatedStudents: "पहले से बनाए गए छात्र",
-    failedToAdd: "जोड़ने में असफल",
-    allStudentsCreatedSuccessfully: "सभी छात्र सफलतापूर्वक बनाए गए और ईमेल भेजे गए",
-    close: "बंद करें",
+
+    allStudentsCreatedSuccessfully:
+      "सभी छात्र सफलतापूर्वक बनाए गए और ईमेल भेजे गए",
+
     // Footer keys in Hindi
     copyright: "कॉपीराइट",
     allRightsReserved: "सभी अधिकार सुरक्षित",
     forWebSupport: "वेब सहायता के लिए, हमसे संपर्क करें",
     // Chart labels in Hindi
-    complaints: "शिकायतें",
   },
 };
