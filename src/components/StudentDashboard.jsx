@@ -56,19 +56,19 @@ const StudentDashboard = () => {
       >
         <div className="card-body">
           <h2 className="card-title text-amber-600 text-center text-2xl md:text-3xl font-bold">
-            👋 {t("welcomeMessage")}
+           😊 {t("welcomeMessage")}
           </h2>
           <p className="text-base md:text-lg text-gray-700 mt-4 leading-relaxed text-justify">
             {t("welcomeDescription")}
           </p>
           <p className="text-base md:text-lg text-gray-700 mt-3 leading-relaxed text-justify">
-            🛠️ {t("responsibleUse")}
+            {t("responsibleUse")}
           </p>
           <p className="text-base md:text-lg text-gray-700 mt-3 leading-relaxed text-justify">
-            💡 {t("clearDescription")}
+            {t("clearDescription")}
           </p>
           <p className="text-lg font-semibold text-emerald-700 text-center mt-4">
-            {t("workTogether")} 💬
+            {t("workTogether")}
           </p>
         </div>
       </motion.div>

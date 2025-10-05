@@ -53,8 +53,8 @@ const RegisterComplaint = () => {
 
     if (name === "title") {
       const charCount = getCharacterCount(value);
-      if (charCount > 0 && charCount < 20) {
-        newErrors.title = "Title must have at least 20 characters";
+      if (charCount > 0 && charCount < 5) {
+        newErrors.title = "Title must have at least 5 characters";
       } else if (charCount > 30) {
         newErrors.title = "Title cannot exceed 30 characters";
       } else {
@@ -79,8 +79,8 @@ const RegisterComplaint = () => {
       newErrors.title = "Title is required";
     } else {
       const charCount = getCharacterCount(formData.title);
-      if (charCount < 20) {
-        newErrors.title = "Title must have at least 20 characters";
+      if (charCount < 5) {
+        newErrors.title = "Title must have at least 5 characters";
       } else if (charCount > 30) {
         newErrors.title = "Title cannot exceed 30 characters";
       }
@@ -167,7 +167,7 @@ const RegisterComplaint = () => {
               onChange={(e) => setSelected(e.target.value)}
               className="radio radio-secondary text-amber-600"
             />
-            <div className="tooltip" data-tip="Complaint won't visible in Discover section!">
+            <div className="tooltip" data-tip="Complaint won't be visible in Discover section!">
             <span className="label-text font-semibold">{t("private")}</span>
             </div>
           </label>
@@ -196,7 +196,7 @@ const RegisterComplaint = () => {
                value={formData.title}
                onChange={handleChange}
                onBlur={handleBlur}
-               placeholder="Enter 20-30 characters for the title"
+               placeholder="Enter 5-30 characters for the title"
              />
              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-700 pointer-events-none z-10">
                {getCharacterCount(formData.title)}/30
@@ -215,10 +215,10 @@ const RegisterComplaint = () => {
               className="textarea textarea-bordered w-full pr-14 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               rows="4"
               value={formData.description}
-              minLength="50"
+              minLength="45"
               maxLength={150}
               onChange={handleChange}
-              placeholder="Minimum 50 Characters required"
+              placeholder="Minimum 45 Characters required"
             />
             <span className="absolute bottom-2 right-3 text-xs text-gray-500">
               {formData.description.length}/150

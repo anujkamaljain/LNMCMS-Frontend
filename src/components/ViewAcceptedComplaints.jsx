@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { STUDENT_BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addaccComplaints } from "../utils/acceptedComplaintsSlice";
@@ -11,26 +11,30 @@ const ViewAcceptedComplaints = () => {
   const complaints = useSelector((store) => store.accepted); 
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback(async () => {
     try {
+      setIsLoading(true);
       const res = await axios.get(STUDENT_BASE_URL + "/complaints/accepted", {
         withCredentials: true,
       });
       dispatch(addaccComplaints(res?.data?.data || []));
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
       fetchComplaints();
-  }, []);
+  }, [fetchComplaints]);
 
-  if (!complaints) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <span className="loading loading-bars loading-lg"></span>
+        <span className="loading loading-bars loading-xl"></span>
       </div>
     );
   }

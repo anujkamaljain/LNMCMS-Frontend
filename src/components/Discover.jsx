@@ -82,13 +82,15 @@ const Discover = () => {
             </button>
           </div>
         ) : complaints.length === 0 ? (
-          <div className="text-center py-10">
-            <div className="text-gray-500 text-lg">
+          <div className="flex items-center justify-center h-screen">
+            <motion.h1
+              className="text-4xl text-primary text-center"
+              style={{ fontFamily: "'Bowlby One SC', sans-serif" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
               {t("noComplaintsFound")}
-            </div>
-            <div className="text-gray-400 text-sm mt-2">
-              Check back later for new complaints from other students.
-            </div>
+            </motion.h1>
           </div>
         ) : (
           <div className="flex flex-wrap justify-center gap-4">

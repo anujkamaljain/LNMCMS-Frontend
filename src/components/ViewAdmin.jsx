@@ -102,7 +102,7 @@ const ViewAdmin = () => {
 
       {/* Cards */}
       {loading ? (
-        <span className="loading loading-spinner loading-lg"></span>
+        <span className="loading loading-bars loading-xl"></span>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {(searchResult ? [searchResult] : admins).map((admin, idx) => (
