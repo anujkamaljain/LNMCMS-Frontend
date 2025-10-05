@@ -27,8 +27,22 @@ const RegisterComplaint = () => {
   const [errors, setErrors] = useState({});
   const { t } = useTranslation();
 
+  const getCharacterCount = (text) => {
+    return text.length;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Handle title character limit
+    if (name === "title") {
+      const charCount = getCharacterCount(value);
+      if (charCount > 30) {
+        // Don't allow more than 30 characters
+        return;
+      }
+    }
+    
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
@@ -36,6 +50,17 @@ const RegisterComplaint = () => {
   const handleBlur = (e) => {
     const { name, value } = e.target;
     const newErrors = { ...errors };
+
+    if (name === "title") {
+      const charCount = getCharacterCount(value);
+      if (charCount > 0 && charCount < 20) {
+        newErrors.title = "Title must have at least 20 characters";
+      } else if (charCount > 30) {
+        newErrors.title = "Title cannot exceed 30 characters";
+      } else {
+        delete newErrors.title;
+      }
+    }
 
     if (name === "contact") {
       if (!/^\d{10}$/.test(value)) {
@@ -50,7 +75,16 @@ const RegisterComplaint = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.title) {
+      newErrors.title = "Title is required";
+    } else {
+      const charCount = getCharacterCount(formData.title);
+      if (charCount < 20) {
+        newErrors.title = "Title must have at least 20 characters";
+      } else if (charCount > 30) {
+        newErrors.title = "Title cannot exceed 30 characters";
+      }
+    }
     if (!formData.description)
       newErrors.description = "Description is required";
     if (!formData.location) newErrors.location = "Location tag is required";
@@ -152,19 +186,26 @@ const RegisterComplaint = () => {
           </label>
         </div>
 
-        <div>
-          <label className="label">{t("complaintTitle")}</label>
-          <input
-            type="text"
-            name="title"
-            className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            value={formData.title}
-            onChange={handleChange}
-          />
-          {errors.title && (
-            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
-          )}
-        </div>
+         <div>
+           <label className="label">{t("complaintTitle")}</label>
+           <div className="relative">
+             <input
+               type="text"
+               name="title"
+               className="input input-bordered w-full pr-16 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+               value={formData.title}
+               onChange={handleChange}
+               onBlur={handleBlur}
+               placeholder="Enter 20-30 characters for the title"
+             />
+             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-700 pointer-events-none z-10">
+               {getCharacterCount(formData.title)}/30
+             </span>
+           </div>
+           {errors.title && (
+             <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+           )}
+         </div>
 
         <div>
           <label className="label">{t("complaintDescription")}</label>
