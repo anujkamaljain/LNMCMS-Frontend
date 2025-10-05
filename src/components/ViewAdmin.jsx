@@ -140,9 +140,9 @@ const ViewAdmin = () => {
             disabled={page === 1}
             onClick={() => setPage((prev) => prev - 1)}
           >
-            « {t("prev")}
+            « {t("previous")}
           </button>
-          <button className="join-item btn">{t("page")} {page}</button>
+          <button className="join-item btn w-24 text-center bg-transparent border-1 border-base-300"> {page}</button>
           <button
             className="join-item btn"
             disabled={page === totalPages}
