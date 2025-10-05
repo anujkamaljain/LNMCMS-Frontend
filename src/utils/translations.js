@@ -213,6 +213,13 @@ export const translations = {
     allRightsReserved: "All right reserved",
     forWebSupport: "For web support, reach us at",
     // Chart labels
+    // Rating modal
+    rateYourExperience: "Rate Your Experience",
+    pleaseRateOutOf5: "Please rate your experience out of 5 stars",
+    star: "star",
+    stars: "stars",
+    thankYou: "Thank you!",
+    submitRating: "Submit Rating",
   },
   hi: {
     // Navbar translations in Hindi
@@ -435,5 +442,12 @@ export const translations = {
     allRightsReserved: "सभी अधिकार सुरक्षित",
     forWebSupport: "वेब सहायता के लिए, हमसे संपर्क करें",
     // Chart labels in Hindi
+    // Rating modal in Hindi
+    rateYourExperience: "अपने अनुभव को रेट करें",
+    pleaseRateOutOf5: "कृपया अपने अनुभव को 5 सितारों में से रेट करें",
+    star: "सितारा",
+    stars: "सितारे",
+    thankYou: "धन्यवाद!",
+    submitRating: "रेटिंग जमा करें",
   },
 };

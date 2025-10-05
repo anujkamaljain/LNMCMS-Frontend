@@ -10,6 +10,7 @@ import { removeComplaint } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
 import { updateComplaintUpvote } from "../utils/discoverSlice";
 import { useTranslation } from "../utils/useTranslation";
+import StarRatingModal from "./StarRatingModal";
 
 const ComplaintCard = ({ complaint }) => {
   const user = useSelector((store) => store.auth.user);
@@ -19,6 +20,8 @@ const ComplaintCard = ({ complaint }) => {
   const [showScrollUp, setShowScrollUp] = useState(false);
   const cardBodyRef = useRef(null);
   const [isUpvoted, setIsUpvoted] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -122,7 +125,11 @@ const ComplaintCard = ({ complaint }) => {
     }
   };
 
-  const handleResolve = async () => {
+  const handleResolve = () => {
+    setShowRatingModal(true);
+  };
+
+  const handleRatingSubmit = async (rating) => {
     if (!complaint?._id) {
       console.error("Complaint ID is missing");
       return;
@@ -132,11 +139,12 @@ const ComplaintCard = ({ complaint }) => {
     try {
       const res = await axios.patch(
         STUDENT_BASE_URL + "/complaint/resolve/" + complaint._id,
-        {},
+        { rating },
         { withCredentials: true }
       );
       if (res.status == 200) {
         dispatch(removeaccComplaint(complaint._id));
+        setShowRatingModal(false);
       } else {
         console.error("Resolving failed:", res.data?.message);
       }
@@ -195,7 +203,7 @@ const ComplaintCard = ({ complaint }) => {
           : complaint.status === "accepted"
           ? "bg-warning"
           : "bg-success"
-      } hover:translate-y-1 transition-all ease-in duration-100`}
+      } ${!showRatingModal ? "hover:translate-y-1" : ""} transition-all ease-in duration-100`}
     >
       <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
         <div
@@ -219,12 +227,57 @@ const ComplaintCard = ({ complaint }) => {
           <h2 className="text-2xl font-bold text-center mb-4 px-2">
             {complaint.title}
           </h2>
+          {complaint.status === "resolved" && complaint.rating && (
+            <div className="flex justify-center mb-4">
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 ${
+                      star <= complaint.rating ? "text-yellow-400" : "text-gray-300"
+                    }`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+                <span className="ml-2 text-xs sm:text-sm text-gray-600">
+                  ({complaint.rating}/5)
+                </span>
+              </div>
+            </div>
+          )}
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
               <span className="font-semibold min-w-[100px]">{t("complaintDescription")}:</span>
-              <span className="flex-1 break-words overflow-hidden">
-                {complaint.description}
-              </span>
+              <div className="flex-1 min-w-0">
+                <p 
+                  className="break-words transition-all duration-300"
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: isDescriptionExpanded ? 'none' : 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    lineHeight: '1.5em',
+                    maxHeight: isDescriptionExpanded ? 'none' : '3em',
+                    width: '100%',
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word'
+                  }}
+                >
+                  {complaint.description}
+                </p>
+                {complaint.description.length > 100 && (
+                  <button
+                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                    className="mt-2 text-sm font-medium text-green-600 hover:text-green-700 transition-colors duration-200"
+                  >
+                    {isDescriptionExpanded ? 'Read Less' : 'Read More'}
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="flex">
@@ -425,6 +478,14 @@ const ComplaintCard = ({ complaint }) => {
           </svg>
         </button>
       )}
+
+      {/* Star Rating Modal */}
+      <StarRatingModal
+        isOpen={showRatingModal}
+        onClose={() => setShowRatingModal(false)}
+        onRate={handleRatingSubmit}
+        complaintTitle={complaint.title}
+      />
     </div>
   );
 };
