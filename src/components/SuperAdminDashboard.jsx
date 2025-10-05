@@ -158,7 +158,7 @@ const SuperAdminDashboard = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeIn" }}
         >
-          {t("complaintsPerMonth")}
+          {t("complaintsPerMonthd")}
         </motion.h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-3">
           {Object.keys(departmentData).map((department, index) =>

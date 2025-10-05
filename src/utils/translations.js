@@ -46,7 +46,8 @@ export const translations = {
     clearDescription:
       "Be clear and concise in your complaint descriptions. The more accurate your report, the faster the resolution. Transparency and student participation are at the heart of this system.",
     workTogether: "Let's work together to make LNMIIT a better place for all!",
-    complaintsPerMonth: "Complaints per Month",
+    complaintsPerMonth: "Complaints per Month Location wise",
+    complaintsPerMonthd: "Complaints per Month department wise",
     // Common UI elements
     loading: "Loading...",
     error: "Error",
@@ -268,7 +269,8 @@ export const translations = {
     clearDescription:
       "अपने शिकायत विवरण में स्पष्ट और संक्षिप्त रहें। आपकी रिपोर्ट जितनी सटीक होगी, समाधान उतना ही तेज होगा। पारदर्शिता और छात्र भागीदारी इस सिस्टम का केंद्र हैं।",
     workTogether: "आइए मिलकर LNMIIT को सभी के लिए बेहतर जगह बनाएं!",
-    complaintsPerMonth: "महीने के अनुसार शिकायतें",
+    complaintsPerMonth: "महीने के अनुसार शिकायतें स्थान वार",
+    complaintsPerMonthd: "महीने के अनुसार शिकायतें विभाग वार",
     // Common UI elements in Hindi
     loading: "लोड हो रहा है...",
     error: "त्रुटि",
