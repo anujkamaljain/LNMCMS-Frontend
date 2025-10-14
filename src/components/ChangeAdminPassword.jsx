@@ -216,7 +216,7 @@ const ChangeAdminPassword = () => {
                     </p>
                   ) : null}
                   <div className="mt-6">
-                    <button className="btn btn-primary btn-block" type="submit" disabled>
+                    <button className="btn btn-primary btn-block" type="submit">
                       {t("changePassword")}
                     </button>
                   </div>
