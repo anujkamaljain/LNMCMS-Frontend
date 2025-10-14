@@ -27,7 +27,6 @@ const Chat = () => {
     const chat = await axios.get(BASE_URL + "/chat/" + targetUserId + (params.toString() ? '?' + params.toString() : ''), {
       withCredentials: true,
     });
-    console.log(chat?.data?.messages);
     const chatMessages = chat?.data?.messages?.map((msg) => {
       const name = msg?.sender === "student" ? msg?.studentId?.name : msg?.adminId?.name;
       return {
