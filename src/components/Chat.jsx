@@ -14,39 +14,47 @@ const Chat = () => {
   const complaintId = searchParams.get('complaintId');
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useSelector((store) => store?.auth);
   const userId = user?._id;
   const userRole = user?.role;
   const messagesEndRef = useRef(null);
 
   const fetchChatMessages = async () => {
-    const params = new URLSearchParams();
-    if (complaintId) {
-      params.append('complaintId', complaintId);
-    }
-    const chat = await axios.get(BASE_URL + "/chat/" + targetUserId + (params.toString() ? '?' + params.toString() : ''), {
-      withCredentials: true,
-    });
-    const chatMessages = chat?.data?.messages?.map((msg) => {
-      const name = msg?.sender === "student" ? msg?.studentId?.name : msg?.adminId?.name;
-      return {
-        name: name,
-        text: msg?.text,
-        userRole: msg?.sender,
-        timeStamp: msg?.createdAt,
-      };
-    });
-    setMessages(chatMessages || []);
-    
-    // Mark messages as read when chat is opened
     try {
-      await axios.post(BASE_URL + "/chat/" + targetUserId + "/read", {
-        ...(complaintId && { complaintId }),
-      }, {
+      setIsLoading(true);
+      const params = new URLSearchParams();
+      if (complaintId) {
+        params.append('complaintId', complaintId);
+      }
+      const chat = await axios.get(BASE_URL + "/chat/" + targetUserId + (params.toString() ? '?' + params.toString() : ''), {
         withCredentials: true,
       });
+      const chatMessages = chat?.data?.messages?.map((msg) => {
+        const name = msg?.sender === "student" ? msg?.studentId?.name : msg?.adminId?.name;
+        return {
+          name: name,
+          text: msg?.text,
+          userRole: msg?.sender,
+          timeStamp: msg?.createdAt,
+        };
+      });
+      setMessages(chatMessages || []);
+      
+      // Mark messages as read when chat is opened
+      try {
+        await axios.post(BASE_URL + "/chat/" + targetUserId + "/read", {
+          ...(complaintId && { complaintId }),
+        }, {
+          withCredentials: true,
+        });
+      } catch (error) {
+        console.error("Error marking messages as read:", error);
+      }
     } catch (error) {
-      console.error("Error marking messages as read:", error);
+      console.error("Error fetching chat messages:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -214,31 +222,39 @@ const Chat = () => {
             space-y-2 scroll-smooth
           "
         >
-          {Object.entries(groupMessagesByDate(messages)).map(([dateGroup, groupMessages]) => (
-            <div key={dateGroup}>
-              <div className="text-center my-4">
-                <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
-                  {dateGroup}
-                </span>
-              </div>
-              {groupMessages.map((msg, index) => (
-                <div className={`chat ${msg.userRole === userRole ? "chat-end" : "chat-start"}`} key={`${dateGroup}-${index}`}>
-                  <div className={`chat-header flex items-center gap-2 mb-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <span className="font-medium">{msg.name}</span>
-                    <div className={`flex items-center gap-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
-                      <div className="w-1 h-1 bg-amber-400 rounded-full"></div>
-                      <time className="text-xs bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-medium px-2 py-1 rounded-full bg-amber-50 border border-amber-200">
-                        {formatTimestamp(msg.timeStamp)}
-                      </time>
-                    </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center h-full">
+              <span className="loading loading-bars loading-lg text-amber-400"></span>
+            </div>
+          ) : (
+            <>
+              {Object.entries(groupMessagesByDate(messages)).map(([dateGroup, groupMessages]) => (
+                <div key={dateGroup}>
+                  <div className="text-center my-4">
+                    <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                      {dateGroup}
+                    </span>
                   </div>
-                  <div className="chat-bubble">{msg.text}</div>
-                  <div className="chat-footer opacity-50">{msg.userRole}</div>
+                  {groupMessages.map((msg, index) => (
+                    <div className={`chat ${msg.userRole === userRole ? "chat-end" : "chat-start"}`} key={`${dateGroup}-${index}`}>
+                      <div className={`chat-header flex items-center gap-2 mb-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <span className="font-medium">{msg.name}</span>
+                        <div className={`flex items-center gap-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <div className="w-1 h-1 bg-amber-400 rounded-full"></div>
+                          <time className="text-xs bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-medium px-2 py-1 rounded-full bg-amber-50 border border-amber-200">
+                            {formatTimestamp(msg.timeStamp)}
+                          </time>
+                        </div>
+                      </div>
+                      <div className="chat-bubble">{msg.text}</div>
+                      <div className="chat-footer opacity-50">{msg.userRole}</div>
+                    </div>
+                  ))}
                 </div>
               ))}
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} />
+            </>
+          )}
         </div>
 
         <div
