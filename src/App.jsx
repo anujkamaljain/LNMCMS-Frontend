@@ -24,16 +24,17 @@ import ChangeStudentPassword from "./components/ChangeStudentPassword";
 import RegisterComplaint from "./components/RegisterComplaint";
 import AddAdmin from "./components/AddAdmin";
 import EditAdmin from "./components/EditAdmin";
-import AddStudent from "./components/AddStudent"
-import DeleteStudent from "./components/DeleteStudent"
-import ViewStudent from "./components/ViewStudent"
-import ViewAdmin from "./components/ViewAdmin"
-import EditStudent from "./components/EditStudent"
+import AddStudent from "./components/AddStudent";
+import DeleteStudent from "./components/DeleteStudent";
+import ViewStudent from "./components/ViewStudent";
+import ViewAdmin from "./components/ViewAdmin";
+import EditStudent from "./components/EditStudent";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Analytics } from "@vercel/analytics/react";
 import UndeletedStudentsDialog from "./components/UndeletedStudentsDialog";
 import Discover from "./components/Discover";
+import Chat from "./components/Chat";
 
 axios.defaults.withCredentials = true;
 
@@ -41,10 +42,12 @@ axios.defaults.withCredentials = true;
 axios.interceptors.request.use((config) => {
   // Only use localStorage token for Safari/iOS browsers or if explicitly needed
   const userAgent = navigator.userAgent;
-  const isSafariOrIOS = (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) || /iPad|iPhone|iPod/.test(userAgent);
-  
-  const token = localStorage.getItem('authToken');
-  if (token && (isSafariOrIOS || !document.cookie.includes('token='))) {
+  const isSafariOrIOS =
+    (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) ||
+    /iPad|iPhone|iPod/.test(userAgent);
+
+  const token = localStorage.getItem("authToken");
+  if (token && (isSafariOrIOS || !document.cookie.includes("token="))) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -55,14 +58,14 @@ axios.interceptors.response.use(
   (response) => {
     // If response contains a token, store it for Safari fallback
     if (response.data?.token) {
-      localStorage.setItem('authToken', response.data.token);
+      localStorage.setItem("authToken", response.data.token);
     }
     return response;
   },
   (error) => {
     // Clear token on auth errors
     if (error.response?.status === 401) {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem("authToken");
     }
     return Promise.reject(error);
   }
@@ -102,10 +105,7 @@ const App = () => {
               path="/student/register-complaint"
               element={<RegisterComplaint />}
             />
-            <Route
-              path="/student/complaints/discover"
-              element={<Discover />}
-            />
+            <Route path="/student/complaints/discover" element={<Discover />} />
             <Route
               path="/student/pending-complaints"
               element={<ViewPendingComplaints />}
@@ -125,6 +125,9 @@ const App = () => {
             <Route
               path="/student/view-profile"
               element={<ViewStudentProfile />}
+            />
+            <Route path="/student/chat/:targetUserId" 
+            element={<Chat />} 
             />
           </Route>
 
@@ -147,6 +150,9 @@ const App = () => {
               path="/admin/change-password"
               element={<ChangeAdminPassword />}
             />
+            <Route path="/admin/chat/:targetUserId" 
+            element={<Chat />} 
+            />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["superAdmin"]} />}>
@@ -158,22 +164,19 @@ const App = () => {
               path="/superAdmin/manage-superAdmins"
               element={<ManageSuperAdmin />}
             />
-            <Route 
-              path="/superAdmin/add-admin" 
-              element={<AddAdmin />} 
-            />
-            <Route 
-              path="/superAdmin/view-admin" 
-              element={<ViewAdmin />} 
-            />
-            <Route 
-              path="/superAdmin/edit-admin/:id" 
-              element={<EditAdmin />} 
-            />
+            <Route path="/superAdmin/add-admin" element={<AddAdmin />} />
+            <Route path="/superAdmin/view-admin" element={<ViewAdmin />} />
+            <Route path="/superAdmin/edit-admin/:id" element={<EditAdmin />} />
             <Route path="/superAdmin/add-student" element={<AddStudent />} />
-            <Route path="/superAdmin/delete-student" element={<DeleteStudent />} />
+            <Route
+              path="/superAdmin/delete-student"
+              element={<DeleteStudent />}
+            />
             <Route path="/superAdmin/view-student" element={<ViewStudent />} />
-            <Route path="/superAdmin/edit-student/:id" element={<EditStudent />} />
+            <Route
+              path="/superAdmin/edit-student/:id"
+              element={<EditStudent />}
+            />
             <Route
               path="/superAdmin/manage-profile"
               element={<ManageOwnSuperAdmin />}

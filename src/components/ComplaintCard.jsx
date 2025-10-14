@@ -5,15 +5,17 @@ import {
   STUDENT_BASE_URL,
 } from "../utils/constants";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
 import { updateComplaintUpvote } from "../utils/discoverSlice";
 import { useTranslation } from "../utils/useTranslation";
 import StarRatingModal from "./StarRatingModal";
+import { MessageSquareText, Sparkles } from "lucide-react";
 
 const ComplaintCard = ({ complaint }) => {
-  const user = useSelector((store) => store.auth.user);
+  const { isAuthenticated, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
@@ -203,27 +205,49 @@ const ComplaintCard = ({ complaint }) => {
           : complaint.status === "accepted"
           ? "bg-warning"
           : "bg-success"
-      } ${!showRatingModal ? "hover:translate-y-1" : ""} transition-all ease-in duration-100`}
+      } ${
+        !showRatingModal ? "hover:translate-y-1" : ""
+      } transition-all ease-in duration-100`}
     >
       <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
         <div
           className="card-body p-6 flex flex-col flex-grow overflow-y-auto"
           ref={cardBodyRef}
         >
-          <div className="flex flex-wrap gap-2 mb-4">
-            {complaint.tags.map((tag, index) => (
-              <span
-                key={index}
-                className={`badge badge-sm ${
-                  Location_Wise_List.includes(tag)
-                    ? "badge-success"
-                    : "badge-warning"
-                } font-medium px-3 py-1 rounded-md`}
+          <div className="flex justify-between items-center">
+            <div className="flex flex-wrap gap-2">
+              {complaint.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className={`badge badge-sm ${
+                    Location_Wise_List.includes(tag)
+                      ? "badge-success"
+                      : "badge-warning"
+                  } font-medium px-3 py-1 rounded-md`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`${complaint.status === "accepted" ? "" : "hidden"}`}
+            >
+              <Link
+                to={
+                  (user?.role === "admin" || user?.role === "student") &&
+                  isAuthenticated
+                    ? `/${user?.role}/chat/${user?.role === "student" ? complaint?.acceptedBy?._id : complaint?.studentId?._id}`
+                    : "/login"
+                }
               >
-                {tag}
-              </span>
-            ))}
+                <button className="relative bg-orange-500 h-12 w-12 rounded-full flex items-center justify-center shadow-md hover:scale-105 transition-transform ease-in-out duration-350 cursor-pointer">
+                  <MessageSquareText className="text-white w-6 h-6" />
+                  <Sparkles className="absolute top-2 right-2 text-white w-3 h-3" />
+                </button>
+              </Link>
+            </div>
           </div>
+
           <h2 className="text-2xl font-bold text-center mb-4 px-2">
             {complaint.title}
           </h2>
@@ -234,7 +258,9 @@ const ComplaintCard = ({ complaint }) => {
                   <svg
                     key={star}
                     className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                      star <= complaint.rating ? "text-yellow-400" : "text-gray-300"
+                      star <= complaint.rating
+                        ? "text-yellow-400"
+                        : "text-gray-300"
                     }`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -251,37 +277,43 @@ const ComplaintCard = ({ complaint }) => {
           )}
           <div className="space-y-3 text-sm flex-grow">
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("complaintDescription")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("complaintDescription")}:
+              </span>
               <div className="flex-1 min-w-0">
-                <p 
+                <p
                   className="break-words transition-all duration-300"
                   style={{
-                    display: '-webkit-box',
-                    WebkitLineClamp: isDescriptionExpanded ? 'none' : 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    lineHeight: '1.5em',
-                    maxHeight: isDescriptionExpanded ? 'none' : '3em',
-                    width: '100%',
-                    wordWrap: 'break-word',
-                    overflowWrap: 'break-word'
+                    display: "-webkit-box",
+                    WebkitLineClamp: isDescriptionExpanded ? "none" : 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    lineHeight: "1.5em",
+                    maxHeight: isDescriptionExpanded ? "none" : "3em",
+                    width: "100%",
+                    wordWrap: "break-word",
+                    overflowWrap: "break-word",
                   }}
                 >
                   {complaint.description}
                 </p>
                 {complaint.description.length > 100 && (
                   <button
-                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                    onClick={() =>
+                      setIsDescriptionExpanded(!isDescriptionExpanded)
+                    }
                     className="mt-2 text-sm font-medium text-green-600 hover:text-green-700 transition-colors duration-200"
                   >
-                    {isDescriptionExpanded ? 'Read Less' : 'Read More'}
+                    {isDescriptionExpanded ? "Read Less" : "Read More"}
                   </button>
                 )}
               </div>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("complaintStatus")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("complaintStatus")}:
+              </span>
               <span
                 className={`flex-1 font-semibold ${
                   complaint.status === "pending"
@@ -311,41 +343,55 @@ const ComplaintCard = ({ complaint }) => {
             )}
             {complaint.status === "pending" ? (
               <div className="flex">
-                <span className="font-semibold min-w-[100px]">{t("email")}:</span>
+                <span className="font-semibold min-w-[100px]">
+                  {t("email")}:
+                </span>
                 <span className="flex-1"> - </span>
               </div>
             ) : (
               <div className="flex">
-                <span className="font-semibold min-w-[100px]">{t("email")}:</span>
+                <span className="font-semibold min-w-[100px]">
+                  {t("email")}:
+                </span>
                 <span className="flex-1">{complaint.acceptedBy.email}</span>
               </div>
             )}
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("location")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("location")}:
+              </span>
               <span className="flex-1 break-words overflow-hidden">
                 {complaint.location}
               </span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("rollNumber")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("rollNumber")}:
+              </span>
               <span className="flex-1">{complaint.studentId.rollNumber}</span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("availability")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("availability")}:
+              </span>
               <span className="flex-1">
                 {`${complaint.availableTimeFrom}-${complaint.availableTimeTo}`}
               </span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("contact")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("contact")}:
+              </span>
               <span className="flex-1">{complaint.contactNumber}</span>
             </div>
 
             <div className="flex">
-              <span className="font-semibold min-w-[100px]">{t("createdOn")}:</span>
+              <span className="font-semibold min-w-[100px]">
+                {t("createdOn")}:
+              </span>
               <span className="flex-1">
                 {formatDate(complaint.createdAt.split("T")[0])}
               </span>
