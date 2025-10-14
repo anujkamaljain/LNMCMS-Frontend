@@ -83,6 +83,64 @@ const Chat = () => {
     }
   };
 
+  const getDateGroup = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInHours = (now - date) / (1000 * 60 * 60);
+    
+    if (diffInHours < 24) {
+      return 'Today';
+    } else if (diffInHours < 48) {
+      return 'Yesterday';
+    } else {
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
+  };
+
+  const groupMessagesByDate = (messages) => {
+    const grouped = {};
+    messages.forEach(msg => {
+      const dateGroup = getDateGroup(msg.timeStamp);
+      if (!grouped[dateGroup]) {
+        grouped[dateGroup] = [];
+      }
+      grouped[dateGroup].push(msg);
+    });
+    
+    // Sort date groups to show Today at bottom
+    const sortedGroups = {};
+    const otherDates = [];
+    
+    Object.keys(grouped).forEach(date => {
+      if (date === 'Today' || date === 'Yesterday') {
+        return; // Skip for now
+      } else {
+        otherDates.push(date);
+      }
+    });
+    
+    // Sort other dates chronologically (oldest first)
+    otherDates.sort((a, b) => new Date(a) - new Date(b));
+    otherDates.forEach(date => {
+      sortedGroups[date] = grouped[date];
+    });
+    
+    // Add Yesterday and Today at the end (Today at bottom)
+    if (grouped['Yesterday']) {
+      sortedGroups['Yesterday'] = grouped['Yesterday'];
+    }
+    if (grouped['Today']) {
+      sortedGroups['Today'] = grouped['Today'];
+    }
+    
+    return sortedGroups;
+  };
+
   const sendMessage = () => {
     if (!newMessage.trim()) return;
     const socket = createSocketConnection();
@@ -139,23 +197,30 @@ const Chat = () => {
             space-y-2 scroll-smooth
           "
         >
-          {messages.map((msg, index) => {
-            return (
-              <div className={`chat ${msg.userRole === userRole ? "chat-end" : "chat-start"}`} key={index}>
-                <div className={`chat-header flex items-center gap-2 mb-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
-                  <span className="font-medium">{msg.name}</span>
-                  <div className={`flex items-center gap-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <div className="w-1 h-1 bg-amber-400 rounded-full"></div>
-                    <time className="text-xs bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-medium px-2 py-1 rounded-full bg-amber-50 border border-amber-200">
-                      {formatTimestamp(msg.timeStamp)}
-                    </time>
-                  </div>
-                </div>
-                <div className="chat-bubble">{msg.text}</div>
-                <div className="chat-footer opacity-50">{msg.userRole}</div>
+          {Object.entries(groupMessagesByDate(messages)).map(([dateGroup, groupMessages]) => (
+            <div key={dateGroup}>
+              <div className="text-center my-4">
+                <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                  {dateGroup}
+                </span>
               </div>
-            );
-          })}
+              {groupMessages.map((msg, index) => (
+                <div className={`chat ${msg.userRole === userRole ? "chat-end" : "chat-start"}`} key={`${dateGroup}-${index}`}>
+                  <div className={`chat-header flex items-center gap-2 mb-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <span className="font-medium">{msg.name}</span>
+                    <div className={`flex items-center gap-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className="w-1 h-1 bg-amber-400 rounded-full"></div>
+                      <time className="text-xs bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-medium px-2 py-1 rounded-full bg-amber-50 border border-amber-200">
+                        {formatTimestamp(msg.timeStamp)}
+                      </time>
+                    </div>
+                  </div>
+                  <div className="chat-bubble">{msg.text}</div>
+                  <div className="chat-footer opacity-50">{msg.userRole}</div>
+                </div>
+              ))}
+            </div>
+          ))}
           <div ref={messagesEndRef} />
         </div>
 
