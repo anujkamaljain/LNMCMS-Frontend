@@ -2,21 +2,48 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const pendingComplaintsSlice = createSlice({
   name: "pendingComplaints",
-  initialState: [],
+  initialState: {
+    complaints: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalComplaints: 0,
+      limit: 12
+    }
+  },
   reducers: {
-    addComplaints: (state, action) => action.payload,
+    addComplaints: (state, action) => {
+      state.complaints = action.payload.complaints || action.payload;
+      if (action.payload.pagination) {
+        state.pagination = action.payload.pagination;
+      }
+    },
     appendComplaint: (state, action) => {
-      state.push(action.payload);
+      state.complaints.push(action.payload);
+      state.pagination.totalComplaints += 1;
+      state.pagination.totalPages = Math.ceil(state.pagination.totalComplaints / state.pagination.limit);
     },
     removeComplaint: (state, action) => {
-      const newArry = state.filter((c) => c._id !== action.payload);
-      return newArry;
+      state.complaints = state.complaints.filter((c) => c._id !== action.payload);
+      state.pagination.totalComplaints = Math.max(0, state.pagination.totalComplaints - 1);
+      state.pagination.totalPages = Math.ceil(state.pagination.totalComplaints / state.pagination.limit);
     },
-    clearComplaints: () => []
+    clearComplaints: (state) => {
+      state.complaints = [];
+      state.pagination = {
+        currentPage: 1,
+        totalPages: 1,
+        totalComplaints: 0,
+        limit: 12
+      };
+    },
+    setPagination: (state, action) => {
+      state.pagination = { ...state.pagination, ...action.payload };
+    }
   },
 });
 
-export const { addComplaints, removeComplaint, appendComplaint, clearComplaints} =
+export const { addComplaints, removeComplaint, appendComplaint, clearComplaints, setPagination} =
   pendingComplaintsSlice.actions;
 
 export default pendingComplaintsSlice.reducer;

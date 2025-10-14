@@ -12,7 +12,7 @@ import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
 import { updateComplaintUpvote } from "../utils/discoverSlice";
 import { useTranslation } from "../utils/useTranslation";
 import StarRatingModal from "./StarRatingModal";
-import { MessageSquareText, Sparkles } from "lucide-react";
+import MediaViewer from "./MediaViewer";
 
 const ComplaintCard = ({ complaint }) => {
   const { isAuthenticated, user } = useSelector((store) => store.auth);
@@ -24,6 +24,7 @@ const ComplaintCard = ({ complaint }) => {
   const [isUpvoted, setIsUpvoted] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [showMediaViewer, setShowMediaViewer] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -205,9 +206,7 @@ const ComplaintCard = ({ complaint }) => {
           : complaint.status === "accepted"
           ? "bg-warning"
           : "bg-success"
-      } ${
-        !showRatingModal ? "hover:translate-y-1" : ""
-      } transition-all ease-in duration-100`}
+      } ${!showRatingModal && !showMediaViewer ? "hover:translate-y-1" : ""} transition-all ease-in duration-100`}
     >
       <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
         <div
@@ -299,10 +298,8 @@ const ComplaintCard = ({ complaint }) => {
                 </p>
                 {complaint.description.length > 100 && (
                   <button
-                    onClick={() =>
-                      setIsDescriptionExpanded(!isDescriptionExpanded)
-                    }
-                    className="mt-2 text-sm font-medium text-green-600 hover:text-green-700 transition-colors duration-200"
+                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                    className="cursor-pointer mt-2 text-sm font-medium text-red-400 hover:text-green-700 transition-colors duration-200"
                   >
                     {isDescriptionExpanded ? "Read Less" : "Read More"}
                   </button>
@@ -396,6 +393,21 @@ const ComplaintCard = ({ complaint }) => {
                 {formatDate(complaint.createdAt.split("T")[0])}
               </span>
             </div>
+
+            {/* Media Files Section */}
+            {complaint.media && complaint.media.length > 0 && (
+              <div className="flex">
+                <span className="font-semibold min-w-[100px]">Media:</span>
+                <div className="flex-1">
+                  <button
+                    onClick={() => setShowMediaViewer(true)}
+                    className="btn btn-sm btn-outline btn-primary"
+                  >
+                    📎 Media ({complaint.media.length} file{complaint.media.length > 1 ? 's' : ''})
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
           {complaint.status === "pending" && user.role === "admin" && (
             <div className="mt-4 pt-4 border-t border-gray-100">
@@ -531,6 +543,13 @@ const ComplaintCard = ({ complaint }) => {
         onClose={() => setShowRatingModal(false)}
         onRate={handleRatingSubmit}
         complaintTitle={complaint.title}
+      />
+
+      {/* Media Viewer Modal */}
+      <MediaViewer
+        isOpen={showMediaViewer}
+        onClose={() => setShowMediaViewer(false)}
+        mediaFiles={complaint.media || []}
       />
     </div>
   );

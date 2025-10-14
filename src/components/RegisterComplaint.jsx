@@ -5,6 +5,7 @@ import {
   Location_Wise_List,
   Department_Wise_List,
   STUDENT_BASE_URL,
+  BASE_URL,
 } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { appendComplaint } from "../utils/pendingComplaintsSlice";
@@ -23,12 +24,77 @@ const RegisterComplaint = () => {
     availableFrom: "",
     availableTo: "",
   });
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploadingFiles, setUploadingFiles] = useState(false);
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const { t } = useTranslation();
 
   const getCharacterCount = (text) => {
     return text.length;
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    
+    // Validate file count
+    if (files.length > 3) {
+      toast.error("Maximum 3 files allowed");
+      return;
+    }
+
+    // Validate file types and sizes
+    const validFiles = [];
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'video/mp4', 'video/mov', 'video/avi'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    files.forEach(file => {
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(`Invalid file type: ${file.name}. Only images (JPEG, PNG, GIF) and videos (MP4, MOV, AVI) are allowed.`);
+        return;
+      }
+      
+      if (file.size > maxSize) {
+        toast.error(`File too large: ${file.name}. Maximum size is 10MB.`);
+        return;
+      }
+      
+      validFiles.push(file);
+    });
+
+    setSelectedFiles(validFiles);
+  };
+
+  const removeFile = (index) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadFiles = async () => {
+    if (selectedFiles.length === 0) return [];
+
+    setUploadingFiles(true);
+    const formData = new FormData();
+    
+    selectedFiles.forEach(file => {
+      formData.append('media', file);
+    });
+
+    try {
+      const response = await axios.post(`${BASE_URL}/media/upload`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return response.data.data.files || [];
+    } catch (error) {
+      const message = error?.response?.data?.message || "Failed to upload files";
+      toast.error(message);
+      throw error;
+    } finally {
+      setUploadingFiles(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -108,24 +174,33 @@ const RegisterComplaint = () => {
     e.preventDefault();
     if (!validate()) return;
     setsbtBtnTxt("Submitting...");
-    const tags = [formData.location, formData.department];
-    const payload = {
-      title: formData.title,
-      description: formData.description,
-      tags,
-      location: formData.freeLocation,
-      availableTimeFrom: formData.availableFrom,
-      availableTimeTo: formData.availableTo,
-      contactNumber: formData.contact,
-      visibility: selected
-    };
-
+    
     try {
+      // Upload files first if any
+      let uploadedMedia = [];
+      if (selectedFiles.length > 0) {
+        uploadedMedia = await uploadFiles();
+      }
+
+      const tags = [formData.location, formData.department];
+      const payload = {
+        title: formData.title,
+        description: formData.description,
+        tags,
+        location: formData.freeLocation,
+        availableTimeFrom: formData.availableFrom,
+        availableTimeTo: formData.availableTo,
+        contactNumber: formData.contact,
+        visibility: selected,
+        media: uploadedMedia
+      };
+
       const res = await axios.post(`${STUDENT_BASE_URL}/complaint`, payload, {
         withCredentials: true,
       });
       dispatch(appendComplaint(res.data.data));
       toast.success("Complaint registered successfully");
+      
       // Reset form after submission
       setFormData({
         title: "",
@@ -137,6 +212,7 @@ const RegisterComplaint = () => {
         availableFrom: "",
         availableTo: "",
       });
+      setSelectedFiles([]);
       setsbtBtnTxt("Submit");
     } catch (err) {
       const message =
@@ -343,11 +419,64 @@ const RegisterComplaint = () => {
           </div>
         </div>
 
+        {/* File Upload Section */}
+        <div>
+          <label className="label">Upload Media Files (Optional)</label>
+          <div className="space-y-3">
+            <input
+              type="file"
+              multiple
+              accept="image/*,video/*"
+              onChange={handleFileChange}
+              className="file-input file-input-bordered w-full"
+              disabled={uploadingFiles}
+            />
+            <p className="text-sm text-gray-600">
+              Maximum 3 files, 10MB each. Supported formats: Images (JPEG, PNG, GIF) and Videos (MP4, MOV, AVI)
+            </p>
+            
+            {/* Selected Files Preview */}
+            {selectedFiles.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Selected Files:</p>
+                {selectedFiles.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded border">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm">
+                        {file.type.startsWith('image/') ? '🖼️' : '🎥'}
+                      </span>
+                      <span className="text-sm">{file.name}</span>
+                      <span className="text-xs text-gray-500">
+                        ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="text-red-500 hover:text-red-700 text-sm"
+                      disabled={uploadingFiles}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {uploadingFiles && (
+              <div className="flex items-center space-x-2 text-blue-600">
+                <span className="loading loading-spinner loading-sm"></span>
+                <span className="text-sm">Uploading files...</span>
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className="text-center">
           <button
             type="submit"
             className="btn btn-primary px-10"
-            disabled={sbtBtnTxt === "Submitting..."}
+            disabled={sbtBtnTxt === "Submitting..." || uploadingFiles}
           >
             {sbtBtnTxt === "Submit" ? t("submit") : sbtBtnTxt}
           </button>
