@@ -18,7 +18,7 @@ const Chat = () => {
   const { user } = useSelector((store) => store?.auth);
   const userId = user?._id;
   const userRole = user?.role;
-  const messagesEndRef = useRef(null);
+  const scrollContainerRef = useRef(null);
 
   const fetchChatMessages = async () => {
     try {
@@ -40,7 +40,7 @@ const Chat = () => {
         };
       });
       setMessages(chatMessages || []);
-      
+
       // Mark messages as read when chat is opened
       try {
         await axios.post(BASE_URL + "/chat/" + targetUserId + "/read", {
@@ -77,32 +77,45 @@ const Chat = () => {
     };
   }, [userId, targetUserId]);
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  const scrollToBottom = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
   }, [messages]);
+
+  // Scroll to bottom when loading is complete and messages are loaded
+  useEffect(() => {
+    if (!isLoading && messages.length > 0) {
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }
+  }, [isLoading, messages.length]);
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = (now - date) / (1000 * 60 * 60);
-    
+
     if (diffInHours < 24) {
       // Show time for today's messages
-      return date.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
+      return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
       });
     } else if (diffInHours < 48) {
       // Show "Yesterday" for yesterday's messages
       return 'Yesterday';
     } else {
       // Show date for older messages
-      return date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric' 
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
       });
     }
   };
@@ -111,17 +124,17 @@ const Chat = () => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = (now - date) / (1000 * 60 * 60);
-    
+
     if (diffInHours < 24) {
       return 'Today';
     } else if (diffInHours < 48) {
       return 'Yesterday';
     } else {
-      return date.toLocaleDateString('en-US', { 
+      return date.toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
-        month: 'long', 
-        day: 'numeric' 
+        month: 'long',
+        day: 'numeric'
       });
     }
   };
@@ -135,11 +148,11 @@ const Chat = () => {
       }
       grouped[dateGroup].push(msg);
     });
-    
+
     // Sort date groups to show Today at bottom
     const sortedGroups = {};
     const otherDates = [];
-    
+
     Object.keys(grouped).forEach(date => {
       if (date === 'Today' || date === 'Yesterday') {
         return; // Skip for now
@@ -147,13 +160,13 @@ const Chat = () => {
         otherDates.push(date);
       }
     });
-    
+
     // Sort other dates chronologically (oldest first)
     otherDates.sort((a, b) => new Date(a) - new Date(b));
     otherDates.forEach(date => {
       sortedGroups[date] = grouped[date];
     });
-    
+
     // Add Yesterday and Today at the end (Today at bottom)
     if (grouped['Yesterday']) {
       sortedGroups['Yesterday'] = grouped['Yesterday'];
@@ -161,7 +174,7 @@ const Chat = () => {
     if (grouped['Today']) {
       sortedGroups['Today'] = grouped['Today'];
     }
-    
+
     return sortedGroups;
   };
 
@@ -217,6 +230,7 @@ const Chat = () => {
         </motion.h1>
 
         <div
+          ref={scrollContainerRef}
           className="
             flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 
             space-y-2 scroll-smooth
@@ -252,7 +266,7 @@ const Chat = () => {
                   ))}
                 </div>
               ))}
-              <div ref={messagesEndRef} />
+
             </>
           )}
         </div>
@@ -284,7 +298,7 @@ const Chat = () => {
               transition-all duration-150 ease-in-out
               cursor-pointer
             "
-            disabled={isLoading} 
+            disabled={isLoading}
             onClick={sendMessage}
           >
             {isLoading ? "Loading..." : "Send"}
