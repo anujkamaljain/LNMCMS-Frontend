@@ -59,6 +59,30 @@ const Chat = () => {
     }
   }, [messages]);
 
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInHours = (now - date) / (1000 * 60 * 60);
+    
+    if (diffInHours < 24) {
+      // Show time for today's messages
+      return date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      });
+    } else if (diffInHours < 48) {
+      // Show "Yesterday" for yesterday's messages
+      return 'Yesterday';
+    } else {
+      // Show date for older messages
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
+  };
+
   const sendMessage = () => {
     if (!newMessage.trim()) return;
     const socket = createSocketConnection();
@@ -118,9 +142,14 @@ const Chat = () => {
           {messages.map((msg, index) => {
             return (
               <div className={`chat ${msg.userRole === userRole ? "chat-end" : "chat-start"}`} key={index}>
-                <div className="chat-header">
-                  {msg.name}
-                  <time className="text-xs opacity-50">{msg.timeStamp}</time>
+                <div className={`chat-header flex items-center gap-2 mb-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <span className="font-medium">{msg.name}</span>
+                  <div className={`flex items-center gap-2 ${msg.userRole === userRole ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <div className="w-1 h-1 bg-amber-400 rounded-full"></div>
+                    <time className="text-xs bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-medium px-2 py-1 rounded-full bg-amber-50 border border-amber-200">
+                      {formatTimestamp(msg.timeStamp)}
+                    </time>
+                  </div>
                 </div>
                 <div className="chat-bubble">{msg.text}</div>
                 <div className="chat-footer opacity-50">{msg.userRole}</div>
