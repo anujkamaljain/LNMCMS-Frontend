@@ -32,6 +32,15 @@ const Chat = () => {
       };
     });
     setMessages(chatMessages || []);
+    
+    // Mark messages as read when chat is opened
+    try {
+      await axios.post(BASE_URL + "/chat/" + targetUserId + "/read", {}, {
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.error("Error marking messages as read:", error);
+    }
   };
 
   useEffect(() => {

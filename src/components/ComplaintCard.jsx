@@ -14,6 +14,7 @@ import { useTranslation } from "../utils/useTranslation";
 import StarRatingModal from "./StarRatingModal";
 import MediaViewer from "./MediaViewer";
 import{ Sparkles, MessageSquareText } from "lucide-react";
+import { useUnreadMessages } from "../utils/useUnreadMessages";
 
 const ComplaintCard = ({ complaint }) => {
   const { isAuthenticated, user } = useSelector((store) => store.auth);
@@ -27,6 +28,12 @@ const ComplaintCard = ({ complaint }) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [showMediaViewer, setShowMediaViewer] = useState(false);
   const { t } = useTranslation();
+
+  // Get target user ID for chat
+  const targetUserId = user?.role === "student" ? complaint?.acceptedBy?._id : complaint?.studentId?._id;
+  
+  // Check for unread messages
+  const { hasUnread, unreadCount } = useUnreadMessages(targetUserId);
 
   useEffect(() => {
     if (complaint.upvotes && user) {
@@ -243,6 +250,12 @@ const ComplaintCard = ({ complaint }) => {
                 <button className="relative bg-orange-500 h-12 w-12 rounded-full flex items-center justify-center shadow-md hover:scale-105 transition-transform ease-in-out duration-350 cursor-pointer">
                   <MessageSquareText className="text-white w-6 h-6" />
                   <Sparkles className="absolute top-2 right-2 text-white w-3 h-3" />
+                  {/* Red dot for unread messages */}
+                  {hasUnread && (
+                    <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </div>
+                  )}
                 </button>
               </Link>
             </div>
