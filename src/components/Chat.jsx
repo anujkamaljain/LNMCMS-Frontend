@@ -284,9 +284,10 @@ const Chat = () => {
               transition-all duration-150 ease-in-out
               cursor-pointer
             "
+            disabled={isLoading} 
             onClick={sendMessage}
           >
-            Send
+            {isLoading ? "Loading..." : "Send"}
           </button>
         </div>
       </div>
