@@ -13,6 +13,7 @@ import { updateComplaintUpvote } from "../utils/discoverSlice";
 import { useTranslation } from "../utils/useTranslation";
 import StarRatingModal from "./StarRatingModal";
 import MediaViewer from "./MediaViewer";
+import{ Sparkles, MessageSquareText } from "lucide-react";
 
 const ComplaintCard = ({ complaint }) => {
   const { isAuthenticated, user } = useSelector((store) => store.auth);
