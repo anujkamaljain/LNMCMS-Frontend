@@ -5,6 +5,6 @@ export const createSocketConnection = () => {
   if (location.hostname === "localhost") {
     return io(BASE_URL);
   } else {
-    return io("/", { path: "/https://lnmcms-backend.onrender.com/socket.io" });
+    return io("https://lnmcms-backend.onrender.com");
   }
 };
