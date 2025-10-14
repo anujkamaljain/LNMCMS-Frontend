@@ -33,7 +33,7 @@ const ComplaintCard = ({ complaint }) => {
   const targetUserId = user?.role === "student" ? complaint?.acceptedBy?._id : complaint?.studentId?._id;
   
   // Check for unread messages
-  const { hasUnread, unreadCount } = useUnreadMessages(targetUserId);
+  const { hasUnread, unreadCount } = useUnreadMessages(targetUserId, complaint._id);
 
   useEffect(() => {
     if (complaint.upvotes && user) {
@@ -243,7 +243,7 @@ const ComplaintCard = ({ complaint }) => {
                 to={
                   (user?.role === "admin" || user?.role === "student") &&
                   isAuthenticated
-                    ? `/${user?.role}/chat/${user?.role === "student" ? complaint?.acceptedBy?._id : complaint?.studentId?._id}`
+                    ? `/${user?.role}/chat/${user?.role === "student" ? complaint?.acceptedBy?._id : complaint?.studentId?._id}?complaintId=${complaint?._id}`
                     : "/login"
                 }
               >

@@ -10,6 +10,8 @@ import { BASE_URL } from "../utils/constants";
 
 const Chat = () => {
   const { targetUserId } = useParams();
+  const [searchParams] = useState(() => new URLSearchParams(window.location.search));
+  const complaintId = searchParams.get('complaintId');
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const { user } = useSelector((store) => store?.auth);
@@ -18,7 +20,11 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
 
   const fetchChatMessages = async () => {
-    const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {
+    const params = new URLSearchParams();
+    if (complaintId) {
+      params.append('complaintId', complaintId);
+    }
+    const chat = await axios.get(BASE_URL + "/chat/" + targetUserId + (params.toString() ? '?' + params.toString() : ''), {
       withCredentials: true,
     });
     console.log(chat?.data?.messages);
@@ -35,7 +41,9 @@ const Chat = () => {
     
     // Mark messages as read when chat is opened
     try {
-      await axios.post(BASE_URL + "/chat/" + targetUserId + "/read", {}, {
+      await axios.post(BASE_URL + "/chat/" + targetUserId + "/read", {
+        ...(complaintId && { complaintId }),
+      }, {
         withCredentials: true,
       });
     } catch (error) {
@@ -159,6 +167,7 @@ const Chat = () => {
       userRole,
       targetUserId,
       text: newMessage,
+      ...(complaintId && { complaintId }),
     });
     setNewMessage("");
   };

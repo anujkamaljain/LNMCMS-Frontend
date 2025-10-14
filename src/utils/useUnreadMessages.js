@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { BASE_URL } from './constants';
 
-export const useUnreadMessages = (targetUserId) => {
+export const useUnreadMessages = (targetUserId, complaintId) => {
   const [hasUnread, setHasUnread] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +12,11 @@ export const useUnreadMessages = (targetUserId) => {
     
     setIsLoading(true);
     try {
-      const response = await axios.get(BASE_URL + `/chat/${targetUserId}/unread`, {
+      const params = new URLSearchParams();
+      if (complaintId) {
+        params.append('complaintId', complaintId);
+      }
+      const response = await axios.get(BASE_URL + `/chat/${targetUserId}/unread` + (params.toString() ? '?' + params.toString() : ''), {
         withCredentials: true,
       });
       setHasUnread(response.data.hasUnread);
@@ -24,13 +28,15 @@ export const useUnreadMessages = (targetUserId) => {
     } finally {
       setIsLoading(false);
     }
-  }, [targetUserId]);
+  }, [targetUserId, complaintId]);
 
   const markAsRead = useCallback(async () => {
     if (!targetUserId) return;
     
     try {
-      await axios.post(BASE_URL + `/chat/${targetUserId}/read`, {}, {
+      await axios.post(BASE_URL + `/chat/${targetUserId}/read`, {
+        ...(complaintId && { complaintId }),
+      }, {
         withCredentials: true,
       });
       setHasUnread(false);
@@ -38,7 +44,7 @@ export const useUnreadMessages = (targetUserId) => {
     } catch (error) {
       console.error('Error marking messages as read:', error);
     }
-  }, [targetUserId]);
+  }, [targetUserId, complaintId]);
 
   useEffect(() => {
     checkUnreadMessages();
