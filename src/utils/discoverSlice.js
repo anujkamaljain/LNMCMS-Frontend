@@ -6,6 +6,12 @@ const discoverSlice = createSlice({
     complaints: [],
     loading: false,
     error: null,
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalComplaints: 0,
+      limit: 12
+    }
   },
   reducers: {
     setLoading: (state, action) => {
@@ -16,7 +22,10 @@ const discoverSlice = createSlice({
       state.loading = false;
     },
     setComplaints: (state, action) => {
-      state.complaints = action.payload;
+      state.complaints = action.payload.complaints || action.payload;
+      if (action.payload.pagination) {
+        state.pagination = action.payload.pagination;
+      }
       state.loading = false;
       state.error = null;
     },
@@ -33,6 +42,12 @@ const discoverSlice = createSlice({
       state.complaints = [];
       state.loading = false;
       state.error = null;
+      state.pagination = {
+        currentPage: 1,
+        totalPages: 1,
+        totalComplaints: 0,
+        limit: 12
+      };
     },
   },
 });

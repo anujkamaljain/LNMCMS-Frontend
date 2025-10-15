@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setError, setComplaints } from "../utils/discoverSlice";
@@ -9,18 +9,23 @@ import { useTranslation } from "../utils/useTranslation";
 
 const Discover = () => {
   const dispatch = useDispatch();
-  const { complaints, loading, error } = useSelector((store) => store.discover);
+  const { complaints, loading, error, pagination } = useSelector((store) => store.discover);
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
+  const [pageInput, setPageInput] = useState(1);
 
-  const fetchPublicComplaints = async () => {
+  const fetchPublicComplaints = useCallback(async (pageNum = page) => {
     dispatch(setLoading(true));
     try {
-      const res = await axios.get(STUDENT_BASE_URL + "/complaints/public", {
+      const res = await axios.get(`${STUDENT_BASE_URL}/complaints/public?page=${pageNum}&limit=12`, {
         withCredentials: true,
       });
 
       if (res.status === 200) {
-        dispatch(setComplaints(res.data.data));
+        dispatch(setComplaints({
+          complaints: res.data.data,
+          pagination: res.data.pagination
+        }));
       } else {
         dispatch(setError(res.data?.message || "Failed to fetch complaints"));
       }
@@ -30,11 +35,42 @@ const Discover = () => {
         setError(err.response?.data?.message || "Failed to fetch complaints")
       );
     }
-  };
+  }, [dispatch, page]);
+
+  // Handle page adjustment when current page becomes empty
+  useEffect(() => {
+    if (pagination.totalPages > 0 && page > pagination.totalPages) {
+      const newPage = pagination.totalPages;
+      setPage(newPage);
+      setPageInput(newPage);
+      fetchPublicComplaints(newPage);
+    }
+  }, [pagination.totalPages, page, fetchPublicComplaints]);
 
   useEffect(() => {
     fetchPublicComplaints();
-  }, []);
+  }, [fetchPublicComplaints]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      setPage(newPage);
+      setPageInput(newPage);
+      fetchPublicComplaints(newPage);
+    }
+  };
+
+  const handlePageInputChange = (e) => {
+    setPageInput(parseInt(e.target.value) || 1);
+  };
+
+  const handlePageInputBlur = () => {
+    const newPage = Math.max(1, Math.min(pagination.totalPages, pageInput));
+    if (newPage !== page) {
+      handlePageChange(newPage);
+    } else {
+      setPageInput(page);
+    }
+  };
 
   return (
     <motion.div
@@ -93,11 +129,51 @@ const Discover = () => {
             </motion.h1>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center gap-4">
-            {complaints.map((complaint) => (
-              <ComplaintCard key={complaint._id} complaint={complaint} />
-            ))}
-          </div>
+          <>
+            <div className="flex flex-wrap justify-center gap-4">
+              {complaints.map((complaint) => (
+                <ComplaintCard key={complaint._id} complaint={complaint} />
+              ))}
+            </div>
+            
+            {/* Pagination Controls */}
+            {pagination.totalPages > 1 && (
+              <div className="flex justify-center mt-6">
+                <div className="join">
+                  <button
+                    className="join-item btn"
+                    disabled={page === 1}
+                    onClick={() => handlePageChange(page - 1)}
+                  >
+                    « {t("previous")}
+                  </button>
+
+                  <input
+                    type="number"
+                    className="input input-bordered join-item w-24 text-center focus:outline-none"
+                    min={1}
+                    max={pagination.totalPages}
+                    value={pageInput}
+                    onChange={handlePageInputChange}
+                    onBlur={handlePageInputBlur}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handlePageInputBlur();
+                      }
+                    }}
+                  />
+
+                  <button
+                    className="join-item btn"
+                    disabled={page === pagination.totalPages}
+                    onClick={() => handlePageChange(page + 1)}
+                  >
+                    {t("next")} »
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </motion.div>
