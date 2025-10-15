@@ -32,6 +32,16 @@ const ViewPendingComplaints = () => {
     }
   }, [dispatch, page]);
 
+  // Handle page adjustment when current page becomes empty
+  useEffect(() => {
+    if (pagination.totalPages > 0 && page > pagination.totalPages) {
+      const newPage = pagination.totalPages;
+      setPage(newPage);
+      setPageInput(newPage);
+      fetchComplaints(newPage);
+    }
+  }, [pagination.totalPages, page, fetchComplaints]);
+
   useEffect(() => {
     fetchComplaints();
   }, [fetchComplaints]);
