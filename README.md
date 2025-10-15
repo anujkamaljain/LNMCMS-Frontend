@@ -22,15 +22,12 @@
 - [🌟 Features](#-features)
 - [🛠️ Tech Stack](#️-tech-stack)
 - [🚀 Quick Start](#-quick-start)
-- [📱 Screenshots](#-screenshots)
 - [🧪 Demo Credentials](#-demo-credentials)
 - [🏗️ Project Structure](#️-project-structure)
 - [🎨 UI/UX Features](#-uiux-features)
 - [📊 Analytics & Charts](#-analytics--charts)
 - [💬 Real-time Chat](#-real-time-chat)
 - [🌐 Internationalization](#-internationalization)
-- [🔧 Development](#-development)
-- [📦 Deployment](#-deployment)
 - [🤝 Contributing](#-contributing)
 - [👥 Authors](#-authors)
 - [📄 License](#-license)
@@ -56,7 +53,7 @@
 - **Live Chat System**: Direct communication between students and admins
 - **Socket.IO Integration**: Instant message delivery and read receipts
 - **Complaint-specific Chats**: Contextual conversations linked to specific complaints
-- **Unread Message Tracking**: Real-time notification system
+- **Unread Message Tracking**: Red dot notifying unread messages of a specific user on a complaint
 
 ### 📊 **Advanced Analytics**
 - **Interactive Charts**: Bar charts, pie charts, doughnut charts, and line graphs
@@ -114,8 +111,8 @@
 ## 🚀 Quick Start
 
 ### **Prerequisites**
-- Node.js (v18 or higher)
-- npm or yarn package manager
+- Node.js (v20 or higher)
+- npm 
 - Git
 
 ### **Installation**
@@ -140,13 +137,6 @@ npm run build
 
 # Preview production build
 npm run preview
-```
-
-### **Linting**
-
-```bash
-# Run ESLint
-npm run lint
 ```
 
 ---
@@ -213,14 +203,12 @@ LNMCMS-Frontend/
 - **Component Library**: Reusable components with consistent styling
 
 ### **📱 Responsive Design**
-- **Mobile First**: Optimized for mobile devices (320px+)
-- **Tablet Support**: Perfect layout for tablets (768px+)
-- **Desktop Experience**: Enhanced features for desktop (1024px+)
-- **Touch Friendly**: Large touch targets and gesture support
+- **Mobile First**: Optimized for mobile devices 
+- **Tablet Support**: Perfect layout for tablets 
+- **Desktop Experience**: Enhanced features for desktop 
 
 ### **🎬 Animations & Interactions**
 - **Page Transitions**: Smooth route transitions
-- **Loading States**: Skeleton loaders and progress bars
 - **Hover Effects**: Subtle micro-interactions
 - **Form Validation**: Real-time feedback with animations
 
@@ -237,9 +225,6 @@ LNMCMS-Frontend/
 
 ### **📊 Dashboard Metrics**
 - **Real-time Counters**: Live complaint statistics
-- **Trend Indicators**: Up/down arrows with percentages
-- **Progress Bars**: Completion rates and status tracking
-- **Quick Stats**: Key performance indicators
 
 ---
 
@@ -247,11 +232,8 @@ LNMCMS-Frontend/
 
 ### **🔗 Features**
 - **Instant Messaging**: Real-time message delivery
-- **Read Receipts**: Message read status tracking
 - **Complaint Context**: Chat linked to specific complaints
-- **User Presence**: Online/offline status indicators
 - **Message History**: Persistent chat history
-- **File Sharing**: Media sharing in conversations
 
 ### **🎯 Use Cases**
 - **Student-Admin Communication**: Direct resolution discussions
@@ -280,42 +262,17 @@ LNMCMS-Frontend/
 ### **📝 Code Quality**
 - **ESLint Configuration**: Strict linting rules
 - **Prettier Integration**: Consistent code formatting
-- **TypeScript Ready**: Easy migration to TypeScript
-- **Component Documentation**: JSDoc comments for components
 
 ### **🚀 Performance**
 - **Code Splitting**: Automatic route-based code splitting
 - **Lazy Loading**: Component-level lazy loading
-- **Image Optimization**: Automatic image optimization
-- **Bundle Analysis**: Built-in bundle size analysis
 
 ### **🧪 Testing Ready**
 - **Test Structure**: Organized for easy testing setup
-- **Mock Data**: Sample data for development
 - **Error Boundaries**: Graceful error handling
-- **Development Tools**: React DevTools integration
 
 ---
 
-## 📦 Deployment
-
-### **🌐 Vercel Deployment**
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy to Vercel
-vercel --prod
-```
-
-### **🐳 Docker Support**
-```dockerfile
-# Build Docker image
-docker build -t lnmcms-frontend .
-
-# Run container
-docker run -p 3000:3000 lnmcms-frontend
-```
 
 ### **📊 Performance Monitoring**
 - **Vercel Analytics**: Built-in performance monitoring
@@ -348,12 +305,6 @@ We welcome contributions! Here's how you can help:
 4. Add tests if applicable
 5. Submit a pull request
 
-### **📚 Documentation**
-- Improve existing documentation
-- Add code examples
-- Fix typos and grammar
-- Translate to other languages
-
 ---
 
 ## 👥 Authors
@@ -362,11 +313,9 @@ We welcome contributions! Here's how you can help:
 
 ### **Anuj Jain**
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/anujkamaljain)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/anujkamaljain)
 
 ### **Anmol Sanger**
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AnmolSanger)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/anmolsanger)
 
 </div>
 
@@ -374,7 +323,7 @@ We welcome contributions! Here's how you can help:
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **ISC License**.
 
 ---
 
@@ -384,6 +333,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **Built with ❤️ for the LNMIIT community**
 
-[🚀 Live Demo](https://lnmcms-frontend.vercel.app) • [📚 Documentation](https://github.com/anujkamaljain/LNMCMS-Frontend/wiki) • [🐛 Report Issue](https://github.com/anujkamaljain/LNMCMS-Frontend/issues)
+[🚀 Live Demo](https://lnmcms-frontend.vercel.app) • [🐛 Report Issue](https://github.com/anujkamaljain/LNMCMS-Frontend/issues)
 
 </div>
