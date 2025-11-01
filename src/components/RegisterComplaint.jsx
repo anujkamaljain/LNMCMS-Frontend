@@ -103,8 +103,8 @@ const RegisterComplaint = () => {
     // Handle title character limit
     if (name === "title") {
       const charCount = getCharacterCount(value);
-      if (charCount > 30) {
-        // Don't allow more than 30 characters
+      if (charCount > 20) {
+        // Don't allow more than 20 characters
         return;
       }
     }
@@ -121,8 +121,8 @@ const RegisterComplaint = () => {
       const charCount = getCharacterCount(value);
       if (charCount > 0 && charCount < 5) {
         newErrors.title = "Title must have at least 5 characters";
-      } else if (charCount > 30) {
-        newErrors.title = "Title cannot exceed 30 characters";
+      } else if (charCount > 20) {
+        newErrors.title = "Title cannot exceed 20 characters";
       } else {
         delete newErrors.title;
       }
@@ -147,8 +147,8 @@ const RegisterComplaint = () => {
       const charCount = getCharacterCount(formData.title);
       if (charCount < 5) {
         newErrors.title = "Title must have at least 5 characters";
-      } else if (charCount > 30) {
-        newErrors.title = "Title cannot exceed 30 characters";
+      } else if (charCount > 20) {
+        newErrors.title = "Title cannot exceed 20 characters";
       }
     }
     if (!formData.description)
@@ -272,10 +272,10 @@ const RegisterComplaint = () => {
                value={formData.title}
                onChange={handleChange}
                onBlur={handleBlur}
-               placeholder="Enter 5-30 characters for the title"
+               placeholder="Enter 5-20 characters for the title"
              />
              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-700 pointer-events-none z-10">
-               {getCharacterCount(formData.title)}/30
+               {getCharacterCount(formData.title)}/20
              </span>
            </div>
            {errors.title && (

@@ -27,6 +27,9 @@ const ComplaintCard = ({ complaint }) => {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [showMediaViewer, setShowMediaViewer] = useState(false);
+  const [acceptBtnTxt, setAcceptBtnTxt] = useState("");
+  const [resolveBtnTxt, setResolveBtnTxt] = useState("");
+  const [upvoteBtnTxt, setUpvoteBtnTxt] = useState("");
   const { t } = useTranslation();
 
   // Get target user ID for chat
@@ -102,17 +105,23 @@ const ComplaintCard = ({ complaint }) => {
     }
   };
 
+  useEffect(() => {
+    setAcceptBtnTxt(t("accept"));
+    setResolveBtnTxt(t("resolve"));
+  }, [t]);
+
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("-");
     return `${day}-${month}-${year}`;
   };
-
+  
   const handleClick = async () => {
     if (!complaint?._id) {
       console.error("Complaint ID is missing");
       return;
     }
 
+    setAcceptBtnTxt("Accepting...");
     setIsLoading(true);
     try {
       const res = await axios.patch(
@@ -125,12 +134,14 @@ const ComplaintCard = ({ complaint }) => {
         dispatch(removeComplaint(complaint._id));
       } else {
         console.error("Acceptance failed:", res.data?.message);
+        setAcceptBtnTxt(t("accept"));
       }
     } catch (err) {
       console.error("Error accepting complaint:", {
         message: err.message,
         response: err.response?.data,
       });
+      setAcceptBtnTxt(t("accept"));
     } finally {
       setIsLoading(false);
     }
@@ -146,6 +157,7 @@ const ComplaintCard = ({ complaint }) => {
       return;
     }
 
+    setResolveBtnTxt("Resolving...");
     setIsLoading(true);
     try {
       const res = await axios.patch(
@@ -158,12 +170,14 @@ const ComplaintCard = ({ complaint }) => {
         setShowRatingModal(false);
       } else {
         console.error("Resolving failed:", res.data?.message);
+        setResolveBtnTxt(t("resolve"));
       }
     } catch (err) {
       console.error("Error resolving complaint:", {
         message: err.message,
         response: err.response?.data,
       });
+      setResolveBtnTxt(t("resolve"));
     } finally {
       setIsLoading(false);
     }
@@ -175,6 +189,7 @@ const ComplaintCard = ({ complaint }) => {
       return;
     }
 
+    setUpvoteBtnTxt("Upvoting...");
     setIsLoading(true);
     try {
       const res = await axios.patch(
@@ -193,14 +208,17 @@ const ComplaintCard = ({ complaint }) => {
             upvoteCount,
           })
         );
+        setUpvoteBtnTxt("");
       } else {
         console.error("Upvote failed:", res.data?.message);
+        setUpvoteBtnTxt("");
       }
     } catch (err) {
       console.error("Error upvoting complaint:", {
         message: err.message,
         response: err.response?.data,
       });
+      setUpvoteBtnTxt("");
     } finally {
       setIsLoading(false);
     }
@@ -427,25 +445,25 @@ const ComplaintCard = ({ complaint }) => {
             <div className="mt-4 pt-4 border-t border-gray-100">
               <button
                 className={`btn btn-warning w-full py-2 rounded-lg font-medium text-base-100 ${
-                  isLoading ? "loading" : ""
+                  isLoading || acceptBtnTxt === "Accepting..." ? "loading" : ""
                 }`}
                 onClick={handleClick}
-                disabled={isLoading}
+                disabled={isLoading || acceptBtnTxt === "Accepting..."}
               >
-                {isLoading ? t("processing") : t("accept")}
+                {acceptBtnTxt === t("accept") ? (isLoading ? t("processing") : t("accept")) : acceptBtnTxt}
               </button>
             </div>
           )}
           {complaint.status === "accepted" && user.role === "student" && (
             <div className="mt-4 pt-4 border-t border-gray-100">
               <button
-                className={`btn btn-success w-full py-2 rounded-lg font-medium text-base-100 ${
-                  isLoading ? "loading" : ""
+                className={`btn btn-success w-5/6 py-2 rounded-lg font-medium text-base-100 ${
+                  isLoading || resolveBtnTxt === "Resolving..." ? "loading" : ""
                 }`}
                 onClick={handleResolve}
-                disabled={isLoading}
+                disabled={isLoading || resolveBtnTxt === "Resolving..."}
               >
-                {isLoading ? t("processing") : t("resolve")}
+                {resolveBtnTxt === t("resolve") ? (isLoading ? t("processing") : t("resolve")) : resolveBtnTxt}
               </button>
             </div>
           )}
@@ -463,11 +481,13 @@ const ComplaintCard = ({ complaint }) => {
                   <button
                     className={`btn btn-sm ${
                       isUpvoted ? "btn-primary" : "btn-outline btn-primary"
-                    } ${isLoading ? "loading" : ""}`}
+                    } ${isLoading || upvoteBtnTxt === "Upvoting..." ? "loading" : ""}`}
                     onClick={handleUpvote}
-                    disabled={isLoading}
+                    disabled={isLoading || upvoteBtnTxt === "Upvoting..."}
                   >
-                    {isLoading ? (
+                    {upvoteBtnTxt === "Upvoting..." ? (
+                      upvoteBtnTxt
+                    ) : isLoading ? (
                       t("processing")
                     ) : isUpvoted ? (
                       <>

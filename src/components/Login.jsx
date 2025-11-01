@@ -19,9 +19,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
+  const [loginBtnTxt, setLoginBtnTxt] = useState(t("login"));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoginBtnTxt("Logging in...");
     try {
       const res = await axios.post(
         BASE_URL + "/login",
@@ -48,6 +50,7 @@ const Login = () => {
       }
     } catch (err) {
       setError(err?.response?.data?.message || "Something went wrong!!");
+      setLoginBtnTxt(t("login"));
     }
   };
 
@@ -193,8 +196,12 @@ const Login = () => {
                   {t("showPassword")}
                 </label>
                 <div className="mt-6">
-                  <button type="submit" className="btn btn-primary btn-block">
-                    {t("login")}
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary btn-block"
+                    disabled={loginBtnTxt === "Logging in..."}
+                  >
+                    {loginBtnTxt === t("login") ? t("login") : loginBtnTxt}
                   </button>
                 </div>
               </form>

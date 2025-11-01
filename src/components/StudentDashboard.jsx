@@ -93,14 +93,14 @@ const StudentDashboard = () => {
           </div>
         </Link>
         <Link
-          to="/student/view-complaints"
+          to="/student/accepted-complaints"
           className="card border border-base-300 bg-base-100 shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300 w-full max-w-xs dark:hover:shadow-amber-500/30"
         >
           <div className="card-body items-center text-center">
             <div className="text-4xl mb-2">📋</div>
-            <h2 className="card-title text-base-content">{t("myComplaints")}</h2>
+            <h2 className="card-title text-base-content">{t("acceptedComplaints")}</h2>
             <p className="text-sm text-base-content/70">
-              Check your complaint status anytime and stay updated.
+              View complaints that have been accepted by admins and are being processed.
             </p>
           </div>
         </Link>

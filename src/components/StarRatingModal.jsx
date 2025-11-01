@@ -6,6 +6,7 @@ import { useTranslation } from "../utils/useTranslation";
 const StarRatingModal = ({ isOpen, onClose, onRate, complaintTitle }) => {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
+  const [submitBtnTxt, setSubmitBtnTxt] = useState("Submit Rating");
   const { t } = useTranslation();
 
   const handleStarClick = (starRating) => {
@@ -20,11 +21,18 @@ const StarRatingModal = ({ isOpen, onClose, onRate, complaintTitle }) => {
     setHoveredRating(0);
   };
 
-  const handleSubmit = () => {
-    if (rating > 0) {
-      onRate(rating);
-      setRating(0);
-      setHoveredRating(0);
+  const handleSubmit = async () => {
+    if (rating > 0 && submitBtnTxt === "Submit Rating") {
+      setSubmitBtnTxt("Submitting...");
+      try {
+        await onRate(rating);
+        setRating(0);
+        setHoveredRating(0);
+      } catch (error) {
+        // Handle error if needed
+      } finally {
+        setSubmitBtnTxt("Submit Rating");
+      }
     }
   };
 
@@ -182,19 +190,21 @@ const StarRatingModal = ({ isOpen, onClose, onRate, complaintTitle }) => {
               
               <motion.button
                 onClick={handleSubmit}
-                disabled={rating === 0}
+                disabled={rating === 0 || submitBtnTxt === "Submitting..."}
                 className={`w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-300 ${
-                  rating > 0
+                  rating > 0 && submitBtnTxt === "Submit Rating"
                     ? "bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg hover:shadow-2xl transform hover:-translate-y-1 border border-green-300"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed rounded-2xl"
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                whileHover={rating > 0 ? { scale: 1.05, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" } : {}}
-                whileTap={rating > 0 ? { scale: 0.95 } : {}}
+                whileHover={rating > 0 && submitBtnTxt === "Submit Rating" ? { scale: 1.05, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" } : {}}
+                whileTap={rating > 0 && submitBtnTxt === "Submit Rating" ? { scale: 0.95 } : {}}
               >
-                {rating > 0 ? (
+                {submitBtnTxt === "Submitting..." ? (
+                  submitBtnTxt
+                ) : rating > 0 ? (
                   <span className="flex items-center justify-center gap-2">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

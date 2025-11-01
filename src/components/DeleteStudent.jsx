@@ -29,7 +29,10 @@ const DeleteStudent = () => {
       const confirmed = window.confirm(
         `Are you sure you want to delete student: \n Name: ${result?.data?.data?.name} \n Roll Number: ${rollNumber} \n Email: ${result?.data?.data?.email}?`
       );
-      if (!confirmed) return;
+      if (!confirmed) {
+        setDeleting(false);
+        return;
+      }
       setDeleting(true);
       const res = await axios.delete(
         `${SUPERADMIN_BASE_URL}/student/${rollNumber}`,
@@ -40,12 +43,14 @@ const DeleteStudent = () => {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
       setRollNumber("");
+      setDeleting(false);
     } catch (err) {
       const msg = err?.response?.data?.message || "Something went wrong!";
       setToastMessage(msg);
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setDeleting(false);
     }
   };
 
@@ -165,7 +170,7 @@ const DeleteStudent = () => {
                   className="btn btn-error btn-block mt-2"
                   disabled={deleting}
                 >
-                  {deleting ? t("deleting") : t("deleteStudent")}
+                  {deleting ? "Deleting..." : t("deleteStudent")}
                 </button>
               </motion.form>
             ) : (
@@ -205,7 +210,7 @@ const DeleteStudent = () => {
                   className="btn btn-error btn-block"
                   disabled={deleting}
                 >
-                  {deleting ? t("deleting") : t("deleteStudents")}
+                  {deleting ? "Deleting..." : t("deleteStudents")}
                 </button>
               </motion.form>
             )}

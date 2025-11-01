@@ -17,6 +17,8 @@ const ManageOwnSuperAdmin = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [showAlert, setShowAlert] = useState(false);
+  const [updateBtnTxt, setUpdateBtnTxt] = useState("Update Details");
+  const [deleteBtnTxt, setDeleteBtnTxt] = useState("Yes");
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -26,12 +28,13 @@ const ManageOwnSuperAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (fullName.trim() === user?.name && email.trim() === user?.email) {
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      return;
+    }
+    setUpdateBtnTxt("Updating...");
     try {
-      if (fullName.trim() === user?.name && email.trim() === user?.email) {
-        setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 3000);
-        return;
-      }
       const res = await axios.patch(
         SUPERADMIN_BASE_URL + "/superadmin",
         {
@@ -59,10 +62,12 @@ const ManageOwnSuperAdmin = () => {
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setUpdateBtnTxt("Update Details");
     }
   };
 
   const handleDelete = async (e) => {
+    setDeleteBtnTxt("Deleting...");
     try {
       const res = await axios.delete(SUPERADMIN_BASE_URL + "/superadmin", {
         withCredentials: true,
@@ -84,6 +89,7 @@ const ManageOwnSuperAdmin = () => {
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setDeleteBtnTxt("Yes");
     }
   };
 
@@ -202,8 +208,12 @@ const ManageOwnSuperAdmin = () => {
                     </p>
                   ) : null}
                   <div className="mt-6">
-                    <button className="btn btn-primary btn-block" type="submit">
-                      {t("updateDetails")}
+                    <button 
+                      className="btn btn-primary btn-block" 
+                      type="submit"
+                      disabled={updateBtnTxt === "Updating..."}
+                    >
+                      {updateBtnTxt === "Update Details" ? t("updateDetails") : updateBtnTxt}
                     </button>
                   </div>
                 </form>
@@ -239,8 +249,12 @@ const ManageOwnSuperAdmin = () => {
           <p className="py-4">{t("areYouSureDeleteAccount")}</p>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn mr-5" onClick={handleDelete}>
-                {t("yes")}
+              <button 
+                className="btn mr-5" 
+                onClick={handleDelete}
+                disabled={deleteBtnTxt === "Deleting..."}
+              >
+                {deleteBtnTxt === "Yes" ? t("yes") : deleteBtnTxt}
               </button>
               <button className="btn">{t("no")}</button>
             </form>

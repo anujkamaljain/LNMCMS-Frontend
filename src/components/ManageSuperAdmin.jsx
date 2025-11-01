@@ -12,10 +12,12 @@ const ManageSuperAdmin = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [addBtnTxt, setAddBtnTxt] = useState("Add Super Admin");
   const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setAddBtnTxt("Adding...");
     try {
       const res = await axios.post(
         SUPERADMIN_BASE_URL + "/superadmin",
@@ -32,6 +34,7 @@ const ManageSuperAdmin = () => {
         setToastType("success");
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
+        setAddBtnTxt("Add Super Admin");
       }
       setEmail("");
       setFullName("");
@@ -43,6 +46,7 @@ const ManageSuperAdmin = () => {
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setAddBtnTxt("Add Super Admin");
     }
   };
 
@@ -186,8 +190,12 @@ const ManageSuperAdmin = () => {
                     </p>
                   ) : null}
                   <div className="mt-6">
-                    <button className="btn btn-primary btn-block" type="submit">
-                      {t("addSuperAdmin")}
+                    <button 
+                      className="btn btn-primary btn-block" 
+                      type="submit"
+                      disabled={addBtnTxt === "Adding..."}
+                    >
+                      {addBtnTxt === "Add Super Admin" ? t("addSuperAdmin") : addBtnTxt}
                     </button>
                   </div>
                 </form>

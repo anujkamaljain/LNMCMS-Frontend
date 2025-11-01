@@ -15,6 +15,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [sendBtnTxt, setSendBtnTxt] = useState("Send");
   const { user } = useSelector((store) => store?.auth);
   const userId = user?._id;
   const userRole = user?.role;
@@ -179,7 +180,8 @@ const Chat = () => {
   };
 
   const sendMessage = () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || sendBtnTxt === "Sending...") return;
+    setSendBtnTxt("Sending...");
     const socket = createSocketConnection();
     socket.emit("sendMessage", {
       name: user?.name,
@@ -190,6 +192,7 @@ const Chat = () => {
       ...(complaintId && { complaintId }),
     });
     setNewMessage("");
+    setSendBtnTxt("Send");
   };
 
   const handleKeyDown = (e) => {
@@ -298,10 +301,10 @@ const Chat = () => {
               transition-all duration-150 ease-in-out
               cursor-pointer
             "
-            disabled={isLoading}
+            disabled={isLoading || sendBtnTxt === "Sending..."}
             onClick={sendMessage}
           >
-            {isLoading ? "Loading..." : "Send"}
+            {isLoading ? "Loading..." : sendBtnTxt}
           </button>
         </div>
       </div>

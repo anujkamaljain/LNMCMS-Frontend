@@ -65,7 +65,8 @@ const EditStudent = () => {
         }
     } finally {
         setUpdating(false);
-    }};
+    }
+  };
 
   if (loading) {
     return (
@@ -118,9 +119,9 @@ const EditStudent = () => {
             type="submit"
             className="btn btn-primary w-full"
             disabled={!isChanged || updating}
-           >
-            {updating ? t("updating") : t("update")}
-           </button>
+          >
+            {updating ? "Updating..." : t("update")}
+          </button>
         </form>
       </div>
     </div>

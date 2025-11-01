@@ -122,7 +122,7 @@ const EditAdmin = () => {
             className="btn btn-primary w-full"
             disabled={!isChanged || updating}
           >
-            {updating ? t("updating") : t("update")}
+            {updating ? "Updating..." : t("update")}
           </button>
         </form>
       </div>

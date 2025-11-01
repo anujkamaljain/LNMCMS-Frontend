@@ -15,6 +15,7 @@ const ChangeSuperAdminPassword = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [changeBtnTxt, setChangeBtnTxt] = useState("Change Password");
 
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const ChangeSuperAdminPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setChangeBtnTxt("Changing...");
     try {
       const res = await axios.patch(
         SUPERADMIN_BASE_URL + "/changepassword",
@@ -51,6 +53,7 @@ const ChangeSuperAdminPassword = () => {
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setChangeBtnTxt("Change Password");
     }
   };
 
@@ -202,8 +205,12 @@ const ChangeSuperAdminPassword = () => {
                     </p>
                   ) : null}
                   <div className="mt-6">
-                    <button className="btn btn-primary btn-block" type="submit">
-                      {t("changePassword")}
+                    <button 
+                      className="btn btn-primary btn-block" 
+                      type="submit"
+                      disabled={changeBtnTxt === "Changing..."}
+                    >
+                      {changeBtnTxt === "Change Password" ? t("changePassword") : changeBtnTxt}
                     </button>
                   </div>
                 </form>

@@ -14,6 +14,7 @@ const ViewAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [limit] = useState(16);
+  const [deleteBtnTxt, setDeleteBtnTxt] = useState({});
   const { t } = useTranslation();
 
   const fetchAdmins = async () => {
@@ -54,14 +55,17 @@ const ViewAdmin = () => {
     const handleDelete = async (email) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this admin?");
     if (!confirmDelete) return;
+    setDeleteBtnTxt(prev => ({ ...prev, [email]: "Deleting..." }));
     try {
         await axios.delete(`${SUPERADMIN_BASE_URL}/admin/${email}`, {
         withCredentials: true,
         });
         toast.success("Admin deleted successfully");
         fetchAdmins(); // Refresh the list after deletion
+        setDeleteBtnTxt(prev => ({ ...prev, [email]: "Delete" }));
     } catch (err) {
         toast.error(err?.response?.data?.message || "Failed to delete admin");
+        setDeleteBtnTxt(prev => ({ ...prev, [email]: "Delete" }));
     }
     };
 
@@ -87,8 +91,8 @@ const ViewAdmin = () => {
           onChange={(e) => setSearchEmail(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <button className="btn btn-primary" onClick={handleSearch} disabled={searchLoading}>
-          {searchLoading ? t("searching") : t("search")}
+                <button className="btn btn-primary" onClick={handleSearch} disabled={searchLoading}>
+          {searchLoading ? "Searching..." : t("search")}
         </button>
         {searchResult && (
           <button className="btn btn-secondary" onClick={() => {
@@ -123,8 +127,9 @@ const ViewAdmin = () => {
                 <button
                   className="btn btn-sm btn-error"
                   onClick={() => handleDelete(admin.email)}
+                  disabled={deleteBtnTxt[admin.email] === "Deleting..."}
                 >
-                  {t("delete")}
+                  {deleteBtnTxt[admin.email] === "Deleting..." ? "Deleting..." : t("delete")}
                 </button>
               </div>
             </div>

@@ -11,10 +11,12 @@ const AddAdmin = () => {
   const [department, setDepartment] = useState("BH1");
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "" });
+  const [addBtnTxt, setAddBtnTxt] = useState("Add Admin");
   const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setAddBtnTxt("Adding...");
     try {
       const res = await axios.post(
         SUPERADMIN_BASE_URL + "/admin",
@@ -32,10 +34,12 @@ const AddAdmin = () => {
         setEmail("");
         setPassword("");
         setDepartment("BH1");
+        setAddBtnTxt("Add Admin");
       }
     } catch (err) {
       const msg = err?.response?.data?.message || "Something went wrong!";
       setToast({ message: msg, type: "error" });
+      setAddBtnTxt("Add Admin");
     } finally {
       setTimeout(() => setToast({ message: "", type: "" }), 3000);
     }
@@ -106,8 +110,12 @@ const AddAdmin = () => {
             {t("showPassword")}
           </label>
 
-          <button type="submit" className="btn btn-primary btn-block">
-            {t("addAdmin")}
+          <button 
+            type="submit" 
+            className="btn btn-primary btn-block"
+            disabled={addBtnTxt === "Adding..."}
+          >
+            {addBtnTxt === "Add Admin" ? t("addAdmin") : addBtnTxt}
           </button>
         </form>
 

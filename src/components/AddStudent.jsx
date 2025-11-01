@@ -21,9 +21,11 @@ const AddStudent = () => {
   const [failedList, setFailedList] = useState([]);
   const [showSampleImage, setShowSampleImage] = useState(false);
   const { t } = useTranslation();
+  const [addBtnTxt, setAddBtnTxt] = useState("Add Student");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setAddBtnTxt("Adding...");
     setAlreadyCreatedList([]);
     setFailedList([]);
 
@@ -42,6 +44,7 @@ const AddStudent = () => {
         setRollNumber("");
         setEmail("");
         setPassword("");
+        setAddBtnTxt("Add Student");
       }
     } catch (err) {
       const msg = err?.response?.data?.message || "Something went wrong!";
@@ -49,6 +52,7 @@ const AddStudent = () => {
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setAddBtnTxt("Add Student");
     }
   };
 
@@ -61,6 +65,7 @@ const AddStudent = () => {
 
     try {
       setUploading(true);
+      setAddBtnTxt("Adding...");
       setFailedList([]);
       setAlreadyCreatedList([]);
 
@@ -103,12 +108,14 @@ const AddStudent = () => {
       setToastType("success");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setAddBtnTxt("Add Students");
     } catch (err) {
       const msg = err?.response?.data?.message || "Something went wrong!";
       setToastMessage(msg);
       setToastType("error");
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
+      setAddBtnTxt("Add Students");
     } finally {
       setUploading(false);
     }
@@ -140,6 +147,7 @@ const AddStudent = () => {
                   setAlreadyCreatedList([]);
                   setFailedList([]);
                   setShowToast(false);
+                  setAddBtnTxt("Add Student");
                 }}
                 className="radio radio-primary"
               />
@@ -156,6 +164,7 @@ const AddStudent = () => {
                   setAlreadyCreatedList([]);
                   setFailedList([]);
                   setShowToast(false);
+                  setAddBtnTxt("Add Students");
                 }}
                 className="radio radio-primary"
               />
@@ -219,9 +228,9 @@ const AddStudent = () => {
                 <button
                   type="submit"
                   className="btn btn-primary btn-block mt-2"
-                  disabled={uploading}
+                  disabled={uploading || addBtnTxt === "Adding..."}
                 >
-                  {uploading ? t("adding") : t("addStudent")}
+                  {addBtnTxt === "Add Student" ? (uploading ? t("adding") : t("addStudent")) : addBtnTxt}
                 </button>
               </motion.form>
             ) : (
@@ -260,9 +269,9 @@ const AddStudent = () => {
                 <button
                   type="submit"
                   className="btn btn-primary btn-block"
-                  disabled={uploading}
+                  disabled={uploading || addBtnTxt === "Adding..."}
                 >
-                  {uploading ? t("adding") : t("addStudents")}
+                  {addBtnTxt === "Add Students" ? (uploading ? t("adding") : t("addStudents")) : addBtnTxt}
                 </button>
               </motion.form>
             )}
