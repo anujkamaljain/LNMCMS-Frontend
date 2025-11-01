@@ -38,6 +38,11 @@ const discoverSlice = createSlice({
         complaint.upvoteCount = upvoteCount;
       }
     },
+    removeComplaint: (state, action) => {
+      state.complaints = state.complaints.filter((c) => c._id !== action.payload);
+      state.pagination.totalComplaints = Math.max(0, state.pagination.totalComplaints - 1);
+      state.pagination.totalPages = Math.ceil(state.pagination.totalComplaints / state.pagination.limit);
+    },
     clearComplaints: (state) => {
       state.complaints = [];
       state.loading = false;
@@ -57,6 +62,7 @@ export const {
   setError,
   setComplaints,
   updateComplaintUpvote,
+  removeComplaint,
   clearComplaints,
 } = discoverSlice.actions;
 

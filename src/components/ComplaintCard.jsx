@@ -9,12 +9,13 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeComplaint } from "../utils/pendingComplaintsSlice";
 import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
-import { updateComplaintUpvote } from "../utils/discoverSlice";
+import { updateComplaintUpvote, removeComplaint as removeFromDiscover } from "../utils/discoverSlice";
 import { useTranslation } from "../utils/useTranslation";
 import StarRatingModal from "./StarRatingModal";
 import MediaViewer from "./MediaViewer";
-import{ Sparkles, MessageSquareText } from "lucide-react";
+import{ Sparkles, MessageSquareText, X } from "lucide-react";
 import { useUnreadMessages } from "../utils/useUnreadMessages";
+import { toast } from "react-hot-toast";
 
 const ComplaintCard = ({ complaint }) => {
   const { isAuthenticated, user } = useSelector((store) => store.auth);
@@ -30,6 +31,7 @@ const ComplaintCard = ({ complaint }) => {
   const [acceptBtnTxt, setAcceptBtnTxt] = useState("");
   const [resolveBtnTxt, setResolveBtnTxt] = useState("");
   const [upvoteBtnTxt, setUpvoteBtnTxt] = useState("");
+  const [deleting, setDeleting] = useState(false);
   const { t } = useTranslation();
 
   // Get target user ID for chat
@@ -224,6 +226,52 @@ const ComplaintCard = ({ complaint }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!complaint?._id) {
+      console.error("Complaint ID is missing");
+      return;
+    }
+
+    // Confirmation dialog
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this complaint? This action cannot be undone."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      const res = await axios.delete(
+        `${STUDENT_BASE_URL}/complaint/${complaint._id}`,
+        { withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        // Remove from pending complaints Redux store
+        dispatch(removeComplaint(complaint._id));
+        // If complaint was public, also remove from discover slice
+        if (complaint.visibility === "public") {
+          dispatch(removeFromDiscover(complaint._id));
+        }
+        toast.success("Complaint deleted successfully");
+      } else {
+        toast.error(res.data?.message || "Failed to delete complaint");
+        setDeleting(false);
+      }
+    } catch (err) {
+      const errorMessage =
+        err?.response?.data?.message || "Failed to delete complaint";
+      toast.error(errorMessage);
+      setDeleting(false);
+      console.error("Error deleting complaint:", {
+        message: err.message,
+        response: err.response?.data,
+      });
+    }
+  };
+
   return (
     <div
       className={`mx-3 h-135 mb-6 relative ${
@@ -234,6 +282,17 @@ const ComplaintCard = ({ complaint }) => {
           : "bg-success"
       } ${!showRatingModal && !showMediaViewer ? "hover:translate-y-1" : ""} transition-all ease-in duration-100`}
     >
+      {/* Delete Cross Icon - Only for pending complaints by students */}
+      {complaint.status === "pending" && user?.role === "student" && (
+        <button
+          onClick={handleDelete}
+          disabled={deleting}
+          className="absolute top-2 right-2 z-10 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Delete complaint"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      )}
       <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
         <div
           className="card-body p-6 flex flex-col flex-grow overflow-y-auto"
