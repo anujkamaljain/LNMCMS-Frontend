@@ -12,23 +12,19 @@ const StudentDashboard = () => {
   const [dataValues, setDataValues] = useState([]);
   const { t } = useTranslation();
 
-  const getAllMonths = () => [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-
   useEffect(() => {
     const fetchData = async () => {
-      const months = getAllMonths();
-      setLabels(months);
-
       try {
         const res = await axios.get(`${STUDENT_BASE_URL}/complaints/monthly`, {
           withCredentials: true,
         });
 
         const monthlyData = res?.data || {};
-        const counts = months.map((month) => monthlyData[month] || 0);
+        // Extract labels and values in the order returned by the API
+        const monthLabels = Object.keys(monthlyData);
+        const counts = monthLabels.map((month) => monthlyData[month] || 0);
+        
+        setLabels(monthLabels);
         setDataValues(counts);
       } catch (err) {
         console.error("Failed to fetch student complaints:", err);

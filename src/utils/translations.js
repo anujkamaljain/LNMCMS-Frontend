@@ -47,7 +47,7 @@ export const translations = {
     clearDescription:
       "Be clear and concise in your complaint descriptions. The more accurate your report, the faster the resolution. Transparency and student participation are at the heart of this system.",
     workTogether: "Let's work together to make LNMIIT a better place for all!",
-    complaintsPerMonth: "Complaints per Month",
+    complaintsPerMonth: "Your Complaints Per Month",
     complaintsPerMonthd: "Complaints per Month department wise",
     // Common UI elements
     loading: "Loading...",

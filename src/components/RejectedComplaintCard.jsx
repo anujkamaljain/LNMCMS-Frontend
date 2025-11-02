@@ -109,9 +109,9 @@ const RejectedComplaintCard = ({ complaint }) => {
 
             <div className="flex">
               <span className="font-semibold min-w-[100px]">
-                {t("contact")}:
+                {t("email")}:
               </span>
-              <span className="flex-1">{complaint.contactNumber}</span>
+              <span className="flex-1">{complaint.rejectedBy?.email || "N/A"}</span>
             </div>
 
             <div className="flex flex-col">

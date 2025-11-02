@@ -263,7 +263,7 @@ const RegisterComplaint = () => {
         </div>
 
          <div>
-           <label className="label">{t("complaintTitle")}</label>
+           <label className="label font-semibold">{t("complaintTitle")}</label>
            <div className="relative">
              <input
                type="text"
@@ -284,7 +284,7 @@ const RegisterComplaint = () => {
          </div>
 
         <div>
-          <label className="label">{t("complaintDescription")}</label>
+          <label className="label font-semibold">{t("complaintDescription")}</label>
           <div className="relative">
             <textarea
               name="description"
@@ -307,7 +307,7 @@ const RegisterComplaint = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="label">{t("location")}</label>
+            <label className="label font-semibold">{t("location")}</label>
             <select
               name="location"
               className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
@@ -327,7 +327,7 @@ const RegisterComplaint = () => {
           </div>
 
           <div>
-            <label className="label">{t("department")}</label>
+            <label className="label font-semibold">{t("department")}</label>
             <select
               name="department"
               className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer"
@@ -348,22 +348,27 @@ const RegisterComplaint = () => {
         </div>
 
         <div>
-          <label className="label">{t("specificLocation")}</label>
-          <input
-            type="text"
-            name="freeLocation"
-            className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            value={formData.freeLocation}
-            onChange={handleChange}
-            maxLength={50}
-          />
+          <label className="label font-semibold">{t("specificLocation")}</label>
+          <div className="relative">
+            <input
+              type="text"
+              name="freeLocation"
+              className="input input-bordered w-full pr-14 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              value={formData.freeLocation}
+              onChange={handleChange}
+              maxLength={30}
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 pointer-events-none z-10">
+              {formData.freeLocation.length}/30
+            </span>
+          </div>
           {errors.freeLocation && (
             <p className="text-red-500 text-sm mt-1">{errors.freeLocation}</p>
           )}
         </div>
 
         <div>
-          <label className="label">{t("contactNumber")}</label>
+          <label className="label font-semibold">{t("contactNumber")}</label>
           <input
             type="text"
             name="contact"
@@ -389,7 +394,7 @@ const RegisterComplaint = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="label">{t("availableFrom")}</label>
+            <label className="label font-semibold">{t("availableFrom")}</label>
             <input
               type="time"
               name="availableFrom"
@@ -405,7 +410,7 @@ const RegisterComplaint = () => {
           </div>
 
           <div>
-            <label className="label">{t("availableTo")}</label>
+            <label className="label font-semibold">{t("availableTo")}</label>
             <input
               type="time"
               name="availableTo"
@@ -421,7 +426,7 @@ const RegisterComplaint = () => {
 
         {/* File Upload Section */}
         <div>
-          <label className="label">Upload Media Files (Optional)</label>
+          <label className="label font-semibold">Upload Media Files (Optional)</label>
           <div className="space-y-3">
             <input
               type="file"
