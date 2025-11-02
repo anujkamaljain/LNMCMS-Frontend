@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ADMIN_BASE_URL,
   Location_Wise_List,
@@ -12,6 +12,7 @@ import { removeaccComplaint } from "../utils/acceptedComplaintsSlice";
 import { updateComplaintUpvote, removeComplaint as removeFromDiscover } from "../utils/discoverSlice";
 import { useTranslation } from "../utils/useTranslation";
 import StarRatingModal from "./StarRatingModal";
+import RejectModal from "./RejectModal";
 import MediaViewer from "./MediaViewer";
 import{ Sparkles, MessageSquareText, X } from "lucide-react";
 import { useUnreadMessages } from "../utils/useUnreadMessages";
@@ -21,14 +22,13 @@ const ComplaintCard = ({ complaint }) => {
   const { isAuthenticated, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [showScrollDown, setShowScrollDown] = useState(false);
-  const [showScrollUp, setShowScrollUp] = useState(false);
-  const cardBodyRef = useRef(null);
   const [isUpvoted, setIsUpvoted] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [showMediaViewer, setShowMediaViewer] = useState(false);
   const [acceptBtnTxt, setAcceptBtnTxt] = useState("");
+  const [rejectBtnTxt, setRejectBtnTxt] = useState("");
   const [resolveBtnTxt, setResolveBtnTxt] = useState("");
   const [upvoteBtnTxt, setUpvoteBtnTxt] = useState("");
   const [deleting, setDeleting] = useState(false);
@@ -50,65 +50,8 @@ const ComplaintCard = ({ complaint }) => {
   }, [complaint.upvotes, user]);
 
   useEffect(() => {
-    const checkOverflow = () => {
-      if (cardBodyRef.current) {
-        const hasOverflow =
-          cardBodyRef.current.scrollHeight > cardBodyRef.current.clientHeight;
-        setShowScrollDown(hasOverflow);
-        setShowScrollUp(false);
-      }
-    };
-
-    checkOverflow();
-    window.addEventListener("resize", checkOverflow);
-
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, [complaint]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (cardBodyRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = cardBodyRef.current;
-        const isAtBottom = scrollHeight - (scrollTop + clientHeight) < 5;
-        const isAtTop = scrollTop < 5;
-
-        setShowScrollDown(!isAtBottom);
-        setShowScrollUp(!isAtTop && !isAtBottom);
-      }
-    };
-
-    const currentRef = cardBodyRef.current;
-    if (currentRef) {
-      currentRef.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (currentRef) {
-        currentRef.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
-
-  const handleScrollDown = () => {
-    if (cardBodyRef.current) {
-      cardBodyRef.current.scrollTo({
-        top: cardBodyRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handleScrollUp = () => {
-    if (cardBodyRef.current) {
-      cardBodyRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  useEffect(() => {
     setAcceptBtnTxt(t("accept"));
+    setRejectBtnTxt(t("reject"));
     setResolveBtnTxt(t("resolve"));
   }, [t]);
 
@@ -226,6 +169,49 @@ const ComplaintCard = ({ complaint }) => {
     }
   };
 
+  const handleReject = async (rejectionReason) => {
+    if (!complaint?._id) {
+      console.error("Complaint ID is missing");
+      return;
+    }
+
+    setRejectBtnTxt("Rejecting...");
+    setIsLoading(true);
+    try {
+      const res = await axios.patch(
+        ADMIN_BASE_URL + "/complaint/reject/" + complaint._id,
+        { rejectionReason },
+        { withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        // Remove from pending complaints Redux store
+        dispatch(removeComplaint(complaint._id));
+        // If complaint was public, also remove from discover slice
+        if (complaint.visibility === "public") {
+          dispatch(removeFromDiscover(complaint._id));
+        }
+        setShowRejectModal(false);
+        toast.success("Complaint rejected successfully");
+      } else {
+        console.error("Rejection failed:", res.data?.message);
+        setRejectBtnTxt(t("reject"));
+        toast.error(res.data?.message || "Failed to reject complaint");
+      }
+    } catch (err) {
+      console.error("Error rejecting complaint:", {
+        message: err.message,
+        response: err.response?.data,
+      });
+      setRejectBtnTxt(t("reject"));
+      const errorMessage =
+        err?.response?.data?.message || "Failed to reject complaint";
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleDelete = async () => {
     if (!complaint?._id) {
       console.error("Complaint ID is missing");
@@ -274,8 +260,8 @@ const ComplaintCard = ({ complaint }) => {
 
   return (
     <div
-      className={`mx-3 h-135 mb-6 relative ${
-        complaint.status === "pending"
+      className={`mx-3 h-140 mb-6 relative ${
+        complaint.status === "pending" || complaint.status === "rejected"
           ? "bg-error"
           : complaint.status === "accepted"
           ? "bg-warning"
@@ -293,10 +279,9 @@ const ComplaintCard = ({ complaint }) => {
           <X className="w-5 h-5" />
         </button>
       )}
-      <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-135 flex flex-col border border-base-300">
+      <div className="card w-full max-w-sm bg-base-100 shadow-md rounded-xl overflow-x-hidden overflow-y-auto h-140 flex flex-col border border-base-300">
         <div
           className="card-body p-6 flex flex-col flex-grow overflow-y-auto"
-          ref={cardBodyRef}
         >
           <div className="flex justify-between items-center">
             <div className="flex flex-wrap gap-2">
@@ -404,7 +389,7 @@ const ComplaintCard = ({ complaint }) => {
               </span>
               <span
                 className={`flex-1 font-semibold ${
-                  complaint.status === "pending"
+                  complaint.status === "pending" || complaint.status === "rejected"
                     ? "text-error"
                     : complaint.status === "accepted"
                     ? "text-warning"
@@ -502,21 +487,32 @@ const ComplaintCard = ({ complaint }) => {
           </div>
           {complaint.status === "pending" && user.role === "admin" && (
             <div className="mt-4 pt-4 border-t border-gray-100">
-              <button
-                className={`btn btn-warning w-full py-2 rounded-lg font-medium text-base-100 ${
-                  isLoading || acceptBtnTxt === "Accepting..." ? "loading" : ""
-                }`}
-                onClick={handleClick}
-                disabled={isLoading || acceptBtnTxt === "Accepting..."}
-              >
-                {acceptBtnTxt === t("accept") ? (isLoading ? t("processing") : t("accept")) : acceptBtnTxt}
-              </button>
+              <div className="flex gap-2">
+                <button
+                  className={`btn btn-warning flex-1 w-1/2 py-2 rounded-lg font-medium text-base-100 ${
+                    isLoading || acceptBtnTxt === "Accepting..." ? "loading" : ""
+                  }`}
+                  onClick={handleClick}
+                  disabled={isLoading || acceptBtnTxt === "Accepting..." || rejectBtnTxt === "Rejecting..."}
+                >
+                  {acceptBtnTxt === t("accept") ? (isLoading ? t("processing") : t("accept")) : acceptBtnTxt}
+                </button>
+                <button
+                  className={`btn btn-error flex-1 w-1/2 py-2 rounded-lg font-medium text-base-100 ${
+                    isLoading || rejectBtnTxt === "Rejecting..." ? "loading" : ""
+                  }`}
+                  onClick={() => setShowRejectModal(true)}
+                  disabled={isLoading || rejectBtnTxt === "Rejecting..." || acceptBtnTxt === "Accepting..."}
+                >
+                  {rejectBtnTxt === t("reject") ? (isLoading ? t("processing") : t("reject")) : rejectBtnTxt}
+                </button>
+              </div>
             </div>
           )}
           {complaint.status === "accepted" && user.role === "student" && (
             <div className="mt-4 pt-4 border-t border-gray-100">
               <button
-                className={`btn btn-success w-5/6 py-2 rounded-lg font-medium text-base-100 ${
+                className={`btn btn-success w-full py-2 rounded-lg font-medium text-base-100 ${
                   isLoading || resolveBtnTxt === "Resolving..." ? "loading" : ""
                 }`}
                 onClick={handleResolve}
@@ -588,53 +584,19 @@ const ComplaintCard = ({ complaint }) => {
         </div>
       </div>
 
-      {showScrollDown && (
-        <button
-          onClick={handleScrollDown}
-          className="absolute bottom-8 right-8 btn btn-circle btn-sm opacity-70 hover:opacity-100 transition-opacity shadow-md border border-base-200"
-          aria-label="Scroll down"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      )}
-
-      {showScrollUp && (
-        <button
-          onClick={handleScrollUp}
-          className="absolute top-8 right-8 btn btn-circle btn-sm opacity-70 hover:opacity-100 transition-opacity shadow-md border border-base-200"
-          aria-label="Scroll up"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      )}
-
       {/* Star Rating Modal */}
       <StarRatingModal
         isOpen={showRatingModal}
         onClose={() => setShowRatingModal(false)}
         onRate={handleRatingSubmit}
+        complaintTitle={complaint.title}
+      />
+
+      {/* Reject Modal */}
+      <RejectModal
+        isOpen={showRejectModal}
+        onClose={() => setShowRejectModal(false)}
+        onReject={handleReject}
         complaintTitle={complaint.title}
       />
 

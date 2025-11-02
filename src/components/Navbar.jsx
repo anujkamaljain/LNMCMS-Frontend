@@ -401,6 +401,19 @@ const Navbar = () => {
                               {t("resolvedComplaints")}
                             </Link>
                           </li>
+                          <li>
+                            <Link
+                              to={
+                                user?.role === "student"
+                                  ? "/student/rejected-complaints"
+                                  : "/login"
+                              }
+                              onClick={closeDrawer}
+                              className="block px-2 py-2 rounded-lg hover:bg-neutral/15 transition duration-200"
+                            >
+                              {t("rejectedComplaints")}
+                            </Link>
+                          </li>
                         </ul>
                       </details>
                     </li>

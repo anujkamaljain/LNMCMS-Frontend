@@ -17,6 +17,7 @@ import ViewAdminProfile from "./components/ViewAdminProfile";
 import ViewAcceptedComplaints from "./components/ViewAcceptedComplaints";
 import ViewPendingComplaints from "./components/ViewPendingComplaints";
 import ViewResolvedComplaints from "./components/ViewResolvedComplaints";
+import ViewRejectedComplaints from "./components/ViewRejectedComplaints";
 import ViewStudentProfile from "./components/ViewStudentProfile";
 import ChangeAdminPassword from "./components/ChangeAdminPassword";
 import ChangeSuperAdminPassword from "./components/ChangeSuperAdminPassword";
@@ -117,6 +118,10 @@ const App = () => {
             <Route
               path="/student/resolved-complaints"
               element={<ViewResolvedComplaints />}
+            />
+            <Route
+              path="/student/rejected-complaints"
+              element={<ViewRejectedComplaints />}
             />
             <Route
               path="/student/change-password"

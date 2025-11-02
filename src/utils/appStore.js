@@ -4,6 +4,7 @@ import authReducer from "./authSlice";
 import pendingReducer from "./pendingComplaintsSlice";
 import acceptedReducer from "./acceptedComplaintsSlice";
 import resolvedReducer from "./resolvedComplaintsSlice";
+import rejectedReducer from "./rejectedComplaintsSlice";
 import discoverReducer from "./discoverSlice";
 import languageReducer from "./languageSlice";
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     pending: pendingReducer,
     accepted: acceptedReducer,
     resolved: resolvedReducer,
+    rejected: rejectedReducer,
     discover: discoverReducer,
     language: languageReducer,
   },
