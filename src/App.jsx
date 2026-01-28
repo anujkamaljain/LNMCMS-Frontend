@@ -98,6 +98,7 @@ const App = () => {
         <Analytics />
         <UndeletedStudentsDialog />
         <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
 
           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
@@ -131,8 +132,8 @@ const App = () => {
               path="/student/view-profile"
               element={<ViewStudentProfile />}
             />
-            <Route path="/student/chat/:targetUserId" 
-            element={<Chat />} 
+            <Route path="/student/chat/:targetUserId"
+              element={<Chat />}
             />
           </Route>
 
@@ -155,8 +156,8 @@ const App = () => {
               path="/admin/change-password"
               element={<ChangeAdminPassword />}
             />
-            <Route path="/admin/chat/:targetUserId" 
-            element={<Chat />} 
+            <Route path="/admin/chat/:targetUserId"
+              element={<Chat />}
             />
           </Route>
 
