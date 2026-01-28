@@ -2,7 +2,7 @@ const isLocalhost = window.location.hostname === "localhost";
 
 const BASE = isLocalhost
   ? "http://localhost:7777"
-  : "https://lnmcms-backend-390970881686.asia-south1.run.app";
+  : "https://lnmcms-backend.onrender.com";
 
 export const BASE_URL = BASE;
 export const ADMIN_BASE_URL = `${BASE}/admin`;
