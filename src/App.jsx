@@ -36,6 +36,7 @@ import { Analytics } from "@vercel/analytics/react";
 import UndeletedStudentsDialog from "./components/UndeletedStudentsDialog";
 import Discover from "./components/Discover";
 import Chat from "./components/Chat";
+import LandingPage from "./components/LandingPage";
 
 axios.defaults.withCredentials = true;
 
@@ -98,7 +99,7 @@ const App = () => {
         <Analytics />
         <UndeletedStudentsDialog />
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
 
           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
