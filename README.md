@@ -11,7 +11,7 @@
 
 **A modern, responsive, and feature-rich complaint management system built for educational institutions**
 
-[🚀 Live Demo]([https://lnmcms-frontend.vercel.app](https://lnmcms.myprojectss.info/)) • [📚 Backend Repository](https://github.com/anujkamaljain/LNMCMS-Backend) • [🐛 Report Bug](https://github.com/anujkamaljain/LNMCMS-Frontend/issues) • [✨ Request Feature](https://github.com/anujkamaljain/LNMCMS-Frontend/issues)
+[🚀 Live Demo](https://lnmcms.myprojectss.info/) • [📚 Backend Repository](https://github.com/anujkamaljain/LNMCMS-Backend) • [🐛 Report Bug](https://github.com/anujkamaljain/LNMCMS-Frontend/issues) • [✨ Request Feature](https://github.com/anujkamaljain/LNMCMS-Frontend/issues)
 
 </div>
 
